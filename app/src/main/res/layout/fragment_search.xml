@@ -1,13 +1,130 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
     tools:context=".search.ui.SearchFragment">
 
-    <TextView
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/searchAppBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        />
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
 
-</FrameLayout>
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/search_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/size_64"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:navigationIcon="@null">
+
+            <TextView
+                android:id="@+id/search_toolbar_text"
+                style="@style/TextMedium_22_500"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="@dimen/margin_18"
+                android:layout_marginStart="@dimen/margin_16"
+                android:text="@string/search_title"
+                android:textColor="?attr/colorOnPrimary" />
+
+            <ImageView
+                android:id="@+id/filter_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/ToolbarIcon"
+                android:layout_gravity="end"
+                android:layout_margin="@dimen/margin_12"
+                android:src="@drawable/ic_filter" />
+        </androidx.appcompat.widget.Toolbar>
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/padding_16">
+
+            <EditText
+                android:id="@+id/input_search_form"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/size_56"
+                android:layout_gravity="center"
+                android:background="@drawable/shape_search"
+                android:drawableEnd="@drawable/ic_search"
+                android:drawablePadding="@dimen/padding_8"
+                android:textCursorDrawable="@drawable/cursor"
+                android:cursorVisible="false"
+                android:hint="@string/search_hint"
+                android:imeOptions="actionDone"
+                android:inputType="text"
+                android:maxLength="255"
+                android:padding="@dimen/padding_8"
+                android:paddingStart="@dimen/padding_10"
+                android:paddingEnd="32dp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="?attr/colorOnSecondaryFixed" />
+
+            <ImageView
+                android:id="@+id/button_clear_search"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_16"
+                android:padding="@dimen/padding_18"
+                android:src="@drawable/ic_close"
+                android:visibility="gone"
+                app:tint="@color/black" />
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/text_fab_search"
+            style="@style/SearchJobText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/margin_12"
+            android:visibility="visible"
+            app:layout_scrollFlags="scroll|enterAlways"
+            tools:ignore="TextContrastCheck"
+            tools:text="@string/no_vacancies" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/search_recycler"
+        style="@style/VacancyRecycler"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:itemCount="10" />
+
+    <ImageView
+        android:id="@+id/placeholder_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
+    <ProgressBar
+        android:id="@+id/progress_bar_for_load"
+        android:layout_width="@dimen/size_36"
+        android:layout_height="@dimen/size_36"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/blue"
+        android:visibility="gone"
+        android:layout_centerInParent="true" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar_in_end"
+        android:layout_width="@dimen/size_36"
+        android:layout_height="@dimen/size_36"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="@dimen/margin_16"
+        android:indeterminateTint="@color/blue"
+        android:visibility="gone" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
