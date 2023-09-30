@@ -21,6 +21,7 @@
     </style>
 
     <style name="SearchJobText">
+        <item name="textAppearanceButton">@style/TextRegular_16_400</item>
         <item name="android:background">@drawable/shape_search</item>
         <item name="android:backgroundTint">?attr/colorSurface</item>
         <item name="android:paddingHorizontal">@dimen/margin_12</item>
