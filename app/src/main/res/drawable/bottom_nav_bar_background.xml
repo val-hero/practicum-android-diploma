@@ -1,7 +1,4 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:gravity="fill">
-        <color android:color="?attr/colorPrimary" />
-    </item>
     <item android:gravity="top">
         <shape android:shape="rectangle">
             <size android:height="1dp" />
