@@ -33,9 +33,9 @@
 
             <ImageView
                 android:id="@+id/filter_icon"
+                style="@style/ToolbarIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/ToolbarIcon"
                 android:layout_gravity="end"
                 android:layout_margin="@dimen/margin_12"
                 android:src="@drawable/ic_filter" />
@@ -49,24 +49,25 @@
 
             <EditText
                 android:id="@+id/input_search_form"
+                style="@style/TextRegular_16_400"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/size_56"
                 android:layout_gravity="center"
                 android:background="@drawable/shape_search"
+                android:cursorVisible="false"
                 android:drawableEnd="@drawable/ic_search"
                 android:drawablePadding="@dimen/padding_8"
-                android:textCursorDrawable="@drawable/cursor"
-                android:cursorVisible="false"
                 android:hint="@string/search_hint"
                 android:imeOptions="actionDone"
                 android:inputType="text"
                 android:maxLength="255"
                 android:padding="@dimen/padding_8"
                 android:paddingStart="@dimen/padding_10"
-                android:paddingEnd="32dp"
+                android:paddingEnd="@dimen/padding_32"
                 android:singleLine="true"
                 android:textColor="@color/black"
-                android:textColorHint="?attr/colorOnSecondaryFixed" />
+                android:textColorHint="?attr/colorOnSecondaryFixed"
+                android:textCursorDrawable="@drawable/cursor" />
 
             <ImageView
                 android:id="@+id/button_clear_search"
@@ -100,23 +101,26 @@
         android:layout_height="wrap_content"
         android:visibility="visible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:itemCount="10" />
+        tools:itemCount="10"/>
+    <!-- tools:listitem="@layout/item_search" -->
+
 
     <ImageView
         android:id="@+id/placeholder_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"/>
+        android:src="@drawable/placeholder_search"
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/progress_bar_for_load"
         android:layout_width="@dimen/size_36"
         android:layout_height="@dimen/size_36"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:indeterminateTint="@color/blue"
-        android:visibility="gone"
-        android:layout_centerInParent="true" />
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/progress_bar_in_end"
