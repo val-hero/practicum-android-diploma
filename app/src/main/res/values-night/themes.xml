@@ -34,6 +34,5 @@
         <!-- Для контура плэйсхолдера лого компании -->
         <item name="colorOutline">@color/white</item>
 
-
-   </style>
+    </style>
 </resources>
