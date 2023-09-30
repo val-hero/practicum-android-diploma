@@ -7,4 +7,11 @@
     <string name="search_title">Поиск вакансий</string>
     <string name="search_hint">Введите запрос</string>
     <string name="no_vacancies">Таких вакансий нет</string>
+    <string name="text_team_fragment">Над приложением работали</string>
+    <string name="vasiliy">Василий Герасименко</string>
+    <string name="sergey">Сергей Клушин</string>
+    <string name="dmitriy">Дмитрий Комаров</string>
+    <string name="nadezhda">Надежда Сакал</string>
+    <string name="team">Команда</string>
+
 </resources>
