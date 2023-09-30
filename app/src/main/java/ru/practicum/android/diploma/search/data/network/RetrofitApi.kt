@@ -13,4 +13,7 @@ interface RetrofitApi {
     @GET("/vacancies/{vacancy_id}")
     suspend fun getVacancy(@Path("vacancy_id") id: String): Response
 
+    @GET("/vacancies/{vacancy_id}/similar_vacancies")
+    suspend fun getSimilarVacancies(@Path("vacancy_id") id: String): Response
+
 }
