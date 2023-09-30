@@ -24,5 +24,7 @@
 
         <!-- Для кнопки "Сбросить" и иконки "Избранного" в активном состоянии -->
         <item name="colorAccent">@color/red</item>
+
+        <item name="android:windowBackground">?attr/colorPrimary</item>
     </style>
 </resources>
