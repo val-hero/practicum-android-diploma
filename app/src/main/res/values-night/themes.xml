@@ -26,5 +26,13 @@
         <item name="colorAccent">@color/red</item>
 
         <item name="android:windowBackground">?attr/colorPrimary</item>
+
+        <!-- Для фона кнопки активный/неактивный фильтр на экране поиска -->
+        <item name="colorControlActivated">@color/black</item>
+
+        <!-- Для контура плэйсхолдера лого компании -->
+        <item name="colorOutline">@color/white</item>
+
+
     </style>
 </resources>
