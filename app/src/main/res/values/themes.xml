@@ -26,6 +26,8 @@
         <item name="colorAccent">@color/red</item>
 
         <item name="colorControlActivated">@color/blue</item>
+
+        <item name="colorSurfaceVariant">@color/red</item>
     </style>
 
     <style name="Theme.PracticumAndroidDiploma" parent="Base.Theme.PracticumAndroidDiploma" />
