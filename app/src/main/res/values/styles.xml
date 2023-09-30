@@ -54,6 +54,20 @@
         <item name="layoutManager">androidx.recyclerview.widget.LinearLayoutManager</item>
     </style>
 
+    <style name="BottomNavigationBar">
+        <item name="android:background">@drawable/bottom_nav_bar_background</item>
+        <item name="elevation">0dp</item>
+        <item name="itemIconTint">@drawable/bottom_nav_item_colors</item>
+        <item name="itemTextColor">@drawable/bottom_nav_item_colors</item>
+        <item name="itemTextAppearanceActive">@style/BottomNavigationTextAppearance</item>
+        <item name="itemTextAppearanceInactive">@style/BottomNavigationTextAppearance</item>
+    </style>
+
+    <style name="BottomNavigationTextAppearance">
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+    </style>
+
     <style name="TextBold_32_700">
         <item name="android:textSize">@dimen/text_size_32</item>
         <item name="android:fontWeight">700</item>
