@@ -43,12 +43,15 @@ class RootActivity : AppCompatActivity() {
 
     private fun toggleBottomNavBarVisibility(destinationId: Int) {
         binding?.bottomNavBar?.isVisible = when (destinationId) {
-            // Сюда добавляйте id экранов, на которых нижняя навигация должна быть скрыта
-            R.id.filteringSettingsFragment -> {
-                false
+            // Сюда добавляйте id экранов, на которых нижняя навигация должна быть видна
+            R.id.filteringSettingsFragment,
+            R.id.favoritesFragment,
+            R.id.searchFragment,
+            R.id.teamFragment -> {
+                true
             }
 
-            else -> true
+            else -> false
         }
     }
 
