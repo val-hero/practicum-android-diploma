@@ -16,6 +16,6 @@ class SelectCountryAdapter(private val countries: Array<String>):RecyclerView.Ad
     }
 
     override fun onBindViewHolder(holder: SelectCountryViewHolder, position: Int) {
-        holder.countryName.text =countries[position]
+        holder.countryName.text = countries[position]
     }
 }

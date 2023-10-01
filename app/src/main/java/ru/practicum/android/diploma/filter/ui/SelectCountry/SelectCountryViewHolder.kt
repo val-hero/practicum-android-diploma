@@ -7,4 +7,5 @@ import ru.practicum.android.diploma.databinding.ItemCountryBinding
 class SelectCountryViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
     val binding = ItemCountryBinding.bind(itemView)
     val countryName  = binding.country
+    val arrowSelection = binding.arrowSelection
 }
