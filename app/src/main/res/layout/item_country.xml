@@ -7,7 +7,7 @@
 
     <TextView
         style="@style/CountryText"
-        android:id="@+id/coutry"
+        android:id="@+id/country"
         android:fontFamily="@font/ys_display_regular"
         android:paddingTop="@dimen/padding_14.5"
         android:paddingBottom="@dimen/padding_14.5"
@@ -20,8 +20,8 @@
         android:id="@+id/arrowSelection"
         android:layout_gravity="end|center"
         android:src="@drawable/baseline_arrow_forward_ios_24"
-        app:layout_constraintBottom_toBottomOf="@id/coutry"
+        app:layout_constraintBottom_toBottomOf="@id/country"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/coutry" />
+        app:layout_constraintTop_toTopOf="@id/country" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
