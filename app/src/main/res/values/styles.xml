@@ -3,9 +3,10 @@
 
     <style name="tool_bar">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="navigationIconTint">@color/black</item>
-        <item name="android:textSize">@dimen/text_size_22</item>
+        <item name="android:layout_height">@dimen/size_64</item>
+        <item name="navigationIconTint">?attr/colorOnPrimary</item>
+        <item name="titleTextAppearance">@style/TextMedium_22_500</item>
+        <item name="titleTextColor">?attr/colorOnPrimary</item>
     </style>
 
     <style name="TextMedium_22_500">

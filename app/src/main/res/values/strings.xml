@@ -11,7 +11,7 @@
     <string name="work_place">Место работы</string>
     <string name="industry">Отрасль</string>
     <string name="expected_salary">Ожидаемая ЗП</string>
-    <string name="enter_the_amount">Ведите сумму</string>
+    <string name="enter_the_amount">Введите сумму</string>
     <string name="not_show">Не показывать без ЗП</string>
     <string name="apply">Применить</string>
     <string name="cancel">Сбросить</string>
