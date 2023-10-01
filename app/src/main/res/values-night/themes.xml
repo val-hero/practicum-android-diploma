@@ -30,9 +30,9 @@
         <!-- Для фона кнопки активный/неактивный фильтр на экране поиска -->
         <item name="colorControlActivated">@color/black</item>
 
+        <item name="colorSurfaceVariant">@color/white</item>
         <!-- Для контура плэйсхолдера лого компании -->
         <item name="colorOutline">@color/white</item>
-
 
     </style>
 </resources>
