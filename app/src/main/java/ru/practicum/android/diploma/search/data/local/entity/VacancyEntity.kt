@@ -1,5 +1,7 @@
 package ru.practicum.android.diploma.search.data.local.entity
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.domain.models.fields.Area
 import ru.practicum.android.diploma.search.domain.models.fields.Contacts
@@ -11,7 +13,7 @@ import ru.practicum.android.diploma.search.domain.models.fields.Salary
 import ru.practicum.android.diploma.search.domain.models.fields.Schedule
 import ru.practicum.android.diploma.search.domain.models.fields.Type
 
-// @Entity(tableName = "vacancy_table") Раскомментировать после конфигурации Room
+@Entity(tableName = "vacancy_table")
 data class VacancyEntity(
     val area: Area?,
     val contacts: Contacts?,
@@ -19,14 +21,14 @@ data class VacancyEntity(
     val employer: Employer?,
     val employment: Employment?,
     val experience: Experience?,
-    //  @PrimaryKey
+    @PrimaryKey
     val id: Long?,
     val keySkills: List<KeySkill>?,
     val name: String,
     val salary: Salary?,
     val schedule: Schedule?,
     val type: Type?,
-    ) {
+) {
     fun VacancyEntity.toVacancy(): Vacancy {
         return Vacancy(
             area = this.area,
