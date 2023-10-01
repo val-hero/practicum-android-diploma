@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.filter
+package ru.practicum.android.diploma.filter.ui.SelectCountry
 
 import android.os.Bundle
 import android.view.LayoutInflater

@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/selectCountryFragment"
-        android:name="ru.practicum.android.diploma.filter.SelectCountryFragment"
+        android:name="ru.practicum.android.diploma.filter.ui.SelectCountry.SelectCountryFragment"
         android:label="fragment_select_country"
         tools:layout="@layout/fragment_select_country" />
     <fragment
