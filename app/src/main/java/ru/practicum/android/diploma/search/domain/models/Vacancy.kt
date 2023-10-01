@@ -45,18 +45,18 @@ data class Vacancy(
 
     fun Vacancy.toDto(): VacancyDto {
         return VacancyDto(
-            area = this.area,
-            contacts = this.contacts,
+            area = this.area?.toDto(),
+            contacts = this.contacts?.toDto(),
             description = this.description,
-            employer = this.employer,
-            employment = this.employment,
-            experience = this.experience,
+            employer = this.employer?.toDto(),
+            employment = this.employment?.toDto(),
+            experience = this.experience?.toDto(),
             id = this.id,
-            keySkills = this.keySkills,
+            keySkills = this.keySkills?.map { it.toDto() },
             name = this.name,
-            salary = this.salary,
-            schedule = this.schedule,
-            type = this.type
+            salary = this.salary?.toDto(),
+            schedule = this.schedule?.toDto(),
+            type = this.type?.toDto()
         )
     }
 }
