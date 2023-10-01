@@ -9,9 +9,10 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/team_toolbar"
-        style="@style/tool_bar"
+        style="@style/TextMedium_22_500"
         android:layout_height="@dimen/size_64"
         app:title="@string/team"
+        app:titleTextColor="?attr/colorOnPrimary"
         app:navigationIcon="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
