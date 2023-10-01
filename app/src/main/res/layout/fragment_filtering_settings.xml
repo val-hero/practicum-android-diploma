@@ -8,10 +8,10 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/settings_filtration_toolbar"
+        style="@style/TextMedium_22_500"
         android:layout_height="@dimen/size_64"
         android:layout_width="match_parent"
         app:titleTextColor="?attr/colorOnPrimary"
-        app:titleTextAppearance="@style/TextMedium_22_500"
         app:buttonGravity="center_vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

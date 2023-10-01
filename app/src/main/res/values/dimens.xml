@@ -31,5 +31,6 @@
     <dimen name="margin_6">6dp</dimen>
     <dimen name="size_48">48dp</dimen>
     <dimen name="padding_1">1dp</dimen>
+    <dimen name="padding_12">12dp</dimen>
 
 </resources>
