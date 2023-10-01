@@ -9,7 +9,7 @@
         android:id="@+id/searchFragment"
         android:name="ru.practicum.android.diploma.search.ui.SearchFragment"
         android:label="fragment_search"
-        tools:layout="@layout/fragment_search" >
+        tools:layout="@layout/fragment_search">
         <action
             android:id="@+id/action_searchFragment_to_filteringSettingsFragment"
             app:destination="@id/filteringSettingsFragment" />
@@ -21,7 +21,7 @@
         android:id="@+id/filteringSettingsFragment"
         android:name="ru.practicum.android.diploma.filter.FilteringSettingsFragment"
         android:label="fragment_filtering_settings"
-        tools:layout="@layout/fragment_filtering_settings" >
+        tools:layout="@layout/fragment_filtering_settings">
         <action
             android:id="@+id/action_filteringSettingsFragment_to_selectWorkplaceFragment"
             app:destination="@id/selectWorkplaceFragment" />
@@ -33,7 +33,7 @@
         android:id="@+id/selectWorkplaceFragment"
         android:name="ru.practicum.android.diploma.filter.SelectWorkplaceFragment"
         android:label="fragment_workplace"
-        tools:layout="@layout/fragment_workplace" >
+        tools:layout="@layout/fragment_workplace">
         <action
             android:id="@+id/action_selectWorkplaceFragment_to_selectCountryFragment"
             app:destination="@id/selectCountryFragment" />
@@ -60,7 +60,7 @@
         android:id="@+id/vacancyFragment"
         android:name="ru.practicum.android.diploma.vacancy.ui.VacancyFragment"
         android:label="fragment_vacancy"
-        tools:layout="@layout/fragment_vacancy" >
+        tools:layout="@layout/fragment_vacancy">
         <action
             android:id="@+id/action_vacancyFragment_to_similarVacanciesFragment"
             app:destination="@id/similarVacanciesFragment" />
