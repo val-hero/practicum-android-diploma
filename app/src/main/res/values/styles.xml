@@ -7,8 +7,6 @@
         <item name="navigationIconTint">?attr/colorOnPrimary</item>
         <item name="titleTextAppearance">@style/TextMedium_22_500</item>
         <item name="titleTextColor">?attr/colorOnPrimary</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="navigationIconTint">?attr/colorOnPrimary</item>
         <item name="android:textSize">@dimen/text_size_22</item>
     </style>
 
@@ -126,6 +124,9 @@
         <item name="android:imeOptions">actionDone</item>
         <item name="android:inputType">number</item>
         <item name="android:maxLines">1</item>
+    </style>
+
+
     <style name="CountryText">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
