@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.practicum.android.diploma.databinding.FragmentSelectCountryBinding
@@ -38,13 +39,16 @@ class SelectCountryFragment : Fragment() {
         )
 
         binding.countryRecycler.layoutManager = LinearLayoutManager(requireContext())
-        adapter = SelectCountryAdapter(countries)
+        adapter = SelectCountryAdapter(countries, ::onCountryClick)
         binding.countryRecycler.adapter = adapter
-
     }
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun onCountryClick(countryName: String) {
+        Toast.makeText(requireContext(), "Клац", Toast.LENGTH_LONG).show()
     }
 }
