@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.search.domain.models
 
-import com.google.gson.annotations.SerializedName
+import ru.practicum.android.diploma.search.data.local.entity.VacancyEntity
+import ru.practicum.android.diploma.search.data.network.dto.VacancyDto
 import ru.practicum.android.diploma.search.domain.models.fields.Address
 import ru.practicum.android.diploma.search.domain.models.fields.Contacts
 import ru.practicum.android.diploma.search.domain.models.fields.Department
@@ -37,4 +38,50 @@ data class Vacancy(
     val workingDays: WorkingDays?,
     val workingTimeIntervals: WorkingTimeIntervals?,
     val workingTimeModels: WorkingTimeModels?,
-)
+) {
+    fun Vacancy.toEntity(): VacancyEntity {
+        return VacancyEntity(
+            address = this.address,
+            contacts = this.contacts,
+            department = this.department,
+            driverLicense = this.driverLicense,
+            employer = this.employer,
+            employment = this.employment,
+            experience = this.experience,
+            id = this.id,
+            keySkills = this.keySkills,
+            languages = this.languages,
+            name = this.name,
+            professionalRoles = this.professionalRoles,
+            salary = this.salary,
+            schedule = this.schedule,
+            type = this.type,
+            workingDays = this.workingDays,
+            workingTimeIntervals = this.workingTimeIntervals,
+            workingTimeModels = this.workingTimeModels
+        )
+    }
+
+    fun Vacancy.toDto(): VacancyDto {
+        return VacancyDto(
+            address = this.address,
+            contacts = this.contacts,
+            department = this.department,
+            driverLicense = this.driverLicense,
+            employer = this.employer,
+            employment = this.employment,
+            experience = this.experience,
+            id = this.id,
+            keySkills = this.keySkills,
+            languages = this.languages,
+            name = this.name,
+            professionalRoles = this.professionalRoles,
+            salary = this.salary,
+            schedule = this.schedule,
+            type = this.type,
+            workingDays = this.workingDays,
+            workingTimeIntervals = this.workingTimeIntervals,
+            workingTimeModels = this.workingTimeModels
+        )
+    }
+}

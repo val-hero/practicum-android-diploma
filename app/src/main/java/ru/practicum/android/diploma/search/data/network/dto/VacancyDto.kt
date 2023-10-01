@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.search.data.network.dto
 
 import com.google.gson.annotations.SerializedName
+import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.domain.models.fields.Address
 import ru.practicum.android.diploma.search.domain.models.fields.Contacts
 import ru.practicum.android.diploma.search.domain.models.fields.Department
@@ -44,3 +45,25 @@ data class VacancyDto(
     @SerializedName("working_time_modes")
     val workingTimeModels: WorkingTimeModels?,
 )
+fun VacancyDto.toVacancy(): Vacancy {
+    return Vacancy(
+        address = this.address,
+        contacts = this.contacts,
+        department = this.department,
+        driverLicense = this.driverLicense,
+        employer = this.employer,
+        employment = this.employment,
+        experience = this.experience,
+        id = this.id,
+        keySkills = this.keySkills,
+        languages = this.languages,
+        name = this.name,
+        professionalRoles = this.professionalRoles,
+        salary = this.salary,
+        schedule = this.schedule,
+        type = this.type,
+        workingDays = this.workingDays,
+        workingTimeIntervals = this.workingTimeIntervals,
+        workingTimeModels = this.workingTimeModels
+    )
+}

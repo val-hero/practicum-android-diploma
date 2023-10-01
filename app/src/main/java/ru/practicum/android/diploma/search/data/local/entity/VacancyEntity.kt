@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.search.data.local.entity
 
-import com.google.gson.annotations.SerializedName
+import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.domain.models.fields.Address
 import ru.practicum.android.diploma.search.domain.models.fields.Contacts
 import ru.practicum.android.diploma.search.domain.models.fields.Department
@@ -18,7 +18,7 @@ import ru.practicum.android.diploma.search.domain.models.fields.WorkingDays
 import ru.practicum.android.diploma.search.domain.models.fields.WorkingTimeIntervals
 import ru.practicum.android.diploma.search.domain.models.fields.WorkingTimeModels
 
- // @Entity(tableName = "vacancy_table") Раскомментировать после конфигурации Room
+// @Entity(tableName = "vacancy_table") Раскомментировать после конфигурации Room
 data class VacancyEntity(
     val address: Address?,
     val contacts: Contacts?,
@@ -27,7 +27,7 @@ data class VacancyEntity(
     val employer: Employer?,
     val employment: Employment?,
     val experience: Experience?,
-  //  @PrimaryKey
+    //  @PrimaryKey
     val id: Long?,
     val keySkills: List<KeySkill>?,
     val languages: Languages?,
@@ -39,4 +39,27 @@ data class VacancyEntity(
     val workingDays: WorkingDays?,
     val workingTimeIntervals: WorkingTimeIntervals?,
     val workingTimeModels: WorkingTimeModels?,
-)
+) {
+    fun VacancyEntity.toVacancy(): Vacancy {
+        return Vacancy(
+            address = this.address,
+            contacts = this.contacts,
+            department = this.department,
+            driverLicense = this.driverLicense,
+            employer = this.employer,
+            employment = this.employment,
+            experience = this.experience,
+            id = this.id,
+            keySkills = this.keySkills,
+            languages = this.languages,
+            name = this.name,
+            professionalRoles = this.professionalRoles,
+            salary = this.salary,
+            schedule = this.schedule,
+            type = this.type,
+            workingDays = this.workingDays,
+            workingTimeIntervals = this.workingTimeIntervals,
+            workingTimeModels = this.workingTimeModels
+        )
+    }
+}
