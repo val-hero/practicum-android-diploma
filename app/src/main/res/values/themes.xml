@@ -30,9 +30,11 @@
         <!-- Для фона кнопки активный/неактивный фильтр на экране поиска -->
         <item name="colorControlActivated">@color/blue</item>
 
+        <item name="colorSurfaceVariant">@color/red</item>
         <!-- Для контура плэйсхолдера лого компании -->
         <item name="colorOutline">@color/light_gray</item>
-    </style>
+
+  </style>
 
     <style name="Theme.PracticumAndroidDiploma" parent="Base.Theme.PracticumAndroidDiploma" />
 </resources>

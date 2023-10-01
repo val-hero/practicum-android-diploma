@@ -3,8 +3,10 @@
 
     <style name="tool_bar">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">@dimen/size_64</item>
         <item name="navigationIconTint">?attr/colorOnPrimary</item>
+        <item name="titleTextAppearance">@style/TextMedium_22_500</item>
+        <item name="titleTextColor">?attr/colorOnPrimary</item>
         <item name="android:textSize">@dimen/text_size_22</item>
     </style>
 
@@ -21,6 +23,13 @@
         <item name="android:textSize">@dimen/text_size_16</item>
         <item name="textAllCaps">false</item>
         <item name="android:fontWeight">400</item>
+    </style>
+
+    <style name="TextRegular_12_400">
+        <item name="fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="textAllCaps">false</item>
+        <item name="android:fontWeight">500</item>
     </style>
 
     <style name="ToolbarIcon" parent="Theme.PracticumAndroidDiploma">
@@ -53,6 +62,70 @@
         <item name="layout_constrainedHeight">true</item>
         <item name="layoutManager">androidx.recyclerview.widget.LinearLayoutManager</item>
     </style>
+
+    <style name="FilterStyle" parent="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.Dense">
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="hintTextColor">@color/gray</item>
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:fontWeight">400</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:imeOptions">actionDone|flagNoExtractUi</item>
+        <item name="android:inputType">textCapSentences</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="errorEnabled">false</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/size_60</item>
+    </style>
+
+    <style name="FilterEditTextStyle">
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:fontWeight">400</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:imeOptions">actionDone|flagNoExtractUi</item>
+        <item name="android:inputType">textCapSentences</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="FilterBottomButtonsStyle" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="android:layout_marginHorizontal">@dimen/margin_16</item>
+        <item name="textAppearanceButton">@style/TextMedium_16_500</item>
+    </style>
+
+    <style name="FilterFrameLayoutSettings" parent="Widget.MaterialComponents.TextInputLayout.FilledBox">
+        <item name="android:paddingHorizontal">@dimen/padding_16</item>
+        <item name="android:paddingVertical">@dimen/padding_8</item>
+        <item name="endIconTint">@color/black</item>
+        <item name="android:textColorHint">?attr/colorOnSecondaryFixed</item>
+        <item name="hintTextAppearance">@style/TextRegular_12_400</item>
+        <item name="boxCollapsedPaddingTop">@dimen/padding_8</item>
+        <item name="placeholderTextAppearance">@style/TextRegular_16_400</item>
+        <item name="placeholderTextColor">?attr/colorOnSecondaryFixed</item>
+        <item name="expandedHintEnabled">false</item>
+        <item name="boxStrokeWidth">0dp</item>
+        <item name="boxStrokeWidthFocused">0dp</item>
+    </style>
+
+    <style name="SalaryEditText">
+        <item name="android:backgroundTint">?attr/colorSecondary</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textAlignment">viewStart</item>
+        <item name="android:imeOptions">actionDone</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLines">1</item>
+    </style>
+
 
     <style name="CountryText">
         <item name="android:layout_width">wrap_content</item>

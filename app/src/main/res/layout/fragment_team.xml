@@ -7,27 +7,17 @@
     android:background="?attr/colorPrimary"
     tools:context=".team.ui.TeamFragment">
 
-
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/team_toolbar"
-        android:layout_width="match_parent"
+        style="@style/TextMedium_22_500"
         android:layout_height="@dimen/size_64"
+        app:title="@string/team"
+        app:titleTextColor="?attr/colorOnPrimary"
+        app:navigationIcon="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_scrollFlags="scroll|enterAlways"
-        app:navigationIcon="@null">
-
-        <TextView
-            android:id="@+id/toolbar_text"
-            style="@style/TextMedium_22_500"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="@dimen/margin_18"
-            android:layout_marginStart="@dimen/margin_16"
-            android:text="@string/team"
-            android:textColor="?attr/colorOnPrimary" />
-    </androidx.appcompat.widget.Toolbar>
+        app:layout_scrollFlags="scroll|enterAlways"/>
 
     <TextView
         android:id="@+id/text_team_fragment"
