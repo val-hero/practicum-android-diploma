@@ -16,20 +16,13 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/search_toolbar"
+            style="@style/TextMedium_22_500"
             android:layout_width="match_parent"
             android:layout_height="@dimen/size_64"
+            app:title="@string/search_title"
+            app:titleTextColor="?attr/colorOnPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:navigationIcon="@null">
-
-            <TextView
-                android:id="@+id/search_toolbar_text"
-                style="@style/TextMedium_22_500"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="@dimen/margin_18"
-                android:layout_marginStart="@dimen/margin_16"
-                android:text="@string/search_title"
-                android:textColor="?attr/colorOnPrimary" />
 
             <ImageView
                 android:id="@+id/filter_icon"
@@ -45,6 +38,7 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingVertical="@dimen/padding_12"
             android:paddingHorizontal="@dimen/padding_16">
 
             <EditText
