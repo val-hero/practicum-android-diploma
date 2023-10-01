@@ -22,4 +22,5 @@
     <string name="nadezhda">Надежда Сакал</string>
     <string name="team">Команда</string>
     <string name="favourites">Избранное</string>
+    <string name="list_empty">Список пуст</string>
 </resources>
