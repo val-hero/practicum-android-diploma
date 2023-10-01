@@ -25,7 +25,13 @@
         <!-- Для кнопки "Сбросить" и иконки "Избранного" в активном состоянии -->
         <item name="colorAccent">@color/red</item>
 
+        <item name="android:windowBackground">?attr/colorPrimary</item>
+
+        <!-- Для фона кнопки активный/неактивный фильтр на экране поиска -->
         <item name="colorControlActivated">@color/blue</item>
+
+        <!-- Для контура плэйсхолдера лого компании -->
+        <item name="colorOutline">@color/light_gray</item>
     </style>
 
     <style name="Theme.PracticumAndroidDiploma" parent="Base.Theme.PracticumAndroidDiploma" />
