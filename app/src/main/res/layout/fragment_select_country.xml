@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".filter.SelectCountryFragment">
+    tools:context=".filter.ui.SelectCountry.SelectCountryFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/rightBorder"
@@ -35,10 +35,12 @@
         app:title="@string/country_selection" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="wrap_content"
+        android:id="@+id/country_recycler"
+        android:layout_width="@dimen/layout_width_0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_16"
         app:layout_constraintStart_toEndOf="@id/leftBorder"
+        app:layout_constraintEnd_toStartOf="@id/rightBorder"
         app:layout_constraintTop_toBottomOf="@id/search_toolbar" />
 
 
