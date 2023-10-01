@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.search.domain.models
+package ru.practicum.android.diploma.search.data.network.dto
 
 import com.google.gson.annotations.SerializedName
 import ru.practicum.android.diploma.search.domain.models.fields.Address
@@ -18,23 +18,29 @@ import ru.practicum.android.diploma.search.domain.models.fields.WorkingDays
 import ru.practicum.android.diploma.search.domain.models.fields.WorkingTimeIntervals
 import ru.practicum.android.diploma.search.domain.models.fields.WorkingTimeModels
 
-data class Vacancy(
+data class VacancyDto(
     val address: Address?,
     val contacts: Contacts?,
     val department: Department,
+    @SerializedName("driver_license_types")
     val driverLicense: List<DriverLicenseType>?,
     val employer: Employer?,
     val employment: Employment?,
     val experience: Experience?,
     val id: Long?,
+    @SerializedName("key_skills")
     val keySkills: List<KeySkill>?,
     val languages: Languages?,
     val name: String,
+    @SerializedName("professional_roles")
     val professionalRoles: ProfessionalRoles?,
     val salary: Salary?,
     val schedule: Schedule?,
     val type: Type?,
+    @SerializedName("working_days")
     val workingDays: WorkingDays?,
+    @SerializedName("working_time_intervals")
     val workingTimeIntervals: WorkingTimeIntervals?,
+    @SerializedName("working_time_modes")
     val workingTimeModels: WorkingTimeModels?,
 )

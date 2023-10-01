@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.search.domain.models
+package ru.practicum.android.diploma.search.data.local.entity
 
 import com.google.gson.annotations.SerializedName
 import ru.practicum.android.diploma.search.domain.models.fields.Address
@@ -18,7 +18,8 @@ import ru.practicum.android.diploma.search.domain.models.fields.WorkingDays
 import ru.practicum.android.diploma.search.domain.models.fields.WorkingTimeIntervals
 import ru.practicum.android.diploma.search.domain.models.fields.WorkingTimeModels
 
-data class Vacancy(
+ // @Entity(tableName = "vacancy_table") Раскомментировать после конфигурации Room
+data class VacancyEntity(
     val address: Address?,
     val contacts: Contacts?,
     val department: Department,
@@ -26,6 +27,7 @@ data class Vacancy(
     val employer: Employer?,
     val employment: Employment?,
     val experience: Experience?,
+  //  @PrimaryKey
     val id: Long?,
     val keySkills: List<KeySkill>?,
     val languages: Languages?,
