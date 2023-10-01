@@ -5,17 +5,20 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
 
-class SelectCountryAdapter(private val countries: Array<String>):RecyclerView.Adapter<SelectCountryViewHolder>() {
+class SelectCountryAdapter(
+    private val countries: Array<String>,
+    private val countryClickListener: CountryClickListener
+) : RecyclerView.Adapter<SelectCountryViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectCountryViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_country,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_country, parent, false)
         return SelectCountryViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-       return countries.size
+        return countries.size
     }
 
     override fun onBindViewHolder(holder: SelectCountryViewHolder, position: Int) {
-        holder.countryName.text = countries[position]
+        holder.bind(countries[position], countryClickListener)
     }
 }
