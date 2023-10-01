@@ -4,18 +4,16 @@ import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.databinding.ItemCountryBinding
 
-class SelectCountryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class SelectCountryViewHolder(itemView: View, val onClick: (String) -> Unit) :
+    RecyclerView.ViewHolder(itemView) {
     val binding = ItemCountryBinding.bind(itemView)
     val countryName = binding.country
 
-    fun bind(country: String, clickListener: CountryClickListener) {
+    fun bind(country: String) {
         countryName.text = country
         itemView.setOnClickListener {
-            clickListener.onCountryClick(country)
+            onClick(country)
         }
     }
 }
 
-interface CountryClickListener {
-    fun onCountryClick(countryName: String)
-}

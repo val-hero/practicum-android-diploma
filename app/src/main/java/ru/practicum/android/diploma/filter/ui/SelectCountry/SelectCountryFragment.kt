@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.practicum.android.diploma.databinding.FragmentSelectCountryBinding
 
-class SelectCountryFragment : Fragment(), CountryClickListener {
+class SelectCountryFragment : Fragment() {
 
     private var _binding: FragmentSelectCountryBinding? = null
     private val binding get() = _binding!!
@@ -39,7 +39,7 @@ class SelectCountryFragment : Fragment(), CountryClickListener {
         )
 
         binding.countryRecycler.layoutManager = LinearLayoutManager(requireContext())
-        adapter = SelectCountryAdapter(countries, this)
+        adapter = SelectCountryAdapter(countries, ::onCountryClick)
         binding.countryRecycler.adapter = adapter
     }
 
@@ -48,7 +48,7 @@ class SelectCountryFragment : Fragment(), CountryClickListener {
         _binding = null
     }
 
-    override fun onCountryClick(countryName: String) {
+    private fun onCountryClick(countryName: String) {
         Toast.makeText(requireContext(), "Клац", Toast.LENGTH_LONG).show()
     }
 }

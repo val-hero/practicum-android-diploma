@@ -7,11 +7,11 @@ import ru.practicum.android.diploma.R
 
 class SelectCountryAdapter(
     private val countries: Array<String>,
-    private val countryClickListener: CountryClickListener
+    private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<SelectCountryViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectCountryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_country, parent, false)
-        return SelectCountryViewHolder(view)
+        return SelectCountryViewHolder(view, onClick)
     }
 
     override fun getItemCount(): Int {
@@ -19,6 +19,6 @@ class SelectCountryAdapter(
     }
 
     override fun onBindViewHolder(holder: SelectCountryViewHolder, position: Int) {
-        holder.bind(countries[position], countryClickListener)
+        holder.bind(countries[position])
     }
 }
