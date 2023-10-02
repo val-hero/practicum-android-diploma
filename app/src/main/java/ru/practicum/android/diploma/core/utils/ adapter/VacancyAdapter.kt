@@ -61,7 +61,7 @@ class VacancyViewHolder(parentView: ViewGroup) : RecyclerView.ViewHolder(
         salary.text = model.salary.toString()
 
         Glide.with(itemView)
-            .load(model.logoUrls)
+            .load(model.employer?.logoUrls?.smallLogo)
             .placeholder(R.drawable.placeholder)
             .into(logo)
     }
