@@ -28,6 +28,7 @@ data class VacancyEntity(
     val salary: Salary?,
     val schedule: Schedule?,
     val type: Type?,
+    val logoUrls: String?,
 ) {
     fun VacancyEntity.toVacancy(): Vacancy {
         return Vacancy(
@@ -42,7 +43,8 @@ data class VacancyEntity(
             name = this.name,
             salary = this.salary,
             schedule = this.schedule,
-            type = this.type
+            type = this.type,
+            logoUrls = this.logoUrls
         )
     }
 }

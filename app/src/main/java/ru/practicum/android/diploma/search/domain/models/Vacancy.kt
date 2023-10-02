@@ -14,6 +14,7 @@ import ru.practicum.android.diploma.search.domain.models.fields.Type
 
 data class Vacancy(
     val area: Area?,
+    val logoUrls: String?,
     val contacts: Contacts?,
     val description: String?,
     val employer: Employer?,
@@ -29,6 +30,7 @@ data class Vacancy(
     fun Vacancy.toEntity(): VacancyEntity {
         return VacancyEntity(
             area = this.area,
+            logoUrls = this.logoUrls,
             contacts = this.contacts,
             description = this.description,
             employer = this.employer,
@@ -56,7 +58,8 @@ data class Vacancy(
             name = this.name,
             salary = this.salary?.toDto(),
             schedule = this.schedule?.toDto(),
-            type = this.type?.toDto()
+            type = this.type?.toDto(),
+            logoUrls = this.logoUrls
         )
     }
 }

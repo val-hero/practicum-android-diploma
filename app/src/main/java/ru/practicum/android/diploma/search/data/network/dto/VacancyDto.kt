@@ -26,6 +26,7 @@ data class VacancyDto(
     val salary: SalaryDto?,
     val schedule: ScheduleDto?,
     val type: TypeDto?,
+    val logoUrls: String?
 )
 fun VacancyDto.toVacancy(): Vacancy {
     return Vacancy(
@@ -40,6 +41,7 @@ fun VacancyDto.toVacancy(): Vacancy {
         name = this.name,
         salary = this.salary?.toSalary(),
         schedule = this.schedule?.toSchedule(),
-        type = this.type?.toType()
+        type = this.type?.toType(),
+        logoUrls = this.logoUrls
     )
 }
