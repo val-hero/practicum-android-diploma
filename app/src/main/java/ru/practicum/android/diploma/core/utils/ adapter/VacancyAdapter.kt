@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.core.utils.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -56,14 +57,34 @@ class VacancyViewHolder(parentView: ViewGroup) : RecyclerView.ViewHolder(
     private val salary: TextView = itemView.findViewById(R.id.salary)
 
     fun bind(model: Vacancy) {
-        name.text = "${model.name}, ${model.area}"
-        employerName.text = model.employer.toString()
-        salary.text = model.salary.toString()
+        name.text = "${model.name}, ${model.area?.name}"
+        employerName.text = model.employer?.name.toString()
+        salary.text = getSalary(model, salary.context)
 
         Glide.with(itemView)
             .load(model.employer?.logoUrls?.smallLogo)
             .placeholder(R.drawable.placeholder)
             .into(logo)
+    }
+
+    private fun getSalary(model: Vacancy, context: Context): String {
+        return when {
+            (model.salary?.currency == null) ->
+                context.getString(R.string.no_salary)
+
+            (((model.salary.to == null) && (model.salary.from == null))) ->
+                context.getString(R.string.no_salary)
+
+            (model.salary.to == null) ->
+                "${context.getString(R.string.from)} ${model.salary.from} ${model.salary.currency}"
+
+            (model.salary.from == null) ->
+                "${context.getString(R.string.to)} ${model.salary.to} ${model.salary.currency}"
+
+            else ->
+                "${context.getString(R.string.from)} ${model.salary.from} " +
+                        "${context.getString(R.string.to)} ${model.salary.to} ${model.salary.currency}"
+        }
     }
 }
 
