@@ -34,5 +34,8 @@
         <!-- Для контура плэйсхолдера лого компании -->
         <item name="colorOutline">@color/white</item>
 
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/black</item>
+
     </style>
 </resources>

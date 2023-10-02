@@ -34,6 +34,9 @@
         <!-- Для контура плэйсхолдера лого компании -->
         <item name="colorOutline">@color/light_gray</item>
 
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/white</item>
+
   </style>
 
     <style name="Theme.PracticumAndroidDiploma" parent="Base.Theme.PracticumAndroidDiploma" />
