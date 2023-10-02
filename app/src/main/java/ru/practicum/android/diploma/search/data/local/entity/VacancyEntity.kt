@@ -27,7 +27,7 @@ data class VacancyEntity(
     val name: String,
     val salary: Salary?,
     val schedule: Schedule?,
-    val type: Type?,
+    val type: Type?
 ) {
     fun VacancyEntity.toVacancy(): Vacancy {
         return Vacancy(

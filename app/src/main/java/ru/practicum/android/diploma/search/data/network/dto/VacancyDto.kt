@@ -25,7 +25,7 @@ data class VacancyDto(
     val name: String,
     val salary: SalaryDto?,
     val schedule: ScheduleDto?,
-    val type: TypeDto?,
+    val type: TypeDto?
 )
 fun VacancyDto.toVacancy(): Vacancy {
     return Vacancy(
