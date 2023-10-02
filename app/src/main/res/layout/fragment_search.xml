@@ -16,11 +16,8 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/search_toolbar"
-            style="@style/TextMedium_22_500"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/size_64"
+            style="@style/tool_bar"
             app:title="@string/search_title"
-            app:titleTextColor="?attr/colorOnPrimary"
             app:layout_scrollFlags="scroll|enterAlways"
             app:navigationIcon="@null">
 

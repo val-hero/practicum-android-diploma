@@ -9,13 +9,10 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/favourites_toolbar"
-        style="@style/TextMedium_22_500"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/size_64"
+        style="@style/tool_bar"
         app:layout_scrollFlags="scroll|enterAlways"
         app:title="@string/favourites"
         app:navigationIcon="@null"
-        app:titleTextColor="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
