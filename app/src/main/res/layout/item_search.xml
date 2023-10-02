@@ -10,7 +10,7 @@
         android:layout_height="@dimen/size_48">
 
         <ImageView
-            android:id="@+id/image"
+            android:id="@+id/logo"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:padding="@dimen/padding_1"
@@ -42,7 +42,7 @@
             tools:text="Amazon"/>
 
         <TextView
-            android:id="@+id/value"
+            android:id="@+id/salary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_4"
