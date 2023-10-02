@@ -8,6 +8,8 @@ sealed interface SearchScreenState {
 
     object NothingFound : SearchScreenState
 
+    object SearchStringEmpty : SearchScreenState
+
     data class Success (
     val vacancies: List<Vacancy>
     ) : SearchScreenState
