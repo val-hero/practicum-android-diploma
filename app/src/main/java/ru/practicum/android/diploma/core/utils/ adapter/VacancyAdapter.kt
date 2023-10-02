@@ -1,9 +1,12 @@
 package ru.practicum.android.diploma.core.utils.adapter
 
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.search.domain.models.Vacancy
-
 
 
 class VacancyAdapter(private val vacancies: ArrayList<Vacancy>) :
@@ -39,6 +42,27 @@ class VacancyAdapter(private val vacancies: ArrayList<Vacancy>) :
             vacancies.addAll(newVacancy)
         }
         notifyDataSetChanged()
+    }
+}
+
+class VacancyViewHolder(parentView: ViewGroup) : RecyclerView.ViewHolder(
+    LayoutInflater.from(parentView.context)
+        .inflate(R.layout.item_search, parentView, false)
+) {
+    private val logo: ImageView = itemView.findViewById(R.id.image)
+    private val name: TextView = itemView.findViewById(R.id.title)
+    private val employerName: TextView = itemView.findViewById(R.id.company)
+    private val salary: TextView = itemView.findViewById(R.id.salary)
+
+    fun bind(model: Vacancy) {
+        name.text = "${model.name}, ${model.area}"
+        employerName.text = model.employer.toString()
+        salary.text = model.salary.toString()
+
+        Glide.with(itemView)
+            .load(model.logoUrls)
+            .placeholder(R.drawable.placeholder)
+            .into(logo)
     }
 }
 
