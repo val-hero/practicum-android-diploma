@@ -14,11 +14,11 @@ interface RetrofitApi {
     )
 
     @GET("/vacancies/{vacancy_id}")
-    suspend fun getVacancy(@Path("vacancy_id") id: String): Response
+    suspend fun getVacancy(@Path("vacancy_id") id: String): VacancyResponse
 
     @GET("/vacancies/{vacancy_id}/similar_vacancies")
-    suspend fun getSimilarVacancies(@Path("vacancy_id") id: String): Response
+    suspend fun getSimilarVacancies(@Path("vacancy_id") id: String): FilteredVacanciesResponse
 
     @GET("/vacancies")
-    suspend fun getVacanciesWithFilter(@QueryMap filters:Map<String, String>): Response
+    suspend fun getVacanciesWithFilter(@QueryMap filters:Map<String, String>): FilteredVacanciesResponse
 }
