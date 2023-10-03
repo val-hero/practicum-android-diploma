@@ -26,4 +26,19 @@
     <string name="to">до</string>
     <string name="from">от</string>
     <string name="no_salary">ЗП не указана</string>
+    <string name="vacancy">Вакансия</string>
+    <string name="android_developer">Android-разработчик</string>
+    <string name="from_100_000">от 100 000 Р</string>
+    <string name="required_experience">Требуемый опыт</string>
+    <string name="no_info">Нет данных</string>
+    <string name="vacancy_description">Описание вакансии</string>
+    <string name="name">Рога и Копыта Ltd</string>
+    <string name="city">Нововасильчеково</string>
+    <string name="key_skills">Ключевые навыки</string>
+    <string name="contacts">Контакты</string>
+    <string name="contact_person">Контактное лицо</string>
+    <string name="e_mail">E-mail</string>
+    <string name="phone">Телефон</string>
+    <string name="comment">Комментарий</string>
+    <string name="similar_vacancy">Похожие вакансии</string>
 </resources>
