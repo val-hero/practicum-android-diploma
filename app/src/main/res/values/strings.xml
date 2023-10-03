@@ -26,6 +26,10 @@
     <string name="to">до</string>
     <string name="from">от</string>
     <string name="no_salary">ЗП не указана</string>
+    <string name="choose">Выбрать</string>
+    <string name="region">Регион</string>
+    <string name="country">Страна</string>
+    <string name="choosing_a_place_to_work">Выбор места работы</string>
     <string name="select_region">Выбор региона</string>
     <string name="input_region">Введите регион</string>
     <string name="Choose">Выбрать</string>
