@@ -75,6 +75,15 @@
             android:layout_marginVertical="@dimen/margin_8"
             android:orientation="vertical">
 
+            <ProgressBar
+                android:id="@+id/progress_bar_for_load"
+                android:layout_width="@dimen/size_36"
+                android:layout_height="@dimen/size_36"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/blue"
+                android:visibility="gone" />
+
             <TextView
                 android:id="@+id/vacancy_name"
                 style="@style/TextBold_32_700"
