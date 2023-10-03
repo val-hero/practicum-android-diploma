@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
-//import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.ActivityRootBinding
 
@@ -26,19 +25,11 @@ class RootActivity : AppCompatActivity() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             toggleBottomNavBarVisibility(destination.id)
         }
-
-
-        // Пример использования access token для HeadHunter API
-        //   networkRequestExample(accessToken = BuildConfig.HH_ACCESS_TOKEN)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         binding = null
-    }
-
-    private fun networkRequestExample(accessToken: String) {
-        // ...
     }
 
     private fun toggleBottomNavBarVisibility(destinationId: Int) {
