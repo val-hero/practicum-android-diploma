@@ -8,6 +8,7 @@
         <item name="titleTextAppearance">@style/TextMedium_22_500</item>
         <item name="titleTextColor">?attr/colorOnPrimary</item>
         <item name="android:textSize">@dimen/text_size_22</item>
+        <item name="buttonGravity">center_vertical</item>
     </style>
 
     <style name="TextMedium_22_500">
