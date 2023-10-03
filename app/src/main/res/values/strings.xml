@@ -30,4 +30,6 @@
     <string name="region">Регион</string>
     <string name="country">Страна</string>
     <string name="choosing_a_place_to_work">Выбор места работы</string>
+    <string name="select_region">Выбор региона</string>
+    <string name="input_region">Введите регион</string>
 </resources>
