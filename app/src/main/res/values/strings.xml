@@ -26,4 +26,5 @@
     <string name="to">до</string>
     <string name="from">от</string>
     <string name="no_salary">ЗП не указана</string>
+    <string name="similar_vacancy">Похожие вакансии</string>
 </resources>
