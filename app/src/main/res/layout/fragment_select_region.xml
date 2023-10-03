@@ -74,7 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/margin_8"
         android:background="@drawable/shape_button"
-        android:text="@string/Choose"
+        android:text="@string/choose"
         android:textColor="?attr/colorOnSurface"
         app:cornerRadius="@dimen/corner_radius_12"
         android:visibility="gone"
