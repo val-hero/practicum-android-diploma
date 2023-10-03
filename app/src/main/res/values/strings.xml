@@ -32,4 +32,6 @@
     <string name="choosing_a_place_to_work">Выбор места работы</string>
     <string name="select_region">Выбор региона</string>
     <string name="input_region">Введите регион</string>
+    <string name="select_industry">Выбор отрасли</string>
+    <string name="input_industry">Введите отрасль</string>
 </resources>
