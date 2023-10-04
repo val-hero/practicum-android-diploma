@@ -25,23 +25,7 @@ data class Vacancy(
     val salary: Salary?,
     val schedule: Schedule?,
     val type: Type?,
-    ) {
-    fun Vacancy.toEntity(): VacancyEntity {
-        return VacancyEntity(
-            area = this.area,
-            contacts = this.contacts,
-            description = this.description,
-            employer = this.employer,
-            employment = this.employment,
-            experience = this.experience,
-            id = this.id,
-            keySkills = this.keySkills,
-            name = this.name,
-            salary = this.salary,
-            schedule = this.schedule,
-            type = this.type
-        )
-    }
+) {
 
     fun Vacancy.toDto(): VacancyDto {
         return VacancyDto(
@@ -59,4 +43,22 @@ data class Vacancy(
             type = this.type?.toDto()
         )
     }
+
+    fun toEntity(): VacancyEntity {
+        return VacancyEntity(
+            area = this.area,
+            contacts = this.contacts,
+            description = this.description,
+            employer = this.employer,
+            employment = this.employment,
+            experience = this.experience,
+            id = this.id,
+            keySkills = this.keySkills,
+            name = this.name,
+            salary = this.salary,
+            schedule = this.schedule,
+            type = this.type
+        )
+    }
 }
+
