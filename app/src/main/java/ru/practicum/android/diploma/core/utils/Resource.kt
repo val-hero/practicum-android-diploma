@@ -2,7 +2,7 @@ package ru.practicum.android.diploma.core.utils
 
 import kotlinx.coroutines.flow.Flow
 
-typealias ResourcesFlow<T> = Flow<List<Resource<T>>>
+typealias ResourcesFlow<T> = Flow<Resource<List<T>>>
 
 sealed class Resource<out T> {
 
