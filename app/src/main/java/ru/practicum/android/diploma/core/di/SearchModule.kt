@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.core.di
 
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -29,17 +30,12 @@ val searchModule = module {
             .create(RetrofitApi::class.java)
     }
 
-    single <CountryRepository>{
-        CountryRepositoryImpl(get())
-    }
 
-    factory {
-        GetCountriesUseCase(get())
-    }
+    singleOf(::CountryRepositoryImpl).bind<CountryRepository>()
 
-    viewModel {
-        SelectCountryViewModel(get())
-    }
+    factoryOf(::GetCountriesUseCase).bind<GetCountriesUseCase>()
+
+    viewModelOf(::SelectCountryViewModel).bind<SelectCountryViewModel>()
 
     singleOf(::SearchRepositoryImpl).bind<SearchRepositoryImpl>()
 
