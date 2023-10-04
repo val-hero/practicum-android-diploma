@@ -20,7 +20,7 @@ class SelectCountryAdapter(
     }
 
     override fun getItemCount(): Int {
-        return countries!!.size
+        return countries.size
     }
 
     override fun onBindViewHolder(holder: SelectCountryViewHolder, position: Int) {
