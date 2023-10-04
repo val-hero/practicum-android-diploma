@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.filter.domain.CountryRepository
 import ru.practicum.android.diploma.filter.domain.models.fields.Country
-import ru.practicum.android.diploma.search.data.network.RetrofitApi
+import ru.practicum.android.diploma.search.data.network.api.RetrofitApi
 
 
 class CountryRepositoryImpl(private val api :RetrofitApi):CountryRepository {
