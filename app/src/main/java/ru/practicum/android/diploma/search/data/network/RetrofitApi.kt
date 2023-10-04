@@ -5,7 +5,6 @@ import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
-import ru.practicum.android.diploma.filter.data.network.CountryResponse
 import ru.practicum.android.diploma.filter.data.network.dto.feilds.CountryDto
 
 interface RetrofitApi {
@@ -25,5 +24,5 @@ interface RetrofitApi {
     suspend fun getVacanciesWithFilter(@QueryMap filters:Map<String, String>): Response
 
     @GET("/areas")
-    suspend fun getCountries(): CountryResponse
+    suspend fun getCountries(): List<CountryDto>
 }
