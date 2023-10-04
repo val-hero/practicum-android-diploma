@@ -6,7 +6,7 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.search.data.SearchRepositoryImpl
-import ru.practicum.android.diploma.search.data.network.RetrofitApi
+import ru.practicum.android.diploma.search.data.network.api.RetrofitApi
 
 const val BASE_URL = "https://api.hh.ru/"
 

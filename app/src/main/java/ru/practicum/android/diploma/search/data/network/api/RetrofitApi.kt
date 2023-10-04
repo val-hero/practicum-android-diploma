@@ -1,10 +1,12 @@
-package ru.practicum.android.diploma.search.data.network
+package ru.practicum.android.diploma.search.data.network.api
 
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
+import ru.practicum.android.diploma.search.data.network.FilteredVacanciesResponse
+import ru.practicum.android.diploma.search.data.network.VacancyResponse
 
 interface RetrofitApi {
 
