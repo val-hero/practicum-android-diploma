@@ -12,6 +12,7 @@ import ru.practicum.android.diploma.search.domain.models.fields.KeySkill
 import ru.practicum.android.diploma.search.domain.models.fields.Salary
 import ru.practicum.android.diploma.search.domain.models.fields.Schedule
 import ru.practicum.android.diploma.search.domain.models.fields.Type
+import java.util.Calendar
 
 @Entity(tableName = "favorites_vacancy_table")
 data class FavoritesVacanciesEntity(
@@ -27,7 +28,9 @@ data class FavoritesVacanciesEntity(
     val name: String,
     val salary: Salary?,
     val schedule: Schedule?,
-    val type: Type?
+    val type: Type?,
+    val saveDate: Long
+
 ) {
     fun FavoritesVacanciesEntity.toVacancy(): Vacancy {
         return Vacancy(
@@ -59,7 +62,8 @@ data class FavoritesVacanciesEntity(
             name = this.name,
             salary = this.salary,
             schedule = this.schedule,
-            type = this.type
+            type = this.type,
+            Calendar.getInstance().timeInMillis
         )
 
     }

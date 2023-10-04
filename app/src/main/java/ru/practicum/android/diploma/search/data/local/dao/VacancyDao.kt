@@ -4,20 +4,21 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import ru.practicum.android.diploma.favorites.data.entity.FavoritesVacanciesEntity
 import ru.practicum.android.diploma.search.data.local.entity.VacancyEntity
 
 @Dao
-interface VacancyDao {
+interface FavoritesVacanciesDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAll(vacancies: List<VacancyEntity>)
+    suspend fun addVacancy(track: FavoritesVacanciesEntity)
 
-    @Query("SELECT * FROM vacancy_table")
-    suspend fun getAll(): List<VacancyEntity>
+    @Query("DELETE FROM favorites_vacancy_table WHERE id = :id")
+    suspend fun deleteVacancy(id: Long)
 
-    @Query("SELECT * FROM vacancy_table WHERE id = :id")
-    suspend fun getById(id: Long): VacancyEntity
+    @Query("SELECT * FROM favorites_vacancy_table ORDER BY saveDate DESC;")
+    suspend fun getFavoritesVacancies(): List<FavoritesVacanciesEntity>
 
-    @Query("DELETE FROM vacancy_table")
-    suspend fun deleteAll()
+    @Query("SELECT EXISTS(SELECT 1 FROM favorites_vacancy_table WHERE id = :id)")
+    suspend fun isFavorite(id: Long): Boolean
 }
