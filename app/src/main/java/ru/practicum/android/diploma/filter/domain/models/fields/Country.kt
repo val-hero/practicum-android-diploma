@@ -3,7 +3,7 @@ package ru.practicum.android.diploma.filter.domain.models.fields
 import ru.practicum.android.diploma.filter.data.network.dto.feilds.CountryDto
 
 data class Country(
-    val id: Long?,
+    val id: String?,
     val name: String?
 ) {
     fun toDto(): CountryDto {
