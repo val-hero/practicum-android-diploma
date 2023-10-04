@@ -1,11 +1,13 @@
 package ru.practicum.android.diploma.core.di
 
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.filter.data.impl.CountryRepositoryImpl
 import ru.practicum.android.diploma.filter.domain.CountryRepository
 import ru.practicum.android.diploma.filter.domain.usecase.GetCountriesUseCase
+import ru.practicum.android.diploma.filter.ui.SelectCountry.viewmodel.SelectCountryViewModel
 import ru.practicum.android.diploma.search.data.network.RetrofitApi
 
 const val BASE_URL = "https://api.hh.ru/"
@@ -26,5 +28,9 @@ val searchModule = module {
 
     factory {
         GetCountriesUseCase(get())
+    }
+
+    viewModel {
+        SelectCountryViewModel(get())
     }
 }
