@@ -16,21 +16,17 @@ import ru.practicum.android.diploma.search.domain.models.Vacancy
 
 class SearchRepositoryImpl(
     private val retrofitApi: RetrofitApi,
-    private val database: AppDatabase,
     private val context: Context
-): SearchRepository {
+) : SearchRepository {
     override suspend fun getVacancy(id: String): Flow<Resource<Vacancy>> = flow {
 
-        if(!isConnected()) {
+        if (!isConnected()) {
             emit(Resource.Error(ErrorType.NO_CONNECTION))
             return@flow
         }
 
         val response = retrofitApi.getVacancy(id = id)
-        when(response.resultCode) {
-            -1 -> {
-                emit(Resource.Error(ErrorType.NO_CONNECTION))
-            }
+        when (response.resultCode) {
 
             200 -> {
                 with(response) {
@@ -38,6 +34,34 @@ class SearchRepositoryImpl(
                     emit(Resource.Success(data))
                 }
             }
+
+            else -> {
+                emit(Resource.Error(ErrorType.NOT_FOUND))
+            }
+
+        }
+
+    }
+
+    override suspend fun getVacancies(text: String): ResourcesFlow<Vacancy> = flow {
+
+        if (!isConnected()) {
+            emit(Resource.Error(ErrorType.NO_CONNECTION))
+            return@flow
+        }
+
+        val response = retrofitApi.getVacancies(text = text)
+        when (response.resultCode) {
+
+            200 -> {
+                with(response) {
+                    val data = result.vacancies.map {
+                        it.toVacancy()
+                    }
+                    emit(Resource.Success(data))
+                }
+            }
+
             else -> {
                 emit(Resource.Error(ErrorType.NOT_FOUND))
             }
@@ -48,7 +72,7 @@ class SearchRepositoryImpl(
 
     override suspend fun getSimilarVacancies(id: String): ResourcesFlow<Vacancy> = flow {
 
-        if(!isConnected()) {
+        if (!isConnected()) {
             emit(Resource.Error(ErrorType.NO_CONNECTION))
             return@flow
         }
@@ -71,37 +95,30 @@ class SearchRepositoryImpl(
         }
     }
 
-    override suspend fun getVacanciesWithFilter(filters: Map<String, String>): ResourcesFlow<Vacancy> = flow {
+    override suspend fun getVacanciesWithFilter(filters: Map<String, String>): ResourcesFlow<Vacancy> =
+        flow {
 
-        if(!isConnected()) {
-            emit(Resource.Error(ErrorType.NO_CONNECTION))
-              return@flow
-        }
+            if (!isConnected()) {
+                emit(Resource.Error(ErrorType.NO_CONNECTION))
+                return@flow
+            }
 
-        val response = retrofitApi.getVacanciesWithFilter(filters = filters)
-        when (response.resultCode) {
-            200 -> {
-                with(response) {
-                    val data = result.vacancies.map {
-                        it.toVacancy()
+            val response = retrofitApi.getVacanciesWithFilter(filters = filters)
+            when (response.resultCode) {
+                200 -> {
+                    with(response) {
+                        val data = result.vacancies.map {
+                            it.toVacancy()
+                        }
+                        emit(Resource.Success(data))
                     }
-                    saveVacanciesToDb(data)
-                    emit(Resource.Success(data))
+                }
+
+                else -> {
+                    emit(Resource.Error(ErrorType.NOT_FOUND))
                 }
             }
-
-            else -> {
-                emit(Resource.Error(ErrorType.NOT_FOUND))
-            }
         }
-    }
-
-
-    private suspend fun saveVacanciesToDb(vacancies: List<Vacancy>) {
-        val data = vacancies.map { it.toEntity() }
-        database.vacancyDao().insertAll(data)
-
-    }
 
     private fun isConnected(): Boolean {
         val connectivityManager = context.getSystemService(
@@ -114,6 +131,7 @@ class SearchRepositoryImpl(
                 capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> return true
                 capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> return true
                 capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> return true
+                capabilities.hasTransport(NetworkCapabilities.TRANSPORT_BLUETOOTH) -> return true
             }
         }
         return false
