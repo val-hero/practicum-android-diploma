@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.core.di
 
-import org.koin.androidx.viewmodel.dsl.viewModel
+
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
@@ -14,6 +14,7 @@ import ru.practicum.android.diploma.filter.domain.usecase.GetCountriesUseCase
 import ru.practicum.android.diploma.filter.ui.SelectCountry.viewmodel.SelectCountryViewModel
 import ru.practicum.android.diploma.search.data.SearchRepositoryImpl
 import ru.practicum.android.diploma.search.data.network.api.RetrofitApi
+import ru.practicum.android.diploma.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.search.domain.usecase.GetVacancyDetailsUseCase
 import ru.practicum.android.diploma.search.domain.usecase.SearchUseCase
 import ru.practicum.android.diploma.search.domain.usecase.SearchWithFiltersUseCase
@@ -37,7 +38,7 @@ val searchModule = module {
 
     viewModelOf(::SelectCountryViewModel).bind<SelectCountryViewModel>()
 
-    singleOf(::SearchRepositoryImpl).bind<SearchRepositoryImpl>()
+    singleOf(::SearchRepositoryImpl).bind<SearchRepository>()
 
     factoryOf(::SearchUseCase).bind<SearchUseCase>()
 
