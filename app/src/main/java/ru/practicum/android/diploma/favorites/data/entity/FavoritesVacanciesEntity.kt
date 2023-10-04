@@ -30,41 +30,5 @@ data class FavoritesVacanciesEntity(
     val schedule: Schedule?,
     val type: Type?,
     val saveDate: Long
+)
 
-) {
-    fun FavoritesVacanciesEntity.toVacancy(): Vacancy {
-        return Vacancy(
-            area = this.area,
-            contacts = this.contacts,
-            description = this.description,
-            employer = this.employer,
-            employment = this.employment,
-            experience = this.experience,
-            id = this.id,
-            keySkills = this.keySkills,
-            name = this.name,
-            salary = this.salary,
-            schedule = this.schedule,
-            type = this.type
-        )
-    }
-
-    fun Vacancy.toFavoriteVacanciesEntity() : FavoritesVacanciesEntity {
-        return FavoritesVacanciesEntity(
-            area = this.area,
-            contacts = this.contacts,
-            description = this.description,
-            employer = this.employer,
-            employment = this.employment,
-            experience = this.experience,
-            id = this.id,
-            keySkills = this.keySkills,
-            name = this.name,
-            salary = this.salary,
-            schedule = this.schedule,
-            type = this.type,
-            Calendar.getInstance().timeInMillis
-        )
-
-    }
-}

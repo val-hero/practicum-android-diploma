@@ -3,15 +3,21 @@ package ru.practicum.android.diploma.favorites.data.impl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.core.AppDatabase
+import ru.practicum.android.diploma.favorites.data.entity.Converter
+import ru.practicum.android.diploma.favorites.data.entity.FavoritesVacanciesEntity
 import ru.practicum.android.diploma.favorites.domain.repository.FavoritesRepository
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 
-class FavoritesRepositoryImpl (private val database: AppDatabase) : FavoritesRepository {
+
+class FavoritesRepositoryImpl(
+    private val database: AppDatabase,
+    private val converter: Converter
+) : FavoritesRepository {
 
     override suspend fun addVacancy(vacancy: Vacancy) {
         database
             .favoritesVacanciesDao()
-            .addVacancy(toFavoriteVacanciesEntity(vacancy))
+            .addVacancy(converter.mapToEntity(vacancy))
     }
 
     override suspend fun deleteVacancy(id: Long) {
@@ -36,7 +42,7 @@ class FavoritesRepositoryImpl (private val database: AppDatabase) : FavoritesRep
     }
 
     private fun convertFromFavoritesVacanciesEntity(vacancies: List<FavoritesVacanciesEntity>): List<Vacancy> {
-        return vacancies.map { vacancy -> toVacancy(vacancy) }
+        return vacancies.map { vacancy -> converter.mapToVacancy(vacancy) }
     }
 
 }
