@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".filter.SelectRegionFragment">
+    tools:context=".filter.ui.selectregion.SelectRegionFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/rightBorder"
