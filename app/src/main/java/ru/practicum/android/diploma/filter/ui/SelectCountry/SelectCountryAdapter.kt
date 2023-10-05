@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
 
 class SelectCountryAdapter(
-    private var countries:List<String?>,
+    private var countries: List<String?>,
     private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<SelectCountryViewHolder>() {
 
@@ -14,6 +14,7 @@ class SelectCountryAdapter(
         countries = newCountries
         notifyDataSetChanged()
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectCountryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_country, parent, false)
         return SelectCountryViewHolder(view, onClick)

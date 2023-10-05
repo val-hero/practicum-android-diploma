@@ -8,5 +8,12 @@ class IndustryAndRegionSelectorViewHolder(itemView: View, val onClick: (String) 
     RecyclerView.ViewHolder(itemView) {
 
         val binding = ItemRegionsIndustriesBinding.bind(itemView)
+        val regionAndIndustryName = binding.regionsAndIndustry
 
+    fun bind(regionOrIndustry: String) {
+        regionAndIndustryName.text = regionOrIndustry
+        itemView.setOnClickListener {
+            onClick(regionOrIndustry)
+        }
+    }
 }
