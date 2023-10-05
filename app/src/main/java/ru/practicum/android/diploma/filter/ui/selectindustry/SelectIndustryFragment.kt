@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.filter
+package ru.practicum.android.diploma.filter.ui.selectindustry
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import ru.practicum.android.diploma.R
 
-class SelectRegionFragment : Fragment() {
+
+class SelectIndustryFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +19,8 @@ class SelectRegionFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_select_region, container, false)
+        return inflater.inflate(R.layout.fragment_select_industry, container, false)
     }
+
 
 }
