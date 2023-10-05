@@ -32,12 +32,6 @@ val searchModule = module {
     }
 
 
-    singleOf(::CountryRepositoryImpl).bind<CountryRepository>()
-
-    factoryOf(::GetCountriesUseCase).bind<GetCountriesUseCase>()
-
-    viewModelOf(::SelectCountryViewModel).bind<SelectCountryViewModel>()
-
     singleOf(::SearchRepositoryImpl).bind<SearchRepository>()
 
     factoryOf(::SearchUseCase).bind<SearchUseCase>()
