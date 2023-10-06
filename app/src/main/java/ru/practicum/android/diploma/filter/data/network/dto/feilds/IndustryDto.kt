@@ -8,7 +8,7 @@ data class IndustryDto(
     val name: String,
     val parentId: String?
 ){
-    fun toCountry(): Industry {
+    fun toIndustry(): Industry {
         return Industry(
             id = this.id,
             name = this.name,
