@@ -38,6 +38,7 @@
     <dimen name="margin_44">44dp</dimen>
     <dimen name="padding_24">24dp</dimen>
     <dimen name="size_24">24dp</dimen>
+    <dimen name="width_max_300dp">300dp</dimen>
 
 
 </resources>
