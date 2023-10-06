@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.core.utils.Resource
@@ -49,6 +50,10 @@ class SelectRegionFragment : Fragment() {
         binding.regionsRecycler.adapter = adapter
 
         viewModel.getAreas()
+
+        binding.selectRegionToolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun onRegionClick(regionName: String) {

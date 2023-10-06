@@ -27,8 +27,13 @@ class SelectWorkplaceFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.countryText.setOnFocusChangeListener { v, hasFocus ->
-            if(hasFocus) {
+            if (hasFocus) {
                 findNavController().navigate(R.id.action_selectWorkplaceFragment_to_selectCountryFragment)
+            }
+        }
+        binding.regionText.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus) {
+                findNavController().navigate(R.id.action_selectWorkplaceFragment_to_selectRegionFragment)
             }
         }
     }
