@@ -26,7 +26,7 @@ interface RetrofitApi {
     suspend fun getSimilarVacancies(@Path("vacancy_id") id: String): VacanciesResponse
 
 
-    @GET("/areas")
+    @GET("/areas/countries")
     suspend fun getCountries(): List<CountryDto>
     @GET("/areas")
     suspend fun getAreas(): List<AreaDto>
