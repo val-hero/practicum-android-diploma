@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.favorites.ui
+package ru.practicum.android.diploma.favorites.ui.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,9 +9,6 @@ import ru.practicum.android.diploma.R
 
 class FavoritesFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
