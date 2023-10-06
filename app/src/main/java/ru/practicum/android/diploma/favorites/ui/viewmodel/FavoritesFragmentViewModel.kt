@@ -51,10 +51,11 @@ class FavoritesFragmentViewModel(
         }
     }
 
-    fun onTrackClick() {
+    fun onVacancyClick() {
         isClickable = false
         vacancyClickDebounce(true)
     }
+
 }
 
 
