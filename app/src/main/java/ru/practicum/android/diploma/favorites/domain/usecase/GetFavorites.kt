@@ -6,7 +6,7 @@ import ru.practicum.android.diploma.search.domain.models.Vacancy
 
 class GetFavorites(private val repo: FavoritesRepository) {
 
-    fun getFavorites() : Flow<List<Vacancy>> {
+    operator fun invoke() : Flow<List<Vacancy>> {
         return repo.getFavorites()
     }
 }

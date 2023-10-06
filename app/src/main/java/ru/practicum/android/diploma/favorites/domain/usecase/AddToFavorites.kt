@@ -5,7 +5,7 @@ import ru.practicum.android.diploma.search.domain.models.Vacancy
 
 class AddToFavorites(private val repo: FavoritesRepository) {
 
-    suspend fun addVacancy(vacancy: Vacancy) {
+    suspend operator fun invoke(vacancy: Vacancy) {
         repo.addVacancy(vacancy)
     }
 }

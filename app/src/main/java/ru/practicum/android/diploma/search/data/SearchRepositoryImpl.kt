@@ -12,6 +12,8 @@ import ru.practicum.android.diploma.search.data.network.api.RetrofitApi
 import ru.practicum.android.diploma.search.data.network.dto.toVacancy
 import ru.practicum.android.diploma.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.search.domain.models.Vacancy
+import java.io.IOException
+import java.net.MalformedURLException
 
 class SearchRepositoryImpl(
     private val retrofitApi: RetrofitApi,
@@ -24,20 +26,26 @@ class SearchRepositoryImpl(
             return@flow
         }
 
-        val response = retrofitApi.getVacancy(id = id)
-        when (response.resultCode) {
+        try {
+            val response = retrofitApi.getVacancy(id = id)
+            when (response.resultCode) {
 
-            200 -> {
-                with(response) {
-                    val data = result.toVacancy()
-                    emit(Resource.Success(data))
+                200 -> {
+                    with(response) {
+                        val data = result.toVacancy()
+                        emit(Resource.Success(data))
+                    }
                 }
-            }
 
-            else -> {
-                emit(Resource.Error(ErrorType.NOT_FOUND))
-            }
+                else -> {
+                    emit(Resource.Error(ErrorType.NOT_FOUND))
+                }
 
+            }
+        } catch (e: IOException) {
+            emit(Resource.Error(ErrorType.NOT_FOUND))
+        } catch (e: MalformedURLException) {
+            emit(Resource.Error(ErrorType.NOT_FOUND))
         }
 
     }
@@ -49,22 +57,29 @@ class SearchRepositoryImpl(
             return@flow
         }
 
-        val response = retrofitApi.getVacancies(text = text)
-        when (response.resultCode) {
+        try {
 
-            200 -> {
-                with(response) {
-                    val data = result.vacancies.map {
-                        it.toVacancy()
+            val response = retrofitApi.getVacancies(text = text)
+            when (response.resultCode) {
+
+                200 -> {
+                    with(response) {
+                        val data = result.vacancies.map {
+                            it.toVacancy()
+                        }
+                        emit(Resource.Success(data))
                     }
-                    emit(Resource.Success(data))
                 }
-            }
 
-            else -> {
-                emit(Resource.Error(ErrorType.NOT_FOUND))
-            }
+                else -> {
+                    emit(Resource.Error(ErrorType.NOT_FOUND))
+                }
 
+            }
+        } catch (e: IOException) {
+            emit(Resource.Error(ErrorType.NOT_FOUND))
+        } catch (e: MalformedURLException) {
+            emit(Resource.Error(ErrorType.NOT_FOUND))
         }
 
     }
@@ -76,33 +91,9 @@ class SearchRepositoryImpl(
             return@flow
         }
 
-        val response = retrofitApi.getSimilarVacancies(id = id)
+        try {
+            val response = retrofitApi.getSimilarVacancies(id = id)
 
-        when (response.resultCode) {
-            200 -> {
-                with(response) {
-                    val data = result.vacancies.map {
-                        it.toVacancy()
-                    }
-                    emit(Resource.Success(data))
-                }
-            }
-
-            else -> {
-                emit(Resource.Error(ErrorType.NOT_FOUND))
-            }
-        }
-    }
-
-    override suspend fun getVacanciesWithFilter(filters: Map<String, String>): ResourcesFlow<Vacancy> =
-        flow {
-
-            if (!isConnected()) {
-                emit(Resource.Error(ErrorType.NO_CONNECTION))
-                return@flow
-            }
-
-            val response = retrofitApi.getVacanciesWithFilter(filters = filters)
             when (response.resultCode) {
                 200 -> {
                     with(response) {
@@ -116,6 +107,44 @@ class SearchRepositoryImpl(
                 else -> {
                     emit(Resource.Error(ErrorType.NOT_FOUND))
                 }
+            }
+        } catch (e: IOException) {
+            emit(Resource.Error(ErrorType.NOT_FOUND))
+        } catch (e: MalformedURLException) {
+            emit(Resource.Error(ErrorType.NOT_FOUND))
+        }
+    }
+
+    override suspend fun getVacanciesWithFilter(filters: Map<String, String>): ResourcesFlow<Vacancy> =
+        flow {
+
+            if (!isConnected()) {
+                emit(Resource.Error(ErrorType.NO_CONNECTION))
+                return@flow
+            }
+
+            try {
+
+
+                val response = retrofitApi.getVacanciesWithFilter(filters = filters)
+                when (response.resultCode) {
+                    200 -> {
+                        with(response) {
+                            val data = result.vacancies.map {
+                                it.toVacancy()
+                            }
+                            emit(Resource.Success(data))
+                        }
+                    }
+
+                    else -> {
+                        emit(Resource.Error(ErrorType.NOT_FOUND))
+                    }
+                }
+            } catch (e: IOException) {
+                emit(Resource.Error(ErrorType.NOT_FOUND))
+            } catch (e: MalformedURLException) {
+                emit(Resource.Error(ErrorType.NOT_FOUND))
             }
         }
 
