@@ -26,4 +26,5 @@ val favoritesModule = module {
 
     factoryOf(::IsInFavoritesCheck).bind<IsInFavoritesCheck>()
 
+
 }
