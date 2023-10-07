@@ -143,7 +143,7 @@
     </style>
 
     <style name="BottomNavigationBar">
-        <item name="android:background">@drawable/bottom_nav_bar_background</item>
+        <item name="android:background">?attr/colorPrimary</item>
         <item name="elevation">0dp</item>
         <item name="itemIconTint">@drawable/bottom_nav_item_colors</item>
         <item name="itemTextColor">@drawable/bottom_nav_item_colors</item>
