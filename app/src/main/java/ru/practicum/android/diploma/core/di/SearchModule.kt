@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.core.di
 
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -7,7 +8,9 @@ import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.search.data.SearchRepositoryImpl
-import ru.practicum.android.diploma.search.data.network.api.RetrofitApi
+import ru.practicum.android.diploma.search.data.network.api.HeadHunterApiService
+import ru.practicum.android.diploma.search.data.network.client.NetworkClient
+import ru.practicum.android.diploma.search.data.network.client.NetworkClientImpl
 import ru.practicum.android.diploma.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.search.domain.usecase.GetVacancyDetailsUseCase
 import ru.practicum.android.diploma.search.domain.usecase.SearchUseCase
@@ -18,12 +21,16 @@ const val BASE_URL = "https://api.hh.ru/"
 
 val searchModule = module {
 
-    single<RetrofitApi> {
+    single<HeadHunterApiService> {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(RetrofitApi::class.java)
+            .create(HeadHunterApiService::class.java)
+    }
+
+    single<NetworkClient> {
+        NetworkClientImpl(androidContext(), api = get())
     }
 
     singleOf(::SearchRepositoryImpl).bind<SearchRepository>()

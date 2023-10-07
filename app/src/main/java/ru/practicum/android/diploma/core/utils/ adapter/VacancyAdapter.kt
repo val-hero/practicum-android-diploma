@@ -35,10 +35,10 @@ class VacancyAdapter(
         holder.bind(vacancies[position])
     }
 
-    fun setVacancies(newVacancy: List<Vacancy>?) {
+    fun setVacancies(newVacancies: List<Vacancy>?) {
         vacancies.clear()
-        if (!newVacancy.isNullOrEmpty()) {
-            vacancies.addAll(newVacancy)
+        if (!newVacancies.isNullOrEmpty()) {
+            vacancies.addAll(newVacancies)
         }
         notifyDataSetChanged()
     }
@@ -52,14 +52,14 @@ class VacancyViewHolder(
 
     fun bind(model: Vacancy) {
         with(binding) {
-            title.text = "${model.name}, ${model.area?.name}"
-            company.text = model.employer?.name.toString()
+            title.text = "${model.name}, ${model.area.name}"
+            company.text = model.employer.name
             salary.text = getSalary(model, salary.context)
             root.setOnClickListener { onClick(model) }
             root.setOnLongClickListener { onLongClick(model) }
 
             Glide.with(itemView)
-                .load(model.employer?.logoUrls?.smallLogo)
+                .load(model.employer.logoUrls?.smallLogo)
                 .placeholder(R.drawable.placeholder)
                 .into(logo)
         }

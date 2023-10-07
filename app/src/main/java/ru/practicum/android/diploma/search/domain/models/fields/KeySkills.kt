@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.search.domain.models.fields
 
-data class Employment(
-    val id: String,
+data class KeySkills(
     val name: String
 )

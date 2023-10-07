@@ -13,18 +13,13 @@ class SearchViewModel(
 ) : ViewModel() {
     val uiState = MutableLiveData<SearchScreenState>()
 
-    init {
-        search("android")
-    }
-
-    fun search(text: String) {
+    fun search(query: String) {
         viewModelScope.launch {
-            searchUseCase(text).collect {
+            searchUseCase(query).collect {
                 when (it) {
                     is Resource.Success -> uiState.postValue(SearchScreenState.Success(it.data))
                     else -> {}
                 }
-
             }
         }
     }
