@@ -4,14 +4,14 @@ import com.google.gson.annotations.SerializedName
 import ru.practicum.android.diploma.search.domain.models.fields.Employer
 
 data class EmployerDto(
-    val id: String,
+    val id: String?,
     @SerializedName("logo_urls")
     val logoUrls: EmployerLogoUrlsDto?,
-    val name: String,
-    val trusted: Boolean,
-    val url: String,
+    val name: String?,
+    val trusted: Boolean?,
+    val url: String?,
     @SerializedName("vacancies_url")
-    val vacanciesUrl: String
+    val vacanciesUrl: String?
 )
 
 fun EmployerDto.toDomain(): Employer {

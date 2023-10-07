@@ -14,6 +14,9 @@ class SearchViewModel(
     val uiState = MutableLiveData<SearchScreenState>()
 
     fun search(query: String) {
+        if(query.isNullOrBlank())
+            return
+
         viewModelScope.launch {
             searchUseCase(query).collect {
                 when (it) {
