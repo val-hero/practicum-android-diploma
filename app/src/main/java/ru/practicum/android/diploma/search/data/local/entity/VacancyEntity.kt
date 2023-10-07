@@ -22,7 +22,7 @@ data class VacancyEntity(
     val employment: Employment?,
     val experience: Experience?,
     @PrimaryKey
-    val id: Long?,
+    val id: String?,
     val keySkills: List<KeySkill>?,
     val name: String,
     val salary: Salary?,

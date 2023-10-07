@@ -5,20 +5,29 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import ru.practicum.android.diploma.R
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 
 
 class SearchFragment : Fragment() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private var binding: FragmentSearchBinding? = null
+    private val viewModel by viewModel<SearchViewModel>()
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_search, container, false)
+        binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding?.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.uiState.observe(viewLifecycleOwner) {
+
+        }
     }
 
 }

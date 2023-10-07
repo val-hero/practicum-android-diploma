@@ -1,10 +1,10 @@
 package ru.practicum.android.diploma.search.domain.models.fields
 
-import ru.practicum.android.diploma.search.data.network.dto.fields.EmploymentDto
+import ru.practicum.android.diploma.search.data.network.dto.EmploymentDto
 
 data class Employment(
-    val id: String?,
-    val name: String?
+    val id: String,
+    val name: String
 ) {
     fun toDto(): EmploymentDto {
         return EmploymentDto(

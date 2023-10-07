@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.search.data.network.api
 
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Path
@@ -8,6 +9,7 @@ import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.search.data.network.VacanciesResponse
 import ru.practicum.android.diploma.search.data.network.VacancyResponse
+import ru.practicum.android.diploma.search.data.network.dto.VacanciesDto
 
 interface RetrofitApi {
 
@@ -23,7 +25,7 @@ interface RetrofitApi {
     suspend fun getSimilarVacancies(@Path("vacancy_id") id: String): VacanciesResponse
 
     @GET("/vacancies")
-    suspend fun getVacancies(@Query("text") text: String): VacanciesResponse
-    @GET("/vacancies")
+    suspend fun getVacancies(@Query("text") text: String): Response<VacanciesDto>
+
     suspend fun getVacanciesWithFilter(@QueryMap filters:Map<String, String>): VacanciesResponse
 }

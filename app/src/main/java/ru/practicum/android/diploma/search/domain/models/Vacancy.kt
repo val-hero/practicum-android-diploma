@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.search.domain.models
 
 import ru.practicum.android.diploma.search.data.local.entity.VacancyEntity
-import ru.practicum.android.diploma.search.data.network.dto.VacancyDto
 import ru.practicum.android.diploma.search.domain.models.fields.Area
 import ru.practicum.android.diploma.search.domain.models.fields.Contacts
 import ru.practicum.android.diploma.search.domain.models.fields.Employer
@@ -19,7 +18,7 @@ data class Vacancy(
     val employer: Employer?,
     val employment: Employment?,
     val experience: Experience?,
-    val id: Long?,
+    val id: String?,
     val keySkills: List<KeySkill>?,
     val name: String,
     val salary: Salary?,
@@ -27,22 +26,22 @@ data class Vacancy(
     val type: Type?,
 ) {
 
-    fun Vacancy.toDto(): VacancyDto {
-        return VacancyDto(
-            area = this.area?.toDto(),
-            contacts = this.contacts?.toDto(),
-            description = this.description,
-            employer = this.employer?.toDto(),
-            employment = this.employment?.toDto(),
-            experience = this.experience?.toDto(),
-            id = this.id,
-            keySkills = this.keySkills?.map { it.toDto() },
-            name = this.name,
-            salary = this.salary?.toDto(),
-            schedule = this.schedule?.toDto(),
-            type = this.type?.toDto()
-        )
-    }
+//    fun Vacancy.toDto(): VacancyDto {
+//        return VacancyDto(
+//            area = this.area?.toDto(),
+//            contacts = this.contacts?.toDto(),
+//            description = this.description,
+//            employer = this.employer?.toDto(),
+//            employment = this.employment?.toDto(),
+//            experience = this.experience?.toDto(),
+//            id = this.id,
+//            keySkills = this.keySkills?.map { it.toDto() },
+//            name = this.name,
+//            salary = this.salary?.toDto(),
+//            schedule = this.schedule?.toDto(),
+//            type = this.type?.toDto()
+//        )
+//    }
 
     fun toEntity(): VacancyEntity {
         return VacancyEntity(

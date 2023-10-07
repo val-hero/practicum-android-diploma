@@ -3,13 +3,13 @@ package ru.practicum.android.diploma.search.data
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.core.utils.ErrorType
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.core.utils.ResourcesFlow
 import ru.practicum.android.diploma.search.data.network.api.RetrofitApi
-import ru.practicum.android.diploma.search.data.network.dto.toVacancy
 import ru.practicum.android.diploma.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 
@@ -25,24 +25,25 @@ class SearchRepositoryImpl(
         }
 
         val response = retrofitApi.getVacancy(id = id)
-        when (response.resultCode) {
+//        when (response.resultCode) {
+//
+//            200 -> {
+//                with(response) {
+//                    val data = result.toVacancy()
+//                    emit(Resource.Success(data))
+//                }
+//            }
+//
+//            else -> {
+//                emit(Resource.Error(ErrorType.NOT_FOUND))
+//            }
 
-            200 -> {
-                with(response) {
-                    val data = result.toVacancy()
-                    emit(Resource.Success(data))
-                }
-            }
-
-            else -> {
-                emit(Resource.Error(ErrorType.NOT_FOUND))
-            }
-
-        }
-
+//        }
     }
 
     override suspend fun getVacancies(text: String): ResourcesFlow<Vacancy> = flow {
+
+
 
         if (!isConnected()) {
             emit(Resource.Error(ErrorType.NO_CONNECTION))
@@ -50,22 +51,24 @@ class SearchRepositoryImpl(
         }
 
         val response = retrofitApi.getVacancies(text = text)
-        when (response.resultCode) {
+        Log.d("error", "${response.body()?.items?.get(1)?.name}")
+//        when (response.resultCode) {
+//
+//            200 -> {
+//                with(response) {
+//                    val data = result.vacancies.map {
+//                        it.toVacancy()
+//                    }
+//                    emit(Resource.Success(data))
+//                }
+//            }
+//
+//            else -> {
+//                Log.d("Code", "${response.resultCode}")
+//                emit(Resource.Error(ErrorType.NOT_FOUND))
+//            }
 
-            200 -> {
-                with(response) {
-                    val data = result.vacancies.map {
-                        it.toVacancy()
-                    }
-                    emit(Resource.Success(data))
-                }
-            }
-
-            else -> {
-                emit(Resource.Error(ErrorType.NOT_FOUND))
-            }
-
-        }
+//        }
 
     }
 
@@ -78,20 +81,20 @@ class SearchRepositoryImpl(
 
         val response = retrofitApi.getSimilarVacancies(id = id)
 
-        when (response.resultCode) {
-            200 -> {
-                with(response) {
-                    val data = result.vacancies.map {
-                        it.toVacancy()
-                    }
-                    emit(Resource.Success(data))
-                }
-            }
-
-            else -> {
-                emit(Resource.Error(ErrorType.NOT_FOUND))
-            }
-        }
+//        when (response.resultCode) {
+//            200 -> {
+//                with(response) {
+//                    val data = result.vacancies.map {
+//                        it.toVacancy()
+//                    }
+//                    emit(Resource.Success(data))
+//                }
+//            }
+//
+//            else -> {
+//                emit(Resource.Error(ErrorType.NOT_FOUND))
+//            }
+//        }
     }
 
     override suspend fun getVacanciesWithFilter(filters: Map<String, String>): ResourcesFlow<Vacancy> =
@@ -102,21 +105,21 @@ class SearchRepositoryImpl(
                 return@flow
             }
 
-            val response = retrofitApi.getVacanciesWithFilter(filters = filters)
-            when (response.resultCode) {
-                200 -> {
-                    with(response) {
-                        val data = result.vacancies.map {
-                            it.toVacancy()
-                        }
-                        emit(Resource.Success(data))
-                    }
-                }
-
-                else -> {
-                    emit(Resource.Error(ErrorType.NOT_FOUND))
-                }
-            }
+//            val response = retrofitApi.getVacanciesWithFilter(filters = filters)
+//            when (response.resultCode) {
+//                200 -> {
+//                    with(response) {
+//                        val data = result.vacancies.map {
+//                            it.toVacancy()
+//                        }
+//                        emit(Resource.Success(data))
+//                    }
+//                }
+//
+//                else -> {
+//                    emit(Resource.Error(ErrorType.NOT_FOUND))
+//                }
+//            }
         }
 
     private fun isConnected(): Boolean {

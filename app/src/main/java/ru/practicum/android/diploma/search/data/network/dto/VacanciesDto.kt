@@ -1,9 +1,10 @@
 package ru.practicum.android.diploma.search.data.network.dto
 
-import com.google.gson.annotations.SerializedName
-
 data class VacanciesDto(
-    @SerializedName("item")
-    val vacancies: List<VacancyDto>,
-    val found: Long
+    val alternate_url: String,
+    val found: Int,
+    val items: List<VacancyDto>,
+    val page: Int,
+    val pages: Int,
+    val per_page: Int,
 )

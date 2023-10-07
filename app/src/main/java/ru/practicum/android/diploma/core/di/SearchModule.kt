@@ -8,9 +8,11 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import ru.practicum.android.diploma.search.data.SearchRepositoryImpl
 import ru.practicum.android.diploma.search.data.network.api.RetrofitApi
+import ru.practicum.android.diploma.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.search.domain.usecase.GetVacancyDetailsUseCase
 import ru.practicum.android.diploma.search.domain.usecase.SearchUseCase
 import ru.practicum.android.diploma.search.domain.usecase.SearchWithFiltersUseCase
+import ru.practicum.android.diploma.search.ui.SearchViewModel
 
 const val BASE_URL = "https://api.hh.ru/"
 
@@ -24,7 +26,9 @@ val searchModule = module {
             .create(RetrofitApi::class.java)
     }
 
-    singleOf(::SearchRepositoryImpl).bind<SearchRepositoryImpl>()
+    singleOf(::SearchRepositoryImpl).bind<SearchRepository>()
+
+    singleOf(::SearchViewModel).bind<SearchViewModel>()
 
     factoryOf(::SearchUseCase).bind<SearchUseCase>()
 
