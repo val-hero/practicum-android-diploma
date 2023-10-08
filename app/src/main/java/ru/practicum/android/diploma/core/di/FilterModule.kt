@@ -10,11 +10,15 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 import ru.practicum.android.diploma.core.utils.Constants.FILTER_PARAMETERS
 import ru.practicum.android.diploma.filter.data.impl.CountryRepositoryImpl
+import ru.practicum.android.diploma.filter.data.impl.IndustryRepositoryImpl
 import ru.practicum.android.diploma.filter.domain.CountryRepository
+import ru.practicum.android.diploma.filter.domain.IndustryRepository
 import ru.practicum.android.diploma.filter.data.storage.FilterStorageImpl
 import ru.practicum.android.diploma.filter.domain.api.FilterStorage
 import ru.practicum.android.diploma.filter.domain.usecase.GetCountriesUseCase
+import ru.practicum.android.diploma.filter.domain.usecase.GetIndustriesUseCase
 import ru.practicum.android.diploma.filter.ui.SelectCountry.viewmodel.SelectCountryViewModel
+import ru.practicum.android.diploma.filter.ui.selectindustry.viewmodel.SelectIndustryViewModel
 
 val filterModule = module {
 
@@ -32,6 +36,12 @@ val filterModule = module {
     factoryOf(::GetCountriesUseCase).bind<GetCountriesUseCase>()
 
     viewModelOf(::SelectCountryViewModel).bind<SelectCountryViewModel>()
+
+    singleOf(::IndustryRepositoryImpl).bind<IndustryRepository>()
+
+    factoryOf(::GetIndustriesUseCase).bind<GetIndustriesUseCase>()
+
+    viewModelOf(::SelectIndustryViewModel).bind()
 }
 
 

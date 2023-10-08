@@ -9,6 +9,7 @@ import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.search.data.network.VacanciesResponse
 import ru.practicum.android.diploma.search.data.network.VacancyResponse
 import ru.practicum.android.diploma.filter.data.network.dto.feilds.CountryDto
+import ru.practicum.android.diploma.filter.data.network.dto.feilds.IndustryDto
 
 interface RetrofitApi {
 
@@ -26,6 +27,8 @@ interface RetrofitApi {
 
     @GET("/areas")
     suspend fun getCountries(): List<CountryDto>
+    @GET("/industries")
+    suspend fun getIndustries() : List<IndustryDto>
     suspend fun getVacancies(@Query("text") text: String): VacanciesResponse
     @GET("/vacancies")
     suspend fun getVacanciesWithFilter(@QueryMap filters:Map<String, String>): VacanciesResponse

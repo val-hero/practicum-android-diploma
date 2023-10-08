@@ -12,5 +12,5 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun vacancyDao(): VacancyDao
 
-    abstract fun favoritesVacanciesDao() : FavoritesVacanciesDao
+    abstract fun favoritesVacanciesDao(): FavoritesVacanciesDao
 }
