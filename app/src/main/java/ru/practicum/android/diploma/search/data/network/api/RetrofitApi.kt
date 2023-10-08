@@ -5,11 +5,14 @@ import retrofit2.http.Headers
 import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
+import retrofit2.Response
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.search.data.network.VacanciesResponse
 import ru.practicum.android.diploma.search.data.network.VacancyResponse
 import ru.practicum.android.diploma.filter.data.network.dto.feilds.CountryDto
+import ru.practicum.android.diploma.search.data.network.dto.fields.AreaDto
 import ru.practicum.android.diploma.filter.data.network.dto.feilds.IndustryDto
+
 
 interface RetrofitApi {
 
@@ -25,10 +28,15 @@ interface RetrofitApi {
     suspend fun getSimilarVacancies(@Path("vacancy_id") id: String): VacanciesResponse
 
 
-    @GET("/areas")
+    @GET("/areas/countries")
     suspend fun getCountries(): List<CountryDto>
+
+    @GET("/areas")
+    suspend fun getAreas(): List<AreaDto>
+
     @GET("/industries")
     suspend fun getIndustries() : List<IndustryDto>
+    @GET("/vacancies")
     suspend fun getVacancies(@Query("text") text: String): VacanciesResponse
     @GET("/vacancies")
     suspend fun getVacanciesWithFilter(@QueryMap filters:Map<String, String>): VacanciesResponse
