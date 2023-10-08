@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.core.di
 
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
@@ -11,6 +12,7 @@ import ru.practicum.android.diploma.favorites.domain.usecase.AddToFavorites
 import ru.practicum.android.diploma.favorites.domain.usecase.DeleteFromFavorites
 import ru.practicum.android.diploma.favorites.domain.usecase.GetFavorites
 import ru.practicum.android.diploma.favorites.domain.usecase.IsInFavoritesCheck
+import ru.practicum.android.diploma.favorites.ui.viewmodel.FavoritesFragmentViewModel
 
 val favoritesModule = module {
 
@@ -26,5 +28,6 @@ val favoritesModule = module {
 
     factoryOf(::IsInFavoritesCheck).bind<IsInFavoritesCheck>()
 
+    viewModelOf(::FavoritesFragmentViewModel).bind()
 
 }
