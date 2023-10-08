@@ -5,7 +5,7 @@ import ru.practicum.android.diploma.favorites.domain.repository.FavoritesReposit
 
 class IsInFavoritesCheck(private val repo: FavoritesRepository) {
 
-    operator fun invoke(id:Long) : Flow<Boolean> {
+    operator fun invoke(id:String) : Flow<Boolean> {
         return repo.isFavorite(id)
     }
 }
