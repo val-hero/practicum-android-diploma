@@ -4,7 +4,7 @@ import ru.practicum.android.diploma.favorites.domain.repository.FavoritesReposit
 
 class DeleteFromFavorites(private val repo: FavoritesRepository) {
 
-    suspend operator fun invoke(id: Long) {
+    suspend operator fun invoke(id: String) {
         repo.deleteVacancy(id)
     }
 }
