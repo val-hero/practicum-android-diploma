@@ -47,10 +47,14 @@ class SearchViewModel(
         viewModelScope.launch {
             searchUseCase(query).collect {
                 when (it) {
-                    is Resource.Success -> uiState.postValue(SearchScreenState.Success(it.data))
+                    is Resource.Success -> renderState(SearchScreenState.Success(it.data))
                     else -> {}
                 }
             }
         }
+    }
+
+    private fun renderState(state: SearchScreenState) {
+        uiState.postValue(state)
     }
 }
