@@ -6,12 +6,12 @@ data class Area(
     val id: String?,
     val name: String?,
     val countryId: String?
-) {
-    fun toDto(): AreaDto {
-        return AreaDto(
-            id = this.id,
-            name = this.name,
-            countryId=this.countryId
-        )
-    }
+)
+
+fun Area.toDto(): AreaDto {
+    return AreaDto(
+        id = this.id,
+        name = this.name,
+        countryId = this.countryId
+    )
 }

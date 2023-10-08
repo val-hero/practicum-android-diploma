@@ -1,11 +1,11 @@
 package ru.practicum.android.diploma.favorites.ui.state
 
-import ru.practicum.android.diploma.search.domain.models.Vacancy
+import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 
 sealed interface FavoritesScreenState {
     object Empty : FavoritesScreenState
 
     data class FavoritesVacancies(
-        val vacancies: List<Vacancy>,
+        val vacancies: List<VacancyDetails>,
     ) : FavoritesScreenState
 }

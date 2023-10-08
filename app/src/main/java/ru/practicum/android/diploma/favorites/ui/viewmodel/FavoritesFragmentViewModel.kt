@@ -9,10 +9,10 @@ import ru.practicum.android.diploma.core.utils.Constants
 import ru.practicum.android.diploma.core.utils.debounce
 import ru.practicum.android.diploma.favorites.domain.usecase.GetFavorites
 import ru.practicum.android.diploma.favorites.ui.state.FavoritesScreenState
-import ru.practicum.android.diploma.search.domain.models.Vacancy
+import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 
 class FavoritesFragmentViewModel(
-    private val getFavoritesuseCase: GetFavorites
+    private val getFavoritesUseCase: GetFavorites
 ) : ViewModel() {
 
     private val contentStateLiveData = MutableLiveData<FavoritesScreenState>()
@@ -31,7 +31,7 @@ class FavoritesFragmentViewModel(
 
     fun getFavoritesVacancies() {
         viewModelScope.launch {
-            getFavoritesuseCase
+            getFavoritesUseCase
                 .invoke()
                 .collect { favoritesVacancies ->
                     processResult(favoritesVacancies)
@@ -39,7 +39,7 @@ class FavoritesFragmentViewModel(
         }
     }
 
-    private fun processResult(vacanciesList: List<Vacancy>) {
+    private fun processResult(vacanciesList: List<VacancyDetails>) {
         when {
             vacanciesList.isEmpty() -> {
                 contentStateLiveData.value = FavoritesScreenState.Empty
