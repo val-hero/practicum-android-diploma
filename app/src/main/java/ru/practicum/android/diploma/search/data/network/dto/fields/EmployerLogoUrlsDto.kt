@@ -4,17 +4,17 @@ import com.google.gson.annotations.SerializedName
 import ru.practicum.android.diploma.search.domain.models.fields.EmployerLogoUrls
 
 data class EmployerLogoUrlsDto(
-    @SerializedName("90")
-    val smallLogo: String?,
     @SerializedName("240")
-    val middleLogo: String?,
-    val original: String?
-) {
-    fun toEmployerLogoUrls(): EmployerLogoUrls {
-        return EmployerLogoUrls(
-            smallLogo = this.smallLogo,
-            middleLogo = this.middleLogo,
-            original = this.original
-        )
-    }
+    val mediumLogo: String,
+    @SerializedName("90")
+    val smallLogo: String,
+    val original: String
+)
+
+fun EmployerLogoUrlsDto.toDomain(): EmployerLogoUrls {
+    return EmployerLogoUrls(
+        smallLogo = this.smallLogo,
+        mediumLogo = this.mediumLogo,
+        original = this.original
+    )
 }

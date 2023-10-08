@@ -3,7 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
     id ("kotlin-kapt")
-
 }
 
 android {
@@ -74,7 +73,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //Room
     val room_version = "2.5.2"
-    annotationProcessor("androidx.room:room-compiler:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     //Glide
