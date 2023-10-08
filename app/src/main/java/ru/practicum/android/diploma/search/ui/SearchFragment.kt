@@ -1,5 +1,7 @@
 package ru.practicum.android.diploma.search.ui
 
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,17 +10,24 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.utils.adapter.VacancyAdapter
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.search.ui.state.SearchScreenState
 import ru.practicum.android.diploma.search.ui.viewmodel.SearchViewModel
+import android.view.inputmethod.InputMethodManager
+import android.view.inputmethod.EditorInfo
+import androidx.navigation.fragment.findNavController
+import ru.practicum.android.diploma.core.utils.Constants
+import ru.practicum.android.diploma.core.utils.ErrorType
+import ru.practicum.android.diploma.search.domain.models.Vacancy
 
 
 class SearchFragment : Fragment() {
     private var binding: FragmentSearchBinding? = null
     private val viewModel by viewModel<SearchViewModel>()
     private val adapter = VacancyAdapter(
-        onClick = { },
+        onClick = { clickOnVacancy(it) },
         onLongClick = { true }
     )
 
@@ -36,27 +45,128 @@ class SearchFragment : Fragment() {
 
         binding?.searchRecycler?.adapter = adapter
 
-        binding?.inputSearchForm?.doOnTextChanged { text, _, _, _ ->
-            viewModel.search(text.toString())
+        initInput()
+
+        viewModel.uiState.observe(viewLifecycleOwner) {
+            render(it)
+        }
+    }
+
+    private fun initInput() {
+        binding?.inputSearchForm?.setOnClickListener {
+            binding?.inputSearchForm?.isCursorVisible = true
+        }
+        binding?.inputSearchForm?.doOnTextChanged { s: CharSequence?, _, _, _ ->
+            binding?.buttonClearSearch?.visibility = clearButtonVisibility(s)
+
+            viewModel.searchDebounce(binding?.inputSearchForm?.text.toString())
         }
 
-        viewModel.uiState.observe(viewLifecycleOwner) { state ->
-            when (state) {
-                is SearchScreenState.Success -> {
-                    adapter.setVacancies(state.vacancies)
-                    showVacancies()
-                }
-
-                is SearchScreenState.Error -> TODO()
-                SearchScreenState.Loading -> TODO()
-                SearchScreenState.NothingFound -> TODO()
-                SearchScreenState.SearchStringEmpty -> TODO()
+        binding?.inputSearchForm?.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                viewModel.search(binding?.inputSearchForm?.text.toString())
             }
+            false
+        }
+        binding?.inputSearchForm?.d.
+
+
+
+        binding?.buttonClearSearch?.visibility =
+            clearButtonVisibility(binding?.inputSearchForm?.text)
+
+        binding?.inputSearchForm?.requestFocus()
+
+        binding?.buttonClearSearch?.setOnClickListener {
+            clearSearch()
         }
     }
 
-    private fun showVacancies() {
-        binding?.placeholderImage?.isVisible = false
-        binding?.searchRecycler?.isVisible = true
+    private fun clearSearch() {
+        binding?.inputSearchForm?.setText("")
+        val view = requireActivity().currentFocus
+        if (view != null) {
+            val imm = requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
+        }
+        showPlaceholder()
     }
+
+    private fun clearButtonVisibility(s: CharSequence?): Int {
+        return if (s.isNullOrEmpty()) {
+            View.GONE
+        } else {
+            View.VISIBLE
+        }
+    }
+
+    private fun clickOnVacancy(vacancy: Vacancy) {
+        if (!viewModel.isClickable) return
+        viewModel.onVacancyClick()
+        findNavController().navigate(R.id.action_to_VacancyFragment)
+        Bundle().apply {
+            putSerializable(Constants.VACANCY, vacancy)
+        }
+    }
+
+    private fun render(state: SearchScreenState) {
+        when (state) {
+            is SearchScreenState.Success -> {
+                adapter.setVacancies(state.vacancies)
+                showVacancies(state.foundValue)
+            }
+
+            is SearchScreenState.Error -> showError(state.type)
+            is SearchScreenState.Loading -> showLoading()
+            is SearchScreenState.NothingFound -> showEmptySearchResult()
+            is SearchScreenState.Default -> showPlaceholder()
+        }
+    }
+
+    private fun showVacancies(foundValue: Int) {
+        binding?.placeholderImage?.isVisible = false
+        binding?.placeholderTextError?.isVisible = false
+        binding?.searchRecycler?.isVisible = true
+        binding?.progressBarForLoad?.isVisible = false
+        binding?.textFabSearch?.isVisible = true
+        binding?.textFabSearch?.text =
+            resources.getQuantityString(R.plurals.vacancies, foundValue, foundValue)
+    }
+
+    private fun showError(type: ErrorType) {
+        binding?.placeholderImage?.isVisible = false
+        binding?.searchRecycler?.isVisible = false
+        binding?.progressBarForLoad?.isVisible = false
+        binding?.textFabSearch?.isVisible = false
+
+        when (type) {
+            ErrorType.NO_CONNECTION -> binding?.placeholderTextError?.isVisible = true
+            else -> Unit
+        }
+    }
+
+    private fun showLoading() {
+        binding?.placeholderImage?.isVisible = false
+        binding?.placeholderTextError?.isVisible = false
+        binding?.searchRecycler?.isVisible = false
+        binding?.progressBarForLoad?.isVisible = true
+        binding?.textFabSearch?.isVisible = false
+    }
+
+    private fun showPlaceholder() {
+        binding?.placeholderTextError?.isVisible = false
+        binding?.searchRecycler?.isVisible = false
+        binding?.progressBarForLoad?.isVisible = false
+        binding?.placeholderImage?.isVisible = true
+        binding?.textFabSearch?.isVisible = false
+    }
+
+    private fun showEmptySearchResult() {
+        binding?.searchRecycler?.isVisible = false
+        binding?.progressBarForLoad?.isVisible = false
+        binding?.placeholderImage?.isVisible = false
+        binding?.textFabSearch?.isVisible = true
+        binding?.textFabSearch?.setText(R.string.no_vacancies)
+    }
+
 }

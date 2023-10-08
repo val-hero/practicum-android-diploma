@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.search.ui.viewmodel
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,8 +15,9 @@ class SearchViewModel(
 ) : ViewModel() {
 
     val uiState = MutableLiveData<SearchScreenState>()
-    fun observeUiState() : LiveData<SearchScreenState> = uiState
     var isClickable = true
+    private var foundValue: Int = 0
+
 
     private val vacanciesSearchDebounce =
         debounce<String>(Constants.SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { query ->
@@ -44,12 +44,15 @@ class SearchViewModel(
         if(query.isNullOrBlank())
             return
 
+        renderState(SearchScreenState.Loading)
+
         viewModelScope.launch {
             searchUseCase(query).collect {
                 when (it) {
-                    is Resource.Success -> renderState(SearchScreenState.Success(it.data))
+                    is Resource.Success -> renderState(SearchScreenState.Success(it.data, foundValue))
                     else -> {}
                 }
+                //TODO vacancies count
             }
         }
     }
