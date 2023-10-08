@@ -11,6 +11,7 @@ import ru.practicum.android.diploma.search.domain.models.fields.KeySkill
 import ru.practicum.android.diploma.search.domain.models.fields.Salary
 import ru.practicum.android.diploma.search.domain.models.fields.Schedule
 import ru.practicum.android.diploma.search.domain.models.fields.Type
+import java.io.Serializable
 
 data class Vacancy(
     val area: Area?,
@@ -25,7 +26,7 @@ data class Vacancy(
     val salary: Salary?,
     val schedule: Schedule?,
     val type: Type?,
-) {
+) : Serializable {
 
     fun Vacancy.toDto(): VacancyDto {
         return VacancyDto(

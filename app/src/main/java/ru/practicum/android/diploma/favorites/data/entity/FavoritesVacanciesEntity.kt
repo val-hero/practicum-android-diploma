@@ -2,7 +2,6 @@ package ru.practicum.android.diploma.favorites.data.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.domain.models.fields.Area
 import ru.practicum.android.diploma.search.domain.models.fields.Contacts
 import ru.practicum.android.diploma.search.domain.models.fields.Employer

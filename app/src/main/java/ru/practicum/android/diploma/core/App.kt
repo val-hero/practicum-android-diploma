@@ -6,6 +6,7 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 import org.koin.core.logger.Level
 import ru.practicum.android.diploma.core.di.appModule
+import ru.practicum.android.diploma.core.di.favoritesModule
 import ru.practicum.android.diploma.core.di.filterModule
 import ru.practicum.android.diploma.core.di.searchModule
 
@@ -16,7 +17,7 @@ class App : Application() {
         startKoin {
             androidContext(this@App)
             androidLogger(Level.DEBUG)
-            modules(listOf(appModule, searchModule, filterModule))
+            modules(listOf(appModule, searchModule, filterModule, favoritesModule))
         }
     }
 }

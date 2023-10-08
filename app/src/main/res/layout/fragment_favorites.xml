@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary"
-    tools:context=".favorites.ui.FavoritesFragment">
+    tools:context=".favorites.ui.fragment.FavoritesFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/favourites_toolbar"
