@@ -19,7 +19,7 @@ class FavoritesRepositoryImpl(
             .addVacancy(vacancy.toFavoriteEntity())
     }
 
-    override suspend fun deleteVacancy(id: Long) {
+    override suspend fun deleteVacancy(id: String) {
         database
             .favoritesVacanciesDao()
             .deleteVacancy(id)
@@ -33,7 +33,7 @@ class FavoritesRepositoryImpl(
 
     }
 
-    override fun isFavorite(id: Long): Flow<Boolean> = flow {
+    override fun isFavorite(id: String): Flow<Boolean> = flow {
         val isInFavorite = database
             .favoritesVacanciesDao()
             .isFavorite(id)
