@@ -1,12 +1,18 @@
 package ru.practicum.android.diploma.core.di
 
 import org.koin.android.ext.koin.androidContext
+
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.dsl.factoryOf
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import ru.practicum.android.diploma.filter.data.impl.CountryRepositoryImpl
+import ru.practicum.android.diploma.filter.domain.CountryRepository
+import ru.practicum.android.diploma.filter.domain.usecase.GetCountriesUseCase
+import ru.practicum.android.diploma.filter.ui.SelectCountry.viewmodel.SelectCountryViewModel
 import ru.practicum.android.diploma.search.data.SearchRepositoryImpl
 import ru.practicum.android.diploma.search.data.network.api.HeadHunterApiService
 import ru.practicum.android.diploma.search.data.network.client.NetworkClient
@@ -35,7 +41,7 @@ val searchModule = module {
 
     singleOf(::SearchRepositoryImpl).bind<SearchRepository>()
 
-    singleOf(::SearchViewModel).bind<SearchViewModel>()
+    viewModelOf(::SearchViewModel).bind<SearchViewModel>()
 
     factoryOf(::SearchUseCase).bind<SearchUseCase>()
 

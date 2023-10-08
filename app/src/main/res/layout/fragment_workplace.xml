@@ -18,7 +18,7 @@
         app:title="@string/choosing_a_place_to_work" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/county"
+        android:id="@+id/country"
         style="@style/FilterStyle"
         android:layout_marginTop="@dimen/margin_16"
         android:hint="@string/country"
@@ -49,7 +49,7 @@
         app:hintTextColor="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/county">
+        app:layout_constraintTop_toBottomOf="@id/country">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/region_text"
