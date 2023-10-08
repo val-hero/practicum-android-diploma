@@ -57,6 +57,7 @@ class SearchFragment : Fragment() {
             binding?.inputSearchForm?.isCursorVisible = true
         }
         binding?.inputSearchForm?.doOnTextChanged { s: CharSequence?, _, _, _ ->
+            binding?.editTextSearchImage?.visibility = View.GONE
             binding?.buttonClearSearch?.visibility = clearButtonVisibility(s)
 
             viewModel.searchDebounce(binding?.inputSearchForm?.text.toString())
@@ -68,9 +69,6 @@ class SearchFragment : Fragment() {
             }
             false
         }
-        binding?.inputSearchForm?.d.
-
-
 
         binding?.buttonClearSearch?.visibility =
             clearButtonVisibility(binding?.inputSearchForm?.text)
@@ -116,16 +114,15 @@ class SearchFragment : Fragment() {
                 showVacancies(state.foundValue)
             }
 
-            is SearchScreenState.Error -> showError(state.type)
+            is SearchScreenState.Error -> showError()
             is SearchScreenState.Loading -> showLoading()
-            is SearchScreenState.NothingFound -> showEmptySearchResult()
+            is SearchScreenState.NothingFound -> showNotFound()
             is SearchScreenState.Default -> showPlaceholder()
         }
     }
 
     private fun showVacancies(foundValue: Int) {
         binding?.placeholderImage?.isVisible = false
-        binding?.placeholderTextError?.isVisible = false
         binding?.searchRecycler?.isVisible = true
         binding?.progressBarForLoad?.isVisible = false
         binding?.textFabSearch?.isVisible = true
@@ -133,40 +130,45 @@ class SearchFragment : Fragment() {
             resources.getQuantityString(R.plurals.vacancies, foundValue, foundValue)
     }
 
-    private fun showError(type: ErrorType) {
+    private fun showError() {
         binding?.placeholderImage?.isVisible = false
         binding?.searchRecycler?.isVisible = false
         binding?.progressBarForLoad?.isVisible = false
-        binding?.textFabSearch?.isVisible = false
+        binding?.textFabSearch?.isVisible = true
+        binding?.textFabSearch?.text = context?.getString(R.string.server_error)
 
-        when (type) {
-            ErrorType.NO_CONNECTION -> binding?.placeholderTextError?.isVisible = true
-            else -> Unit
-        }
     }
 
     private fun showLoading() {
         binding?.placeholderImage?.isVisible = false
-        binding?.placeholderTextError?.isVisible = false
         binding?.searchRecycler?.isVisible = false
         binding?.progressBarForLoad?.isVisible = true
         binding?.textFabSearch?.isVisible = false
     }
 
     private fun showPlaceholder() {
-        binding?.placeholderTextError?.isVisible = false
         binding?.searchRecycler?.isVisible = false
         binding?.progressBarForLoad?.isVisible = false
         binding?.placeholderImage?.isVisible = true
         binding?.textFabSearch?.isVisible = false
     }
 
-    private fun showEmptySearchResult() {
+    private fun showNotFound() {
         binding?.searchRecycler?.isVisible = false
         binding?.progressBarForLoad?.isVisible = false
         binding?.placeholderImage?.isVisible = false
         binding?.textFabSearch?.isVisible = true
-        binding?.textFabSearch?.setText(R.string.no_vacancies)
+        binding?.textFabSearch?.text = context?.getString(R.string.no_vacancies)
+    }
+
+    private fun showEmptyFilterIcon() {
+        binding?.filterIcon?.setImageResource(R.drawable.ic_filter)
+        //TODO
+    }
+
+    private fun showNoEmptyFilterIcon() {
+        binding?.filterIcon?.setImageResource(R.drawable.filter_on)
+        //TODO
     }
 
 }

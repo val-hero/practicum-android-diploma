@@ -46,7 +46,6 @@
                 android:layout_gravity="center"
                 android:background="@drawable/shape_search"
                 android:cursorVisible="false"
-                android:drawableEnd="@drawable/ic_search"
                 android:drawablePadding="@dimen/padding_8"
                 android:hint="@string/search_hint"
                 android:imeOptions="actionDone"
@@ -54,6 +53,17 @@
                 android:paddingStart="@dimen/padding_10"
                 android:paddingEnd="@dimen/padding_32"
                 android:textCursorDrawable="@drawable/cursor" />
+
+            <ImageView
+                android:id="@+id/edit_text_search_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginStart="@dimen/margin_16"
+                android:padding="@dimen/padding_18"
+                android:src="@drawable/ic_search"
+                android:visibility="visible"
+                app:tint="@color/black" />
 
             <ImageView
                 android:id="@+id/button_clear_search"
@@ -108,17 +118,6 @@
         android:layout_gravity="center"
         android:indeterminateTint="@color/blue"
         android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/placeholder_text_error"
-        style="@style/TextMedium_16_500"
-        android:textColor="?attr/colorOnPrimary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:text="@string/server_error" />
 
     <ProgressBar
         android:id="@+id/progress_bar_in_end"
