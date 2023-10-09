@@ -1,5 +1,7 @@
 package ru.practicum.android.diploma.search.data.network.dto
 
+import com.google.gson.annotations.SerializedName
+import ru.practicum.android.diploma.search.data.network.api.ApiResponse
 import ru.practicum.android.diploma.search.data.network.dto.fields.AreaDto
 import ru.practicum.android.diploma.search.data.network.dto.fields.ContactsDto
 import ru.practicum.android.diploma.search.data.network.dto.fields.EmployerDto
@@ -13,29 +15,30 @@ import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 
 data class VacancyDetailsDto(
     val id: String,
-    val area: AreaDto,
-    val employer: EmployerDto,
-    val name: String,
+    val area: AreaDto?,
+    val employer: EmployerDto?,
+    val name: String?,
     val salary: SalaryDto?,
-    val description: String,
-    val employment: EmploymentDto,
+    val description: String?,
+    val employment: EmploymentDto?,
     val experience: ExperienceDto?,
     val contacts: ContactsDto?,
     val schedule: ScheduleDto?,
-    val keySkills: List<KeySkillsDto>
-)
+    @SerializedName("key_skills")
+    val keySkills: List<KeySkillsDto>?
+): ApiResponse()
 
 fun VacancyDetailsDto.toDomain(): VacancyDetails {
     return VacancyDetails(
         id = this.id,
         name = this.name,
-        area = this.area.toDomain(),
+        area = this.area?.toDomain(),
         contacts = this.contacts?.toDomain(),
         description = this.description,
-        employer = this.employer.toDomain(),
-        employment = this.employment.toDomain(),
+        employer = this.employer?.toDomain(),
+        employment = this.employment?.toDomain(),
         experience = this.experience?.toDomain(),
-        keySkills = this.keySkills.map { it.toDomain() },
+        keySkills = this.keySkills?.map { it.toDomain() },
         salary = this.salary?.toDomain(),
         schedule = this.schedule?.toDomain()
     )

@@ -14,7 +14,7 @@ import ru.practicum.android.diploma.search.domain.models.fields.Schedule
 
 @Entity(tableName = "favorites_vacancy_table")
 data class FavoriteVacancyEntity(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = false)
     val id: String,
     val area: Area?,
     val contacts: Contacts?,
@@ -23,7 +23,7 @@ data class FavoriteVacancyEntity(
     val employment: Employment?,
     val experience: Experience?,
     val keySkills: List<KeySkills>?,
-    val name: String,
+    val name: String?,
     val salary: Salary?,
     val schedule: Schedule?,
     val saveDate: Long

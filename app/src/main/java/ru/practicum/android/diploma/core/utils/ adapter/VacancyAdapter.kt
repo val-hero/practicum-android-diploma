@@ -52,15 +52,15 @@ class VacancyViewHolder(
 
     fun bind(model: Vacancy) {
         with(binding) {
-            title.text = "${model.name}, ${model.area.name}"
-            company.text = model.employer.name
+            title.text = "${model.name}, ${model.area?.name}"
+            company.text = model.employer?.name
             salary.text = getSalary(model, salary.context)
             root.setOnClickListener { onClick(model) }
             root.setOnLongClickListener { onLongClick(model) }
 
             Glide.with(itemView)
-                .load(model.employer.logoUrls?.smallLogo)
-                .placeholder(R.drawable.placeholder)
+                .load(model.employer?.logoUrls?.smallLogo)
+                .placeholder(R.drawable.employer_logo_placeholder)
                 .into(logo)
         }
     }

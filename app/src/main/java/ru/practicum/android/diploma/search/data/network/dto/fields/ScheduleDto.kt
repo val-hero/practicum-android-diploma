@@ -4,7 +4,7 @@ import ru.practicum.android.diploma.search.domain.models.fields.Schedule
 
 data class ScheduleDto(
     val id: String?,
-    val name: String
+    val name: String?
 )
 
 fun ScheduleDto.toDomain(): Schedule {

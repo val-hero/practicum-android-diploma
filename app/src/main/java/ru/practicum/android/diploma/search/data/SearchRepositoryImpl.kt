@@ -6,9 +6,9 @@ import ru.practicum.android.diploma.core.utils.ErrorType
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.core.utils.ResourcesFlow
 import ru.practicum.android.diploma.search.data.network.VacanciesResponse
-import ru.practicum.android.diploma.search.data.network.VacancyDetailsResponse
 import ru.practicum.android.diploma.search.data.network.api.ApiRequest
 import ru.practicum.android.diploma.search.data.network.client.NetworkClient
+import ru.practicum.android.diploma.search.data.network.dto.VacancyDetailsDto
 import ru.practicum.android.diploma.search.data.network.dto.toDomain
 import ru.practicum.android.diploma.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.search.domain.models.Vacancy
@@ -20,11 +20,11 @@ class SearchRepositoryImpl(
     override suspend fun getVacancy(id: String): Flow<Resource<VacancyDetails>> = flow {
 
         val apiResponse =
-            networkClient.doRequest(ApiRequest.VacancyDetailsRequest(id)) as VacancyDetailsResponse
+            networkClient.doRequest(ApiRequest.VacancyDetailsRequest(id)) as VacancyDetailsDto
 
-        if (apiResponse.resultCode == 200)
-            emit(Resource.Success(apiResponse.vacancyDetails.toDomain()))
-        else
+        if (apiResponse.resultCode == 200) {
+            emit(Resource.Success(apiResponse.toDomain()))
+        } else
             emit(Resource.Error(getErrorType(apiResponse.resultCode)))
     }
 

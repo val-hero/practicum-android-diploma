@@ -13,7 +13,7 @@ import java.util.Calendar
 
 data class VacancyDetails(
     val id: String,
-    val name: String,
+    val name: String?,
     val area: Area?,
     val contacts: Contacts?,
     val description: String?,

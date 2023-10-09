@@ -80,10 +80,10 @@
         tools:layout="@layout/fragment_select_industry" />
 
     <fragment
-        android:id="@+id/vacancyFragment"
-        android:name="ru.practicum.android.diploma.vacancy.ui.VacancyFragment"
+        android:id="@+id/vacancyDetailsFragment"
+        android:name="ru.practicum.android.diploma.vacancy_details.ui.VacancyDetailsFragment"
         android:label="fragment_vacancy"
-        tools:layout="@layout/fragment_vacancy">
+        tools:layout="@layout/fragment_vacancy_details">
         <action
             android:id="@+id/action_vacancyFragment_to_similarVacanciesFragment"
             app:destination="@id/similarVacanciesFragment"
@@ -91,11 +91,14 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="vacancyId"
+            app:argType="string" />
     </fragment>
 
     <action
-        android:id="@+id/action_to_VacancyFragment"
-        app:destination="@id/vacancyFragment"
+        android:id="@+id/action_to_VacancyDetailsFragment"
+        app:destination="@id/vacancyDetailsFragment"
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
@@ -103,7 +106,7 @@
 
     <fragment
         android:id="@+id/similarVacanciesFragment"
-        android:name="ru.practicum.android.diploma.vacancy.ui.SimilarVacanciesFragment"
+        android:name="ru.practicum.android.diploma.similar_vacancies.ui.SimilarVacanciesFragment"
         android:label="fragment_similar_vacancies"
         tools:layout="@layout/fragment_similar_vacancies" />
 
