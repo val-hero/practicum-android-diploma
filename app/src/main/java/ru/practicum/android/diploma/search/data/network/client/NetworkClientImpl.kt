@@ -20,7 +20,7 @@ class NetworkClientImpl(
     override suspend fun doRequest(request: ApiRequest): ApiResponse {
 
         if (!isConnected()) {
-            return ApiResponse().apply { resultCode = -1 }
+            return ApiResponse().apply { resultCode = NO_INTERNET_CONNECTION_CODE }
         }
 
         var response = ApiResponse()
@@ -42,7 +42,7 @@ class NetworkClientImpl(
                     response = api.getVacanciesWithFilters(request.filters)
                 }
             }
-            response.apply { resultCode = 200 }
+            response.apply { resultCode = SUCCESS_CODE }
 
         } catch (exception: HttpException) {
             response.apply { resultCode = exception.code() }
@@ -64,6 +64,11 @@ class NetworkClientImpl(
             }
         }
         return false
+    }
+
+    companion object {
+        private const val NO_INTERNET_CONNECTION_CODE = -1
+        private const val SUCCESS_CODE = 200
     }
 
 }
