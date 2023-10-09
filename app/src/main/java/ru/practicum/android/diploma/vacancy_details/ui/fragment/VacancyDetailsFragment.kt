@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.vacancy_details.ui
+package ru.practicum.android.diploma.vacancy_details.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -6,6 +6,8 @@ import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -17,11 +19,15 @@ import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 import ru.practicum.android.diploma.search.domain.models.fields.KeySkills
 import ru.practicum.android.diploma.search.domain.models.fields.Phones
 import ru.practicum.android.diploma.search.domain.models.fields.Salary
+import ru.practicum.android.diploma.vacancy_details.ui.state.VacancyDetailsScreenState
+import ru.practicum.android.diploma.vacancy_details.ui.viewmodel.VacancyDetailsViewModel
 
 class VacancyDetailsFragment : Fragment() {
     private var binding: FragmentVacancyDetailsBinding? = null
     private val viewModel by viewModel<VacancyDetailsViewModel>()
     private val args: VacancyDetailsFragmentArgs by navArgs()
+    private lateinit var vacancy: VacancyDetails
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -38,6 +44,32 @@ class VacancyDetailsFragment : Fragment() {
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
             render(state)
         }
+
+        viewModel.observeFavoriteState().observe(viewLifecycleOwner) {
+            renderLikeButton(it)
+        }
+
+        viewModel.isFavorite(vacancy.id)
+
+        binding?.addToFavoriteButton?.setOnClickListener { button ->
+            (button as? ImageView)?.let { startAnimation(it) }
+            viewModel.onFavoriteButtonClick(vacancy)
+        }
+    }
+
+    private fun renderLikeButton(isFavorite: Boolean) {
+        val imageResource = if (isFavorite) R.drawable.favorites_on
+        else R.drawable.favorites
+        binding?.addToFavoriteButton?.setImageResource(imageResource)
+    }
+
+    private fun startAnimation(button: ImageView) {
+        button.startAnimation(
+            AnimationUtils.loadAnimation(
+                requireContext(),
+                R.anim.scale
+            )
+        )
     }
 
     private fun render(screenState: VacancyDetailsScreenState) {
@@ -70,7 +102,7 @@ class VacancyDetailsFragment : Fragment() {
             companyName.text = vacancy.employer?.name
             experience.text = vacancy.experience?.name
             scheduleEmployment.text = vacancy.schedule?.name
-            description.setText(Html.fromHtml(vacancy.description, Html.FROM_HTML_MODE_COMPACT))
+            description.text = Html.fromHtml(vacancy.description, Html.FROM_HTML_MODE_COMPACT)
             keySkills.text = getKeySkillsText(vacancy.keySkills)
             contactsName.text = vacancy.contacts?.name
             contactsEmail.text = vacancy.contacts?.email

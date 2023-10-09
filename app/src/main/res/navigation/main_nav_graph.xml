@@ -81,7 +81,7 @@
 
     <fragment
         android:id="@+id/vacancyDetailsFragment"
-        android:name="ru.practicum.android.diploma.vacancy_details.ui.VacancyDetailsFragment"
+        android:name="ru.practicum.android.diploma.vacancy_details.ui.fragment.VacancyDetailsFragment"
         android:label="fragment_vacancy"
         tools:layout="@layout/fragment_vacancy_details">
         <action
