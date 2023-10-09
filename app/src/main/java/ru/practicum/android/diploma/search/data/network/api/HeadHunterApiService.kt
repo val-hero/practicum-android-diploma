@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.filter.data.network.dto.fields.CountryDto
 import ru.practicum.android.diploma.filter.data.network.dto.fields.IndustryDto
 import ru.practicum.android.diploma.search.data.network.VacanciesResponse
-import ru.practicum.android.diploma.search.data.network.VacancyDetailsResponse
+import ru.practicum.android.diploma.search.data.network.dto.VacancyDetailsDto
 import ru.practicum.android.diploma.search.data.network.dto.fields.AreaDto
 
 interface HeadHunterApiService {
@@ -20,7 +20,7 @@ interface HeadHunterApiService {
     )
 
     @GET("/vacancies/{vacancy_id}")
-    suspend fun getVacancy(@Path("vacancy_id") id: String): VacancyDetailsResponse
+    suspend fun getVacancy(@Path("vacancy_id") id: String): VacancyDetailsDto
 
     @GET("/vacancies/{vacancy_id}/similar_vacancies")
     suspend fun getSimilarVacancies(@Path("vacancy_id") id: String): VacanciesResponse

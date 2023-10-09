@@ -2,7 +2,9 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("ru.practicum.android.diploma.plugins.developproperties")
-    id ("kotlin-kapt")
+    id("kotlin-kapt")
+    id("androidx.navigation.safeargs")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -60,7 +62,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     val fragment_version = "1.6.1"
     implementation("androidx.fragment:fragment-ktx:$fragment_version")
-    val nav_version = "2.7.3"
+    val nav_version = "2.7.4"
     implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
 
@@ -73,7 +75,7 @@ dependencies {
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     //Room
     val room_version = "2.5.2"
-    kapt("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-runtime:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
     //Glide

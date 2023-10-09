@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.vacancy.ui
+package ru.practicum.android.diploma.similar_vacancies.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

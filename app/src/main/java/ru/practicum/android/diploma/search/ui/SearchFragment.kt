@@ -11,6 +11,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.practicum.android.diploma.MainNavGraphDirections
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.utils.Constants
 import ru.practicum.android.diploma.core.utils.ErrorType
@@ -26,7 +27,8 @@ class SearchFragment : Fragment() {
     private var binding: FragmentSearchBinding? = null
     private val viewModel by viewModel<SearchViewModel>()
     private val adapter = VacancyAdapter(
-        onClick = { clickOnVacancy(it) },
+        onClick = { onVacancyClick(it.id) },
+
         onLongClick = { true }
     )
 
@@ -100,15 +102,6 @@ class SearchFragment : Fragment() {
         showPlaceholder()
     }
 
-    private fun clickOnVacancy(vacancy: Vacancy) {
-        if (!viewModel.isClickable) return
-        viewModel.onVacancyClick()
-        findNavController().navigate(R.id.action_to_VacancyFragment)
-        Bundle().apply {
-            putSerializable(Constants.VACANCY, vacancy)
-        }
-    }
-
     private fun render(state: SearchScreenState) {
         when (state) {
             is SearchScreenState.Success -> showVacancies(state.vacancies)
@@ -135,6 +128,12 @@ class SearchFragment : Fragment() {
         binding?.progressBarForLoad?.isVisible = false
         binding?.textFabSearch?.isVisible = true
         binding?.textFabSearch?.text = errorType.toString()
+    }
+
+    private fun onVacancyClick(id: String) {
+      if (!viewModel.isClickable) return
+        viewModel.onVacancyClick()
+        findNavController().navigate(MainNavGraphDirections.actionToVacancyDetailsFragment(id))
     }
 
     private fun showLoading() {
@@ -176,5 +175,4 @@ class SearchFragment : Fragment() {
     }
 
      */
-
 }
