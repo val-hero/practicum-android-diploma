@@ -124,6 +124,7 @@ class VacancyDetailsFragment : Fragment() {
             contactsPhoneGroup.isVisible = vacancy?.contacts?.phones?.isNotEmpty() ?: false
             contactsCommentGroup.isVisible = !vacancy?.contacts?.phones?.firstOrNull()?.comment.isNullOrBlank()
             contactsPersonGroup.isVisible = !vacancy?.contacts?.name.isNullOrBlank()
+            keySkillsGroup.isVisible = !vacancy?.keySkills.isNullOrEmpty()
         }
     }
 }
