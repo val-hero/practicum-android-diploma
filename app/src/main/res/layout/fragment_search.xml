@@ -55,7 +55,7 @@
                 android:textCursorDrawable="@drawable/cursor" />
 
             <ImageView
-                android:id="@+id/edit_text_search_image"
+                android:id="@+id/edit_text_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
@@ -65,16 +65,6 @@
                 android:visibility="visible"
                 app:tint="@color/black" />
 
-            <ImageView
-                android:id="@+id/button_clear_search"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
-                android:layout_marginStart="@dimen/margin_16"
-                android:padding="@dimen/padding_18"
-                android:src="@drawable/ic_close"
-                android:visibility="gone"
-                app:tint="@color/black" />
         </FrameLayout>
 
         <TextView

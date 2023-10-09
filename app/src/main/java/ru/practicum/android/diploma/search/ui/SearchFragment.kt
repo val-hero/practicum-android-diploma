@@ -64,8 +64,11 @@ class SearchFragment : Fragment() {
             binding?.inputSearchForm?.isCursorVisible = true
         }
         binding?.inputSearchForm?.doOnTextChanged { s: CharSequence?, _, _, _ ->
-            binding?.editTextSearchImage?.visibility = View.GONE
-            binding?.buttonClearSearch?.visibility = clearButtonVisibility(s)
+            if (s.isNullOrEmpty()) {
+                binding?.editTextImage?.setImageResource(R.drawable.ic_search)
+            } else {
+                binding?.editTextImage?.setImageResource(R.drawable.ic_close)
+            }
 
             if (binding?.inputSearchForm?.hasFocus() == true && s.toString().isNotEmpty()) {
                 showPlaceholder()
@@ -81,16 +84,12 @@ class SearchFragment : Fragment() {
             false
         }
 
-        binding?.buttonClearSearch?.visibility =
-            clearButtonVisibility(binding?.inputSearchForm?.text)
-
         binding?.inputSearchForm?.requestFocus()
 
-        binding?.buttonClearSearch?.setOnClickListener {
+        binding?.editTextImage?.setOnClickListener {
             clearSearch()
         }
     }
-
     private fun clearSearch() {
         binding?.inputSearchForm?.setText("")
         val view = requireActivity().currentFocus
@@ -99,14 +98,6 @@ class SearchFragment : Fragment() {
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
         showPlaceholder()
-    }
-
-    private fun clearButtonVisibility(s: CharSequence?): Int {
-        return if (s.isNullOrEmpty()) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
     }
 
     private fun clickOnVacancy(vacancy: Vacancy) {
