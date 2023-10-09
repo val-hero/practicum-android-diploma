@@ -36,6 +36,10 @@ class SelectWorkplaceFragment : Fragment() {
                 findNavController().navigate(R.id.action_selectWorkplaceFragment_to_selectRegionFragment)
             }
         }
+
+        binding.workplaceToolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     override fun onDestroy() {

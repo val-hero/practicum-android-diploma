@@ -6,7 +6,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
-import ru.practicum.android.diploma.filter.data.network.CountryResponse
+import ru.practicum.android.diploma.filter.data.network.dto.fields.CountryDto
 import ru.practicum.android.diploma.filter.data.network.dto.fields.IndustryDto
 import ru.practicum.android.diploma.search.data.network.VacanciesResponse
 import ru.practicum.android.diploma.search.data.network.dto.VacancyDetailsDto
@@ -27,15 +27,16 @@ interface HeadHunterApiService {
 
 
     @GET("/areas/countries")
-    suspend fun getCountries(): CountryResponse
+    suspend fun getCountries(): List<CountryDto>
 
     @GET("/areas")
     suspend fun getAreas(): List<AreaDto>
 
     @GET("/industries")
-    suspend fun getIndustries() : List<IndustryDto>
+    suspend fun getIndustries(): List<IndustryDto>
+
     @GET("/vacancies")
     suspend fun getVacancies(@Query("text") query: String): VacanciesResponse
 
-    suspend fun getVacanciesWithFilters(@QueryMap filters:Map<String, String>): VacanciesResponse
+    suspend fun getVacanciesWithFilters(@QueryMap filters: Map<String, String>): VacanciesResponse
 }

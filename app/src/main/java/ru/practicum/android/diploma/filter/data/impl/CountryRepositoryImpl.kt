@@ -12,7 +12,7 @@ import ru.practicum.android.diploma.search.data.network.api.HeadHunterApiService
 class CountryRepositoryImpl(private val api: HeadHunterApiService) : CountryRepository {
     override suspend fun getCountries(): Flow<Resource<List<Country>>> = flow {
         try {
-            val countries = api.getCountries().result.map { it.toDomain() }
+            val countries = api.getCountries().map { it.toDomain() }
             emit(Resource.Success(countries))
         } catch (e: Exception) {
 

@@ -17,9 +17,9 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/search_toolbar"
             style="@style/tool_bar"
-            app:title="@string/search_title"
             app:layout_scrollFlags="scroll|enterAlways"
-            app:navigationIcon="@null">
+            app:navigationIcon="@null"
+            app:title="@string/search_title">
 
             <ImageView
                 android:id="@+id/filter_icon"
@@ -35,8 +35,8 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingVertical="@dimen/padding_12"
-            android:paddingHorizontal="@dimen/padding_16">
+            android:paddingHorizontal="@dimen/padding_16"
+            android:paddingVertical="@dimen/padding_12">
 
             <EditText
                 android:id="@+id/input_search_form"
@@ -46,7 +46,6 @@
                 android:layout_gravity="center"
                 android:background="@drawable/shape_search"
                 android:cursorVisible="false"
-                android:drawableEnd="@drawable/ic_search"
                 android:drawablePadding="@dimen/padding_8"
                 android:hint="@string/search_hint"
                 android:imeOptions="actionDone"
@@ -56,15 +55,16 @@
                 android:textCursorDrawable="@drawable/cursor" />
 
             <ImageView
-                android:id="@+id/button_clear_search"
+                android:id="@+id/edit_text_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginStart="@dimen/margin_16"
                 android:padding="@dimen/padding_18"
-                android:src="@drawable/ic_close"
-                android:visibility="gone"
+                android:src="@drawable/ic_search"
+                android:visibility="visible"
                 app:tint="@color/black" />
+
         </FrameLayout>
 
         <TextView

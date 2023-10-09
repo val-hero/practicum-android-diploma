@@ -16,7 +16,7 @@ import ru.practicum.android.diploma.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.search.domain.usecase.GetVacancyDetailsUseCase
 import ru.practicum.android.diploma.search.domain.usecase.SearchUseCase
 import ru.practicum.android.diploma.search.domain.usecase.SearchWithFiltersUseCase
-import ru.practicum.android.diploma.search.ui.SearchViewModel
+import ru.practicum.android.diploma.search.ui.viewmodel.SearchViewModel
 
 const val BASE_URL = "https://api.hh.ru/"
 
