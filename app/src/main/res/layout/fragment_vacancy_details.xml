@@ -386,6 +386,7 @@
             android:background="@drawable/shape_button"
             android:text="@string/similar_vacancy"
             android:textColor="?attr/colorOnSurface"
+            android:visibility="gone"
             app:cornerRadius="@dimen/corner_radius_12"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/right_border"
