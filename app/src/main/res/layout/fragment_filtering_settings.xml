@@ -65,6 +65,7 @@
         android:layout_marginTop="@dimen/margin_24"
         android:focusableInTouchMode="true"
         android:hint="@string/expected_salary"
+        app:hintTextColor="@color/hint_expected_salary_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/industry"
