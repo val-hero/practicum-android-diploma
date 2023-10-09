@@ -19,6 +19,7 @@ import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.ui.state.SearchScreenState
 import ru.practicum.android.diploma.search.ui.viewmodel.SearchViewModel
+import android.content.Context.INPUT_METHOD_SERVICE
 
 
 class SearchFragment : Fragment() {
