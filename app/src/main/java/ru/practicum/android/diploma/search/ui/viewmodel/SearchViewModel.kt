@@ -16,8 +16,6 @@ class SearchViewModel(
 
     val uiState = MutableLiveData<SearchScreenState>()
     var isClickable = true
-    private var foundValue: Int = 0
-
 
     private val vacanciesSearchDebounce =
         debounce<String>(Constants.SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { query ->
@@ -50,12 +48,14 @@ class SearchViewModel(
             searchUseCase(query).collect {
                 when (it) {
                     //TODO vacancies count
-                    is Resource.Success -> renderState(SearchScreenState.Success(it.data, foundValue))
+                    is Resource.Success -> renderState(SearchScreenState.Success(it.data))
                     else -> {}
                 }
             }
         }
     }
+
+
 
     private fun renderState(state: SearchScreenState) {
         uiState.postValue(state)

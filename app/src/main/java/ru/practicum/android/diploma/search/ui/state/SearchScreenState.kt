@@ -13,7 +13,6 @@ sealed interface SearchScreenState {
 
     data class Success (
     val vacancies: List<Vacancy>,
-    val foundValue: Int
     ) : SearchScreenState
 
     data class Error(

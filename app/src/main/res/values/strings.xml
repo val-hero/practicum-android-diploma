@@ -52,6 +52,7 @@
     <string name="server_error">Что-то пошло не так</string>
 
     <plurals name="vacancies">
+        <item quantity="zero">Найдено %1$d вакансий</item>
         <item quantity="one">Найдена %d вакансия</item>
         <item quantity="two">Найдено %d вакансии</item>
         <item quantity="few">Найдено %d вакансии</item>
