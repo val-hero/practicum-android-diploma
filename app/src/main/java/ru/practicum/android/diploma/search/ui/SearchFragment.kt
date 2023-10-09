@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.search.ui
 
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -48,6 +47,10 @@ class SearchFragment : Fragment() {
 
         viewModel.uiState.observe(viewLifecycleOwner) {
             render(it)
+        }
+
+        binding?.filterIcon?.setOnClickListener {
+            navToFilter()
         }
     }
 
@@ -162,6 +165,10 @@ class SearchFragment : Fragment() {
         binding?.placeholderImage?.isVisible = false
         binding?.textFabSearch?.isVisible = true
         binding?.textFabSearch?.text = resources.getString(R.string.no_vacancies)
+    }
+
+    private fun navToFilter() {
+        findNavController().navigate(R.id.action_searchFragment_to_filteringSettingsFragment)
     }
 
     /* Логика отображения активной/неактивной фильтрации
