@@ -19,7 +19,13 @@ import ru.practicum.android.diploma.filter.domain.IndustryRepository
 import ru.practicum.android.diploma.filter.domain.api.FilterStorage
 import ru.practicum.android.diploma.filter.domain.usecase.GetAreasUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetCountriesUseCase
+import ru.practicum.android.diploma.filter.domain.usecase.GetFilterSettingsUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetIndustriesUseCase
+import ru.practicum.android.diploma.filter.domain.usecase.SaveAreaUseCase
+import ru.practicum.android.diploma.filter.domain.usecase.SaveCountryUseCase
+import ru.practicum.android.diploma.filter.domain.usecase.SaveIndustryUseCase
+import ru.practicum.android.diploma.filter.domain.usecase.SaveSalaryFlagUseCase
+import ru.practicum.android.diploma.filter.domain.usecase.SaveSalaryUseCase
 import ru.practicum.android.diploma.filter.ui.SelectCountry.viewmodel.SelectCountryViewModel
 import ru.practicum.android.diploma.filter.ui.selectindustry.viewmodel.SelectIndustryViewModel
 import ru.practicum.android.diploma.filter.ui.selectregion.viewmodel.SelectRegionViewModel
@@ -34,6 +40,18 @@ val filterModule = module {
     }
 
     singleOf(::FilterStorageImpl).bind<FilterStorage>()
+
+    factoryOf(::GetFilterSettingsUseCase).bind<GetFilterSettingsUseCase>()
+
+    factoryOf(::SaveAreaUseCase).bind<SaveAreaUseCase>()
+
+    factoryOf(::SaveCountryUseCase).bind<SaveCountryUseCase>()
+
+    factoryOf(::SaveIndustryUseCase).bind<SaveIndustryUseCase>()
+
+    factoryOf(::SaveSalaryUseCase).bind<SaveSalaryUseCase>()
+
+    factoryOf(::SaveSalaryFlagUseCase).bind<SaveSalaryFlagUseCase>()
 
     singleOf(::CountryRepositoryImpl).bind<CountryRepository>()
 
