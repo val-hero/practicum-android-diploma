@@ -9,12 +9,13 @@ sealed interface SearchScreenState {
 
     object Default : SearchScreenState
 
-    object NothingFound : SearchScreenState
+    data class NothingFound (
+        val message: String
+    ) : SearchScreenState
 
     data class Success (
     val vacancies: List<Vacancy>,
     val foundValue: Int
-
     ) : SearchScreenState
 
     data class Error(

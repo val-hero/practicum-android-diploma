@@ -1,26 +1,25 @@
 package ru.practicum.android.diploma.search.ui
 
-import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.core.utils.adapter.VacancyAdapter
-import ru.practicum.android.diploma.databinding.FragmentSearchBinding
-import ru.practicum.android.diploma.search.ui.state.SearchScreenState
-import ru.practicum.android.diploma.search.ui.viewmodel.SearchViewModel
-import android.view.inputmethod.InputMethodManager
-import android.view.inputmethod.EditorInfo
-import androidx.navigation.fragment.findNavController
 import ru.practicum.android.diploma.core.utils.Constants
 import ru.practicum.android.diploma.core.utils.ErrorType
+import ru.practicum.android.diploma.core.utils.adapter.VacancyAdapter
+import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.search.domain.models.Vacancy
+import ru.practicum.android.diploma.search.ui.state.SearchScreenState
+import ru.practicum.android.diploma.search.ui.viewmodel.SearchViewModel
 
 
 class SearchFragment : Fragment() {
@@ -43,13 +42,17 @@ class SearchFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.searchRecycler?.adapter = adapter
-
         initInput()
+
+        initAdapter()
 
         viewModel.uiState.observe(viewLifecycleOwner) {
             render(it)
         }
+    }
+
+    private fun initAdapter() {
+        binding?.searchRecycler?.adapter = adapter
     }
 
     private fun initInput() {
@@ -59,6 +62,10 @@ class SearchFragment : Fragment() {
         binding?.inputSearchForm?.doOnTextChanged { s: CharSequence?, _, _, _ ->
             binding?.editTextSearchImage?.visibility = View.GONE
             binding?.buttonClearSearch?.visibility = clearButtonVisibility(s)
+
+            if (binding?.inputSearchForm?.hasFocus() == true && s.toString().isNotEmpty()) {
+                showPlaceholder()
+            }
 
             viewModel.searchDebounce(binding?.inputSearchForm?.text.toString())
         }
@@ -109,19 +116,16 @@ class SearchFragment : Fragment() {
 
     private fun render(state: SearchScreenState) {
         when (state) {
-            is SearchScreenState.Success -> {
-                adapter.setVacancies(state.vacancies)
-                showVacancies(state.foundValue)
-            }
-
-            is SearchScreenState.Error -> showError()
+            is SearchScreenState.Success -> showVacancies(state.vacancies, state.foundValue)
+            is SearchScreenState.Error -> showError(state.type)
             is SearchScreenState.Loading -> showLoading()
-            is SearchScreenState.NothingFound -> showNotFound()
+            is SearchScreenState.NothingFound -> showNotFound(state.message)
             is SearchScreenState.Default -> showPlaceholder()
         }
     }
 
-    private fun showVacancies(foundValue: Int) {
+    private fun showVacancies(vacancies: List<Vacancy>, foundValue: Int) {
+        adapter.setVacancies(vacancies)
         binding?.placeholderImage?.isVisible = false
         binding?.searchRecycler?.isVisible = true
         binding?.progressBarForLoad?.isVisible = false
@@ -130,13 +134,12 @@ class SearchFragment : Fragment() {
             resources.getQuantityString(R.plurals.vacancies, foundValue, foundValue)
     }
 
-    private fun showError() {
+    private fun showError(errorType: ErrorType) {
         binding?.placeholderImage?.isVisible = false
         binding?.searchRecycler?.isVisible = false
         binding?.progressBarForLoad?.isVisible = false
         binding?.textFabSearch?.isVisible = true
-        binding?.textFabSearch?.text = context?.getString(R.string.server_error)
-
+        binding?.textFabSearch?.text = errorType.toString()
     }
 
     private fun showLoading() {
@@ -153,13 +156,15 @@ class SearchFragment : Fragment() {
         binding?.textFabSearch?.isVisible = false
     }
 
-    private fun showNotFound() {
+    private fun showNotFound(emptyMessage: String) {
         binding?.searchRecycler?.isVisible = false
         binding?.progressBarForLoad?.isVisible = false
         binding?.placeholderImage?.isVisible = false
         binding?.textFabSearch?.isVisible = true
-        binding?.textFabSearch?.text = context?.getString(R.string.no_vacancies)
+        binding?.textFabSearch?.text = emptyMessage
     }
+
+    /* Логика отображения активной/неактивной фильтрации
 
     private fun showEmptyFilterIcon() {
         binding?.filterIcon?.setImageResource(R.drawable.ic_filter)
@@ -170,5 +175,7 @@ class SearchFragment : Fragment() {
         binding?.filterIcon?.setImageResource(R.drawable.filter_on)
         //TODO
     }
+
+     */
 
 }
