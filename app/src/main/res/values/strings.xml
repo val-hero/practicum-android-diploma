@@ -10,7 +10,7 @@
     <string name="settings_filtration">Настройки фильтрации</string>
     <string name="work_place">Место работы</string>
     <string name="industry">Отрасль</string>
-    <string name="expected_salary">Ожидаемая ЗП</string>
+    <string name="expected_salary">Ожидаемая зарплата</string>
     <string name="enter_the_amount">Введите сумму</string>
     <string name="not_show">Не показывать без зарплаты</string>
     <string name="apply">Применить</string>
