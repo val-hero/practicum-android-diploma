@@ -10,7 +10,6 @@ import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.favorites.domain.usecase.AddToFavorites
 import ru.practicum.android.diploma.favorites.domain.usecase.DeleteFromFavorites
 import ru.practicum.android.diploma.favorites.domain.usecase.IsInFavoritesCheck
-import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 import ru.practicum.android.diploma.search.domain.usecase.GetVacancyDetailsUseCase
 import ru.practicum.android.diploma.vacancy_details.ui.state.VacancyDetailsScreenState
@@ -25,14 +24,14 @@ class VacancyDetailsViewModel(
     private val _uiState = MutableLiveData<VacancyDetailsScreenState>()
     val uiState: LiveData<VacancyDetailsScreenState> = _uiState
     private val isFavoriteLiveData = MutableLiveData<Boolean>()
+    private var vacancy: VacancyDetails? = null
     private var isFavorite: Boolean = false
 
     fun observeFavoriteState(): LiveData<Boolean> = isFavoriteLiveData
 
     fun isFavorite(id: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            isInFavoritesCheckUseCase
-                .invoke(id)
+            isInFavoritesCheckUseCase(id)
                 .collect {
                     isFavorite = it
                     isFavoriteLiveData.postValue(isFavorite)
@@ -40,15 +39,15 @@ class VacancyDetailsViewModel(
         }
     }
 
-    fun onFavoriteButtonClick(vacancy: VacancyDetails) {
+    fun onFavoriteButtonClick() {
         isFavorite = !isFavorite
         isFavoriteLiveData.value = isFavorite
         viewModelScope.launch(Dispatchers.IO) {
             if (isFavorite) {
-                addToFavoritesUseCase.invoke(vacancy)
+                vacancy?.let { addToFavoritesUseCase(it) }
             }
             else {
-                deleteFromFavoritesUseCase.invoke(vacancy.id)
+                vacancy?.let { deleteFromFavoritesUseCase(it.id) }
             }
         }
     }

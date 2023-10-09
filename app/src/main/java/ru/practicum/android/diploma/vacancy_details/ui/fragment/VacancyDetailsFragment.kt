@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -26,8 +27,6 @@ class VacancyDetailsFragment : Fragment() {
     private var binding: FragmentVacancyDetailsBinding? = null
     private val viewModel by viewModel<VacancyDetailsViewModel>()
     private val args: VacancyDetailsFragmentArgs by navArgs()
-    private lateinit var vacancy: VacancyDetails
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -49,17 +48,25 @@ class VacancyDetailsFragment : Fragment() {
             renderLikeButton(it)
         }
 
-        viewModel.isFavorite(vacancy.id)
+        viewModel.isFavorite(args.vacancyId)
 
         binding?.addToFavoriteButton?.setOnClickListener { button ->
             (button as? ImageView)?.let { startAnimation(it) }
-            viewModel.onFavoriteButtonClick(vacancy)
+            viewModel.onFavoriteButtonClick()
+        }
+
+        initToolbar()
+    }
+
+    private fun initToolbar() {
+        binding?.vacancyToolbar?.setNavigationOnClickListener {
+            findNavController().navigateUp()
         }
     }
 
     private fun renderLikeButton(isFavorite: Boolean) {
         val imageResource = if (isFavorite) R.drawable.favorites_on
-        else R.drawable.favorites
+        else R.drawable.favorites_off
         binding?.addToFavoriteButton?.setImageResource(imageResource)
     }
 

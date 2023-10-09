@@ -131,7 +131,7 @@ class SearchFragment : Fragment() {
     }
 
     private fun onVacancyClick(id: String) {
-      if (!viewModel.isClickable) return
+        if (!viewModel.isClickable) return
         viewModel.onVacancyClick()
         findNavController().navigate(MainNavGraphDirections.actionToVacancyDetailsFragment(id))
     }
