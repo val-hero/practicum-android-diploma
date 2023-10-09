@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.core.utils.Resource
@@ -50,6 +51,11 @@ class SelectIndustryFragment : Fragment() {
         binding.industryRecycler.adapter = adapter
 
         viewModel.getIndustry()
+
+        binding.selectIndustryToolbar.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+
     }
 
     private fun onIndustryClick(industryName: String) {
