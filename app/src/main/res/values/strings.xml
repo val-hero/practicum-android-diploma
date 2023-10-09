@@ -12,7 +12,7 @@
     <string name="industry">Отрасль</string>
     <string name="expected_salary">Ожидаемая ЗП</string>
     <string name="enter_the_amount">Введите сумму</string>
-    <string name="not_show">Не показывать без ЗП</string>
+    <string name="not_show">Не показывать без зарплаты</string>
     <string name="apply">Применить</string>
     <string name="cancel">Сбросить</string>
     <string name="text_team_fragment">Над приложением работали</string>
@@ -25,7 +25,7 @@
     <string name="list_empty">Список пуст</string>
     <string name="to">до</string>
     <string name="from">от</string>
-    <string name="no_salary">ЗП не указана</string>
+    <string name="no_salary">Зарплата не указана</string>
     <string name="choose">Выбрать</string>
     <string name="region">Регион</string>
     <string name="country">Страна</string>
