@@ -119,7 +119,7 @@ class SearchFragment : Fragment() {
             is SearchScreenState.Success -> showVacancies(state.vacancies, state.foundValue)
             is SearchScreenState.Error -> showError(state.type)
             is SearchScreenState.Loading -> showLoading()
-            is SearchScreenState.NothingFound -> showNotFound(state.message)
+            is SearchScreenState.NothingFound -> showNotFound()
             is SearchScreenState.Default -> showPlaceholder()
         }
     }
@@ -156,12 +156,12 @@ class SearchFragment : Fragment() {
         binding?.textFabSearch?.isVisible = false
     }
 
-    private fun showNotFound(emptyMessage: String) {
+    private fun showNotFound() {
         binding?.searchRecycler?.isVisible = false
         binding?.progressBarForLoad?.isVisible = false
         binding?.placeholderImage?.isVisible = false
         binding?.textFabSearch?.isVisible = true
-        binding?.textFabSearch?.text = emptyMessage
+        binding?.textFabSearch?.text = resources.getString(R.string.no_vacancies)
     }
 
     /* Логика отображения активной/неактивной фильтрации
