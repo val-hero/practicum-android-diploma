@@ -41,24 +41,38 @@ class FavoritesFragment : Fragment() {
 
     private fun render(state: FavoritesScreenState) {
         when (state) {
-            is FavoritesScreenState.Empty -> {
-                with(binding) {
-                    favouritesRecycler.visibility = View.GONE
-                    placeholder.visibility = View.VISIBLE
-                }
-            }
-
-            is FavoritesScreenState.FavoritesVacancies -> {
-                with(binding) {
-                    favouritesRecycler.visibility = View.VISIBLE
-                    placeholder.visibility = View.GONE
-                }
-            }
+            is FavoritesScreenState.Empty ->  showList()
+            is FavoritesScreenState.FavoritesVacancies -> showEmpty()
+            else -> showError()
         }
     }
 
     private fun initAdapter() {
         binding.favouritesRecycler.adapter = adapter
+    }
+
+    private fun showList() {
+        with(binding) {
+            favouritesRecycler.visibility = View.VISIBLE
+            placeholderEmpty.visibility = View.GONE
+            placeholderError.visibility = View.GONE
+        }
+    }
+
+    private fun showEmpty() {
+        with(binding) {
+            favouritesRecycler.visibility = View.GONE
+            placeholderEmpty.visibility = View.VISIBLE
+            placeholderError.visibility = View.GONE
+        }
+    }
+
+    private fun showError() {
+        with(binding) {
+            favouritesRecycler.visibility = View.GONE
+            placeholderEmpty.visibility = View.GONE
+            placeholderError. visibility = View.VISIBLE
+        }
     }
 
 //    private fun clickOnVacancy(vacancy: Vacancy) {
