@@ -40,6 +40,17 @@ fun VacancyDetails.toFavoriteEntity(): FavoriteVacancyEntity {
         schedule = this.schedule,
         saveDate = Calendar.getInstance().timeInMillis
     )
+
+    fun VacancyDetails.toVacancy() : Vacancy {
+        return Vacancy(
+        id = this.id,
+        area = this.area,
+        employer = this.employer,
+        name = this.name,
+        salary = this.salary
+        )
+
+    }
 }
 
 

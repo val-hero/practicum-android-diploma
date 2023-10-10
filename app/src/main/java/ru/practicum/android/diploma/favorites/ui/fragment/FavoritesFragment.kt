@@ -10,6 +10,7 @@ import ru.practicum.android.diploma.core.utils.adapter.VacancyAdapter
 import ru.practicum.android.diploma.databinding.FragmentFavoritesBinding
 import ru.practicum.android.diploma.favorites.ui.state.FavoritesScreenState
 import ru.practicum.android.diploma.favorites.ui.viewmodel.FavoritesFragmentViewModel
+import ru.practicum.android.diploma.search.domain.models.Vacancy
 
 class FavoritesFragment : Fragment() {
 
@@ -42,7 +43,7 @@ class FavoritesFragment : Fragment() {
     private fun render(state: FavoritesScreenState) {
         when (state) {
             is FavoritesScreenState.Empty ->  showEmpty()
-            is FavoritesScreenState.FavoritesVacancies -> showList()
+            is FavoritesScreenState.FavoritesVacancies -> showList(state.vacancies)
             else -> showError()
         }
     }
@@ -51,9 +52,10 @@ class FavoritesFragment : Fragment() {
         binding.favouritesRecycler.adapter = adapter
     }
 
-    private fun showList() {
+    private fun showList(vacancies: List<Vacancy>) {
         with(binding) {
             favouritesRecycler.visibility = View.VISIBLE
+            adapter.setVacancies(vacancies)
             placeholderEmpty.visibility = View.GONE
             placeholderError.visibility = View.GONE
         }

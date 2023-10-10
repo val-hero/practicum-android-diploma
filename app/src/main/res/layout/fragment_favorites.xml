@@ -28,7 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:listitem="@layout/item_search"
-        tools:visibility="gone"
+        tools:visibility="visible"
         tools:itemCount="2"/>
 
     <ImageView
@@ -90,7 +90,7 @@
         android:id="@+id/placeholder_error"
         android:layout_width="@dimen/width_0"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:constraint_referenced_ids="placeholder_error_image,placeholder_error_text"/>
 
 
