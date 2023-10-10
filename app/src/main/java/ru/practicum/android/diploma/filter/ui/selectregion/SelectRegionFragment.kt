@@ -56,8 +56,10 @@ class SelectRegionFragment : Fragment() {
     }
 
     private fun onRegionClick(region: Area) {
+        if(!region.areas.isNullOrEmpty()) {
+            adapter.updateRegion(region.areas)
+        }
         viewModel.saveArea(region)
-        findNavController().popBackStack()
     }
 
     override fun onDestroy() {

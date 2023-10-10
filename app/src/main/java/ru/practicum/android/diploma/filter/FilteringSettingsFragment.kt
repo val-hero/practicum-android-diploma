@@ -2,7 +2,6 @@ package ru.practicum.android.diploma.filter
 
 import android.os.Bundle
 import android.text.Editable
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilteringSettingsBinding
-import ru.practicum.android.diploma.search.ui.viewmodel.SearchViewModel
 
 
 class FilteringSettingsFragment : Fragment() {
@@ -33,7 +31,6 @@ class FilteringSettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getFilterSettings().observe(viewLifecycleOwner) {
-            Log.i("SETTINGSFILTER", "В настройках фильтра ${it}")
             if(it != null) {
                 binding.workPlace.hint = it.country?.name
                 binding.industry.hint = it.industry?.name
