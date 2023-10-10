@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.filter.ui.selectindustry
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.databinding.FragmentSelectIndustryBinding
-import ru.practicum.android.diploma.filter.IndustryAndRegionSelectorAdapter
+import ru.practicum.android.diploma.filter.domain.models.fields.Industry
 import ru.practicum.android.diploma.filter.ui.selectindustry.viewmodel.SelectIndustryViewModel
 
 
@@ -19,7 +20,7 @@ class SelectIndustryFragment : Fragment() {
 
     private var _binding: FragmentSelectIndustryBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: IndustryAndRegionSelectorAdapter
+    private lateinit var adapter: IndustrySelectorAdapter
     private val viewModel by viewModel<SelectIndustryViewModel>()
 
     override fun onCreateView(
@@ -37,7 +38,7 @@ class SelectIndustryFragment : Fragment() {
             when (resource) {
                 is Resource.Success -> {
 
-                    adapter.updateRegionOrIndustry(resource.data.map { it.name })
+                    adapter.updateRegionOrIndustry(resource.data.map { it })
                 }
 
                 is Resource.Error -> {
@@ -47,7 +48,7 @@ class SelectIndustryFragment : Fragment() {
         }
 
         binding.industryRecycler.layoutManager = LinearLayoutManager(requireContext())
-        adapter = IndustryAndRegionSelectorAdapter(emptyList(), ::onIndustryClick)
+        adapter = IndustrySelectorAdapter(emptyList(), ::onIndustryClick)
         binding.industryRecycler.adapter = adapter
 
         viewModel.getIndustry()
@@ -58,8 +59,9 @@ class SelectIndustryFragment : Fragment() {
 
     }
 
-    private fun onIndustryClick(industryName: String) {
-        Toast.makeText(requireContext(), "Клац", Toast.LENGTH_LONG).show()
+    private fun onIndustryClick(industry: Industry) {
+        Log.i("SETTINGSFILTER", "Меняю индустрию, новая индустрия это $industry")
+        viewModel.saveIndustry(industry)
     }
 
     override fun onDestroy() {

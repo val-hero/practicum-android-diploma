@@ -57,6 +57,11 @@ class SearchFragment : Fragment() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateFilterSettings()
+    }
+
     private fun initAdapter() {
         binding?.searchRecycler?.adapter = adapter
     }

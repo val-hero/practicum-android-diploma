@@ -4,13 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.filter.domain.models.fields.Country
 
 class SelectCountryAdapter(
-    private var countries: List<String?>,
-    private val onClick: (String) -> Unit
+    private var countries: List<Country?>,
+    private val onClick: (Country) -> Unit
 ) : RecyclerView.Adapter<SelectCountryViewHolder>() {
 
-    fun updateCountries(newCountries: List<String?>) {
+    fun updateCountries(newCountries: List<Country?>) {
         countries = newCountries
         notifyDataSetChanged()
     }
