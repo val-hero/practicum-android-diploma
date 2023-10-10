@@ -9,4 +9,5 @@ sealed interface FavoritesScreenState {
         val vacancies: List<VacancyDetails>,
     ) : FavoritesScreenState
 
+    object Error : FavoritesScreenState
 }
