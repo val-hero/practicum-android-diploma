@@ -31,9 +31,7 @@ class FavoritesFragmentViewModel(
 
     fun getFavoritesVacancies() {
         viewModelScope.launch {
-            getFavoritesUseCase
-                .invoke()
-                .collect { favoritesVacancies ->
+            getFavoritesUseCase().collect { favoritesVacancies ->
                     processResult(favoritesVacancies)
                 }
         }

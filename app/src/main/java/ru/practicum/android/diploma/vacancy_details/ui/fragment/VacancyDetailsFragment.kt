@@ -48,7 +48,8 @@ class VacancyDetailsFragment : Fragment() {
             renderLikeButton(it)
         }
 
-        viewModel.isFavorite(args.vacancyId)
+        viewModel.isFavorite()
+
 
         binding?.addToFavoriteButton?.setOnClickListener { button ->
             (button as? ImageView)?.let { startAnimation(it) }
