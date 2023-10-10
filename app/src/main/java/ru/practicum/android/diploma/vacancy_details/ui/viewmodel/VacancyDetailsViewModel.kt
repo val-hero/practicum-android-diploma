@@ -25,7 +25,7 @@ class VacancyDetailsViewModel(
     val uiState: LiveData<VacancyDetailsScreenState> = _uiState
     private val isFavoriteLiveData = MutableLiveData<Boolean>()
     private var isFavorite: Boolean = false
-    private val vacancy: VacancyDetails? = null
+    private lateinit var vacancy: VacancyDetails
 
     fun observeFavoriteState(): LiveData<Boolean> = isFavoriteLiveData
 
@@ -44,13 +44,12 @@ class VacancyDetailsViewModel(
     fun onFavoriteButtonClick() {
         isFavorite = !isFavorite
         isFavoriteLiveData.value = isFavorite
+
         viewModelScope.launch(Dispatchers.IO) {
             if (isFavorite) {
-                if (vacancy != null) {
-                    addToFavoritesUseCase(vacancy)
-                }
+                addToFavoritesUseCase(vacancy)
             } else {
-                vacancy?.let { deleteFromFavoritesUseCase(it.id) }
+                vacancy.let { deleteFromFavoritesUseCase(it.id) }
             }
         }
     }
@@ -63,6 +62,7 @@ class VacancyDetailsViewModel(
                 when (response) {
                     is Resource.Success -> {
                         _uiState.postValue(VacancyDetailsScreenState.Content(response.data))
+                        vacancy = response.data
                     }
 
                     is Resource.Error -> {

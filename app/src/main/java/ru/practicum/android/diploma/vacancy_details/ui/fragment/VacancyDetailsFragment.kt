@@ -48,9 +48,6 @@ class VacancyDetailsFragment : Fragment() {
             renderLikeButton(it)
         }
 
-        viewModel.isFavorite()
-
-
         binding?.addToFavoriteButton?.setOnClickListener { button ->
             (button as? ImageView)?.let { startAnimation(it) }
             viewModel.onFavoriteButtonClick()
@@ -84,6 +81,7 @@ class VacancyDetailsFragment : Fragment() {
         when (screenState) {
             is VacancyDetailsScreenState.Content -> {
                 fillViews(screenState.vacancyDetails)
+                viewModel.isFavorite()
                 binding?.progressBarForLoad?.isVisible = false
             }
 
