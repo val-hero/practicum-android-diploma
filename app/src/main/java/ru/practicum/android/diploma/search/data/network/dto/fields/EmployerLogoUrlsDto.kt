@@ -5,10 +5,10 @@ import ru.practicum.android.diploma.search.domain.models.fields.EmployerLogoUrls
 
 data class EmployerLogoUrlsDto(
     @SerializedName("240")
-    val mediumLogo: String,
+    val mediumLogo: String?,
     @SerializedName("90")
-    val smallLogo: String,
-    val original: String
+    val smallLogo: String?,
+    val original: String?
 )
 
 fun EmployerLogoUrlsDto.toDomain(): EmployerLogoUrls {
