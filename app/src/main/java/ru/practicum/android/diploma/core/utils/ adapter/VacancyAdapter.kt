@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.ItemSearchBinding
 import ru.practicum.android.diploma.search.domain.models.Vacancy
@@ -59,8 +60,15 @@ class VacancyViewHolder(
             root.setOnLongClickListener { onLongClick(model) }
 
             Glide.with(itemView)
-                .load(model.employer?.logoUrls?.smallLogo)
+                .load(model.employer?.logoUrls?.mediumLogo)
                 .placeholder(R.drawable.employer_logo_placeholder)
+                .centerCrop().transform(
+                    RoundedCorners(
+                        itemView.resources.getDimensionPixelSize(
+                            R.dimen.corner_radius_12
+                        )
+                    )
+                )
                 .into(logo)
         }
     }
