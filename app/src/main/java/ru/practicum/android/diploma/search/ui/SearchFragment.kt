@@ -55,6 +55,7 @@ class SearchFragment : Fragment() {
         }
     }
 
+
     private fun initAdapter() {
         binding?.searchRecycler?.adapter = adapter
     }

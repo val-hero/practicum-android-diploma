@@ -43,4 +43,5 @@ val searchModule = module {
     factoryOf(::SearchWithFiltersUseCase).bind<SearchWithFiltersUseCase>()
 
     factoryOf(::GetVacancyDetailsUseCase).bind<GetVacancyDetailsUseCase>()
+
 }

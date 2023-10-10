@@ -29,15 +29,35 @@ class SearchRepositoryImpl(
     }
 
     override suspend fun getVacancies(query: String): ResourcesFlow<Vacancy> = flow {
+        val perPage = 100
+        var page = 0
+        var totalPages = 0
+        var allVacancies: List<Vacancy> = emptyList()
 
-        val apiResponse =
-            networkClient.doRequest(ApiRequest.VacancySearchRequest(query)) as VacanciesResponse
+        do {
+            val apiResponse = networkClient.doRequest(
+                ApiRequest.VacancySearchRequest(
+                    query,
+                    page,
+                    perPage
+                )
+            ) as VacanciesResponse
 
-        if (apiResponse.resultCode == 200) {
-            emit(Resource.Success(apiResponse.vacancies.map { it.toDomain() }))
-        } else
-            emit(Resource.Error(getErrorType(apiResponse.resultCode)))
+            if (apiResponse.resultCode == 200) {
+                allVacancies += apiResponse.vacancies.map { it.toDomain() }
+            } else {
+                emit(Resource.Error(getErrorType(apiResponse.resultCode)))
+                return@flow
+            }
+
+            page++
+            totalPages = apiResponse.pages
+
+        } while (page < totalPages)
+
+        emit(Resource.Success(allVacancies))
     }
+
 
     override suspend fun getSimilarVacancies(id: String): ResourcesFlow<Vacancy> = flow {
 
@@ -61,6 +81,7 @@ class SearchRepositoryImpl(
             else
                 emit(Resource.Error(getErrorType(apiResponse.resultCode)))
         }
+
 
     private fun getErrorType(code: Int): ErrorType = when (code) {
         -1 -> ErrorType.NO_CONNECTION
