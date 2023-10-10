@@ -42,4 +42,15 @@ fun VacancyDetails.toFavoriteEntity(): FavoriteVacancyEntity {
     )
 }
 
+fun VacancyDetails.toVacancy() : Vacancy {
+    return Vacancy(
+        id = this.id,
+        area = this.area,
+        employer = this.employer,
+        name = this.name,
+        salary = this.salary
+    )
+
+}
+
 
