@@ -126,8 +126,12 @@ class SearchFragment : Fragment() {
         binding?.searchRecycler?.isVisible = true
         binding?.progressBarForLoad?.isVisible = false
         binding?.textFabSearch?.isVisible = true
-        binding?.textFabSearch?.text =
-            resources.getQuantityString(R.plurals.vacancies, vacancies.size, vacancies.size)
+        if (vacancies.isEmpty()) {
+            binding?.textFabSearch?.text =resources.getString(R.string.no_vacancies)
+        }else{
+            binding?.textFabSearch?.text =
+                resources.getQuantityString(R.plurals.vacancies, vacancies.size, vacancies.size)
+        }
     }
 
     private fun showError(errorType: ErrorType) {
