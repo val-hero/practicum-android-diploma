@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyDetailsBinding
@@ -100,9 +101,17 @@ class VacancyDetailsFragment : Fragment() {
             vacancyName.text = vacancy.name
             area.text = vacancy.area?.name
             salary.text = getSalaryText(vacancy.salary, requireContext())
+
             Glide.with(this@VacancyDetailsFragment)
-                .load(vacancy.employer?.logoUrls?.mediumLogo)
+                .load(vacancy.employer?.logoUrls?.smallLogo)
                 .placeholder(R.drawable.employer_logo_placeholder)
+                .centerCrop().transform(
+                RoundedCorners(
+                    this@VacancyDetailsFragment.resources.getDimensionPixelSize(
+                        R.dimen.corner_radius_12
+                    )
+                )
+            )
                 .into(employerLogo)
 
             companyName.text = vacancy.employer?.name
