@@ -41,9 +41,8 @@ class FavoritesFragment : Fragment() {
 
     private fun render(state: FavoritesScreenState) {
         when (state) {
-            is FavoritesScreenState.Empty ->  showList()
-            is FavoritesScreenState.FavoritesVacancies -> showEmpty()
-            else -> showError()
+            is FavoritesScreenState.Empty ->  showEmpty()
+            is FavoritesScreenState.FavoritesVacancies -> showList()
         }
     }
 
@@ -55,7 +54,6 @@ class FavoritesFragment : Fragment() {
         with(binding) {
             favouritesRecycler.visibility = View.VISIBLE
             placeholderEmpty.visibility = View.GONE
-            placeholderError.visibility = View.GONE
         }
     }
 
@@ -63,17 +61,9 @@ class FavoritesFragment : Fragment() {
         with(binding) {
             favouritesRecycler.visibility = View.GONE
             placeholderEmpty.visibility = View.VISIBLE
-            placeholderError.visibility = View.GONE
         }
     }
 
-    private fun showError() {
-        with(binding) {
-            favouritesRecycler.visibility = View.GONE
-            placeholderEmpty.visibility = View.GONE
-            placeholderError. visibility = View.VISIBLE
-        }
-    }
 
 //    private fun clickOnVacancy(vacancy: Vacancy) {
 //        if (!viewModel.isClickable) return

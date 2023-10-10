@@ -31,7 +31,7 @@ class VacancyDetailsViewModel(
 
     fun isFavorite() {
         viewModelScope.launch(Dispatchers.IO) {
-            vacancy?.let {
+            vacancy.let {
                 isInFavoritesCheckUseCase(it.id)
                     .collect {
                         isFavorite = it
@@ -49,7 +49,7 @@ class VacancyDetailsViewModel(
             if (isFavorite) {
                 addToFavoritesUseCase(vacancy)
             } else {
-                vacancy.let { deleteFromFavoritesUseCase(it.id) }
+                deleteFromFavoritesUseCase(vacancy.id)
             }
         }
     }

@@ -44,13 +44,13 @@ class VacancyDetailsFragment : Fragment() {
             render(state)
         }
 
-        viewModel.observeFavoriteState().observe(viewLifecycleOwner) {
-            renderLikeButton(it)
-        }
-
         binding?.addToFavoriteButton?.setOnClickListener { button ->
             (button as? ImageView)?.let { startAnimation(it) }
             viewModel.onFavoriteButtonClick()
+        }
+
+        viewModel.observeFavoriteState().observe(viewLifecycleOwner) {
+            renderLikeButton(it)
         }
 
         initToolbar()

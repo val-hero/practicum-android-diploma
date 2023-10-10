@@ -29,8 +29,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/margin_8"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/favorites_off"
-                app:tint="?attr/colorOnPrimary" />
+                android:src="@drawable/favorites_off" />
 
             <ImageView
                 android:id="@+id/share_button"
