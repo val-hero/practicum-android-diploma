@@ -2,10 +2,12 @@ package ru.practicum.android.diploma.vacancy_details.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.text.HtmlCompat
+import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
+import androidx.core.text.HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
@@ -17,6 +19,7 @@ import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 import ru.practicum.android.diploma.search.domain.models.fields.KeySkills
 import ru.practicum.android.diploma.search.domain.models.fields.Phones
 import ru.practicum.android.diploma.search.domain.models.fields.Salary
+
 
 class VacancyDetailsFragment : Fragment() {
     private var binding: FragmentVacancyDetailsBinding? = null
@@ -70,8 +73,8 @@ class VacancyDetailsFragment : Fragment() {
             companyName.text = vacancy.employer?.name
             experience.text = vacancy.experience?.name
             scheduleEmployment.text = vacancy.schedule?.name
-            description.setText(Html.fromHtml(vacancy.description, Html.FROM_HTML_MODE_COMPACT))
-            keySkills.text = getKeySkillsText(vacancy.keySkills)
+            description.setText(HtmlCompat.fromHtml(vacancy.description?.addSpacesAfterTags() ?: "", FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM))
+            keySkills.setText(HtmlCompat.fromHtml(getKeySkillsText(vacancy.keySkills), FROM_HTML_MODE_COMPACT))
             contactsName.text = vacancy.contacts?.name
             contactsEmail.text = vacancy.contacts?.email
             contactsPhone.text = getPhonesText(vacancy.contacts?.phones)
@@ -83,6 +86,10 @@ class VacancyDetailsFragment : Fragment() {
 
     private fun showLoading() {
         binding?.progressBarForLoad?.isVisible = true
+    }
+
+    private fun String.addSpacesAfterTags(): String {
+        return this.replace("<li>", "<li>\u00A0")
     }
 
     private fun getSalaryText(salary: Salary?, context: Context): String {
@@ -100,8 +107,9 @@ class VacancyDetailsFragment : Fragment() {
     }
 
     private fun getKeySkillsText(keySkills: List<KeySkills>?): String {
-        var text = ""
-        keySkills?.forEach { text += "${it.name}\n" }
+        var text = "<ul>"
+        keySkills?.forEach { text += "<li>\u00A0 ${it.name}\n</li>" }
+        text += "</ul>"
         return text
     }
 
@@ -122,7 +130,8 @@ class VacancyDetailsFragment : Fragment() {
             contactsGroup.isVisible = vacancy?.contacts != null
             contactsEmailGroup.isVisible = !vacancy?.contacts?.email.isNullOrBlank()
             contactsPhoneGroup.isVisible = vacancy?.contacts?.phones?.isNotEmpty() ?: false
-            contactsCommentGroup.isVisible = !vacancy?.contacts?.phones?.firstOrNull()?.comment.isNullOrBlank()
+            contactsCommentGroup.isVisible =
+                !vacancy?.contacts?.phones?.firstOrNull()?.comment.isNullOrBlank()
             contactsPersonGroup.isVisible = !vacancy?.contacts?.name.isNullOrBlank()
         }
     }
