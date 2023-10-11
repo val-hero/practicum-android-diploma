@@ -74,7 +74,7 @@ class SearchFragment : Fragment() {
             }
 
             if (binding?.inputSearchForm?.hasFocus() == true && s.toString().isNotEmpty()) {
-                showPlaceholder()
+                showDefault()
             }
 
             viewModel.searchDebounce(binding?.inputSearchForm?.text.toString())
@@ -100,39 +100,58 @@ class SearchFragment : Fragment() {
             val imm = requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
-        showPlaceholder()
+        showDefault()
     }
 
     private fun render(state: SearchScreenState) {
         when (state) {
             is SearchScreenState.Success -> showVacancies(state.vacancies)
-            is SearchScreenState.Error -> showError(state.type)
+            is SearchScreenState.NoInternet -> showNoInternet()
             is SearchScreenState.Loading -> showLoading()
-            is SearchScreenState.NothingFound -> showNotFound()
-            is SearchScreenState.Default -> showPlaceholder()
+            is SearchScreenState.NothingFound -> showVacancies(state.vacancies)
+            is SearchScreenState.Default -> showDefault()
+            is SearchScreenState.Error -> showError()
         }
     }
 
     private fun showVacancies(vacancies: List<Vacancy>) {
         adapter.setVacancies(vacancies)
         binding?.placeholderImage?.isVisible = false
-        binding?.searchRecycler?.isVisible = true
         binding?.progressBarForLoad?.isVisible = false
+        binding?.placeholderNoInternet?.isVisible = false
         binding?.textFabSearch?.isVisible = true
+        binding?.placeholderServerError?.isVisible = false
+
         if (vacancies.isEmpty()) {
             binding?.textFabSearch?.text =resources.getString(R.string.no_vacancies)
-        }else{
+            binding?.placeholderError?.isVisible = true
+            binding?.searchRecycler?.isVisible = false
+        } else {
             binding?.textFabSearch?.text =
                 resources.getQuantityString(R.plurals.vacancies, vacancies.size, vacancies.size)
+            binding?.searchRecycler?.isVisible = true
+            binding?.placeholderError?.isVisible = false
         }
     }
 
-    private fun showError(errorType: ErrorType) {
+    private fun showError() {
         binding?.placeholderImage?.isVisible = false
+        binding?.placeholderError?.isVisible = false
         binding?.searchRecycler?.isVisible = false
         binding?.progressBarForLoad?.isVisible = false
-        binding?.textFabSearch?.isVisible = true
-        binding?.textFabSearch?.text = errorType.toString()
+        binding?.textFabSearch?.isVisible = false
+        binding?.placeholderNoInternet?.isVisible = false
+        binding?.placeholderServerError?.isVisible = true
+    }
+
+    private fun showNoInternet() {
+        binding?.placeholderImage?.isVisible = false
+        binding?.placeholderError?.isVisible = false
+        binding?.searchRecycler?.isVisible = false
+        binding?.progressBarForLoad?.isVisible = false
+        binding?.textFabSearch?.isVisible = false
+        binding?.placeholderNoInternet?.isVisible = true
+        binding?.placeholderServerError?.isVisible = false
     }
 
     private fun onVacancyClick(id: String) {
@@ -143,24 +162,22 @@ class SearchFragment : Fragment() {
 
     private fun showLoading() {
         binding?.placeholderImage?.isVisible = false
+        binding?.placeholderError?.isVisible = false
         binding?.searchRecycler?.isVisible = false
         binding?.progressBarForLoad?.isVisible = true
         binding?.textFabSearch?.isVisible = false
+        binding?.placeholderNoInternet?.isVisible = false
+        binding?.placeholderServerError?.isVisible = false
     }
 
-    private fun showPlaceholder() {
+    private fun showDefault() {
         binding?.searchRecycler?.isVisible = false
         binding?.progressBarForLoad?.isVisible = false
         binding?.placeholderImage?.isVisible = true
         binding?.textFabSearch?.isVisible = false
-    }
-
-    private fun showNotFound() {
-        binding?.searchRecycler?.isVisible = false
-        binding?.progressBarForLoad?.isVisible = false
-        binding?.placeholderImage?.isVisible = false
-        binding?.textFabSearch?.isVisible = true
-        binding?.textFabSearch?.text = resources.getString(R.string.no_vacancies)
+        binding?.placeholderError?.isVisible = false
+        binding?.placeholderNoInternet?.isVisible = false
+        binding?.placeholderServerError?.isVisible = false
     }
 
     private fun navToFilter() {

@@ -73,7 +73,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/margin_12"
             android:visibility="gone"
             app:layout_scrollFlags="scroll|enterAlways"
             tools:ignore="TextContrastCheck"
@@ -85,12 +84,50 @@
         style="@style/VacancyRecycler"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:itemCount="10"
         tools:listitem="@layout/item_search" />
 
+    <TextView
+        android:id="@+id/placeholder_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextMedium_22_500"
+        android:layout_gravity="center"
+        android:drawablePadding="@dimen/padding_18"
+        android:text="@string/error_list"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/placeholder_list_error" />
+
+    <TextView
+        android:id="@+id/placeholder_no_internet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextMedium_22_500"
+        android:layout_gravity="center"
+        android:drawablePadding="@dimen/padding_18"
+        android:text="@string/no_internet"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/placeholder_no_internet" />
+
+    <TextView
+        android:id="@+id/placeholder_server_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextMedium_22_500"
+        android:layout_gravity="center"
+        android:drawablePadding="@dimen/padding_18"
+        android:text="@string/server_error"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/placeholder_server_error" />
 
     <ImageView
         android:id="@+id/placeholder_image"

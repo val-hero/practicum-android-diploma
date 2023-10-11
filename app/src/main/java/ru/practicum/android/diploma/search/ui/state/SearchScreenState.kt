@@ -9,7 +9,9 @@ sealed interface SearchScreenState {
 
     object Default : SearchScreenState
 
-    object NothingFound : SearchScreenState
+    data class NothingFound (
+        val vacancies: List<Vacancy>)
+        : SearchScreenState
 
     data class Success (
     val vacancies: List<Vacancy>,
@@ -18,5 +20,7 @@ sealed interface SearchScreenState {
     data class Error(
         val type: ErrorType
     ) : SearchScreenState
+
+    object NoInternet : SearchScreenState
 
 }
