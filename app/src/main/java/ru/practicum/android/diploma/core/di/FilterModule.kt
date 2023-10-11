@@ -18,6 +18,7 @@ import ru.practicum.android.diploma.filter.domain.AreasRepository
 import ru.practicum.android.diploma.filter.domain.CountryRepository
 import ru.practicum.android.diploma.filter.domain.IndustryRepository
 import ru.practicum.android.diploma.filter.domain.api.FilterStorage
+import ru.practicum.android.diploma.filter.domain.usecase.ClearFilterSettingsUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetAreasUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetCountriesUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetFilterSettingsUseCase
@@ -54,6 +55,8 @@ val filterModule = module {
     factoryOf(::SaveSalaryUseCase).bind<SaveSalaryUseCase>()
 
     factoryOf(::SaveSalaryFlagUseCase).bind<SaveSalaryFlagUseCase>()
+
+    factoryOf(::ClearFilterSettingsUseCase).bind<ClearFilterSettingsUseCase>()
 
     singleOf(::CountryRepositoryImpl).bind<CountryRepository>()
 

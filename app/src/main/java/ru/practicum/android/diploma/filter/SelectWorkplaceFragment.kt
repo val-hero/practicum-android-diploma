@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentWorkplaceBinding
+import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 import ru.practicum.android.diploma.filter.ui.SelectWorkplaceViewModel
 
 class SelectWorkplaceFragment : Fragment() {
@@ -33,10 +34,7 @@ class SelectWorkplaceFragment : Fragment() {
 
 
         viewModel.updateFilterSettings().observe(viewLifecycleOwner) {
-            if(it != null) {
-                binding.country.hint = it.country?.name as String
-                it.area?.name?.let { binding.region.hint = it }
-            }
+            render(it)
         }
 
         binding.countryText.setOnFocusChangeListener { v, hasFocus ->
@@ -52,6 +50,32 @@ class SelectWorkplaceFragment : Fragment() {
 
         binding.workplaceToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun render(it: FilterParameters?) {
+        if(it?.country != null) {
+            binding.countryText.setText(it.country?.name)
+            binding.country.setEndIconDrawable(R.drawable.ic_close)
+            binding.country.setEndIconOnClickListener {
+                viewModel.clearCountryField()
+                viewModel.getFilterSettings()
+            }
+        } else {
+            binding.countryText.setText("")
+            binding.country.setEndIconDrawable(R.drawable.arrow_forward)
+        }
+        if(it?.area != null) {
+            binding.regionText.setText(it.area?.name)
+            binding.region.setEndIconDrawable(R.drawable.ic_close)
+            binding.region.setEndIconOnClickListener {
+                viewModel.clearAreaField()
+                viewModel.getFilterSettings()
+
+            }
+        } else {
+            binding.countryText.setText("")
+            binding.country.setEndIconDrawable(R.drawable.arrow_forward)
         }
     }
 

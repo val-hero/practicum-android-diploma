@@ -11,7 +11,7 @@ class IndustrySelectorAdapter(
     private val onClick: (Industry) -> Unit
 ) : RecyclerView.Adapter<IndustrySelectorViewHolder>() {
 
-    fun updateRegionOrIndustry(newIndustry: List<Industry?>) {
+    fun updateIndustry(newIndustry: List<Industry?>) {
         industry = newIndustry
         notifyDataSetChanged()
     }

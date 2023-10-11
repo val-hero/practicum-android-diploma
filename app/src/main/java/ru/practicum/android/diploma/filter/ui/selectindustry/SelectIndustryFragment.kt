@@ -36,7 +36,7 @@ class SelectIndustryFragment : Fragment() {
             when (resource) {
                 is Resource.Success -> {
 
-                    adapter.updateRegionOrIndustry(resource.data.map { it })
+                    adapter.updateIndustry(resource.data.map { it })
                 }
 
                 is Resource.Error -> {
@@ -58,6 +58,9 @@ class SelectIndustryFragment : Fragment() {
     }
 
     private fun onIndustryClick(industry: Industry) {
+        if(!industry.industries.isNullOrEmpty()) {
+            adapter.updateIndustry(industry.industries)
+        }
         viewModel.saveIndustry(industry)
     }
 

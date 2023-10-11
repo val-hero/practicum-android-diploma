@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilteringSettingsBinding
+import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 
 
 class FilteringSettingsFragment : Fragment() {
@@ -31,11 +32,7 @@ class FilteringSettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.getFilterSettings().observe(viewLifecycleOwner) {
-            if(it != null) {
-                binding.workPlace.hint = it.country?.name
-                binding.industry.hint = it.industry?.name
-                binding.salary.text = it.salary as Editable?
-            }
+            render(it)
         }
 
 
@@ -53,6 +50,16 @@ class FilteringSettingsFragment : Fragment() {
         binding.settingsFiltrationToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+
+        binding.applyButton.setOnClickListener {
+            viewModel.saveSalarySettings(binding.salary.text.toString(), binding.checkbox.isChecked)
+            findNavController().popBackStack()
+        }
+
+        binding.clearButton.setOnClickListener {
+            viewModel.clearFilterSettings()
+            findNavController().popBackStack()
+        }
     }
 
     override fun onResume() {
@@ -63,6 +70,19 @@ class FilteringSettingsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun render(filterParameters: FilterParameters?) {
+        if (filterParameters == null) {
+            binding.btnGroup.visibility = View.GONE
+            binding.checkbox.isChecked = false
+        } else {
+            binding.btnGroup.visibility = View.VISIBLE
+            if(filterParameters.area != null) binding.workPlaceText.setText(filterParameters.area?.name)
+            if(filterParameters.industry != null) binding.industryText.setText(filterParameters.industry?.name)
+            if(filterParameters.salary != null) binding.salary.setText(filterParameters.salary?.toString())
+            if(filterParameters.onlyWithSalary == true) binding.checkbox.isChecked = true else binding.checkbox.isChecked = false
+        }
     }
 
 }
