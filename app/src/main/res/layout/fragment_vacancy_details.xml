@@ -127,8 +127,8 @@
 
             <ImageView
                 android:id="@+id/employer_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/size_48"
+                android:layout_height="@dimen/size_48"
                 android:backgroundTint="@color/gray"
                 android:layout_marginStart="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_16"
