@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.MainNavGraphDirections
 import ru.practicum.android.diploma.core.utils.adapter.VacancyAdapter
@@ -21,7 +23,7 @@ class FavoritesFragment : Fragment() {
     private val viewModel by viewModel<FavoritesFragmentViewModel>()
     private val adapter = VacancyAdapter(
         onClick = { onVacancyClick(id = it.id) },
-        onLongClick = { true }
+        onLongClick = { openDeleteVacancyDialog(id=it.id) }
     )
 
     override fun onCreateView(
@@ -90,6 +92,20 @@ class FavoritesFragment : Fragment() {
         if (!viewModel.isClickable) return
         viewModel.onVacancyClick()
         findNavController().navigate(MainNavGraphDirections.actionToVacancyDetailsFragment(id))
+    }
+
+    private fun openDeleteVacancyDialog(id: String) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Удалить вакансию")
+            .setMessage("Вы хотите удалить вакансию ?")
+            .setNegativeButton("Нет") { dialog, which ->
+                Toast.makeText(requireContext(),"нажали нет",Toast.LENGTH_LONG).show()
+            }
+            .setPositiveButton("Да") { dialog, which ->
+                Toast.makeText(requireContext(),"\"нажали да\"",Toast.LENGTH_LONG).show()
+
+            }
+            .show()
     }
 
 }
