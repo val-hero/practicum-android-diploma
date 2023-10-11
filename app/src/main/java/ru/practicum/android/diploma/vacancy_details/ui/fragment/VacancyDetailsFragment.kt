@@ -52,6 +52,14 @@ class VacancyDetailsFragment : Fragment() {
             viewModel.onFavoriteButtonClick()
         }
 
+        binding?.buttonSimilarVacancy?.setOnClickListener {
+            findNavController().navigate(
+                VacancyDetailsFragmentDirections.actionVacancyFragmentToSimilarVacanciesFragment(
+                    args.vacancyId
+                )
+            )
+        }
+
         viewModel.observeFavoriteState().observe(viewLifecycleOwner) {
             renderLikeButton(it)
         }

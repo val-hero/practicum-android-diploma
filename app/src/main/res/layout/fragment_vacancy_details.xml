@@ -394,7 +394,7 @@
             app:layout_constraintTop_toBottomOf="@id/comment" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/button_same_vacancy"
+            android:id="@+id/button_similar_vacancy"
             style="@style/FilterBottomButtonsStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -403,7 +403,6 @@
             android:background="@drawable/shape_button"
             android:text="@string/similar_vacancy"
             android:textColor="?attr/colorOnSurface"
-            android:visibility="gone"
             app:cornerRadius="@dimen/corner_radius_12"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/right_border"

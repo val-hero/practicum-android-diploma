@@ -9,6 +9,7 @@ import ru.practicum.android.diploma.core.di.appModule
 import ru.practicum.android.diploma.core.di.favoritesModule
 import ru.practicum.android.diploma.core.di.filterModule
 import ru.practicum.android.diploma.core.di.searchModule
+import ru.practicum.android.diploma.core.di.similarVacanciesModule
 import ru.practicum.android.diploma.core.di.vacancyDetailsModule
 
 class App : Application() {
@@ -24,7 +25,8 @@ class App : Application() {
                     searchModule,
                     filterModule,
                     favoritesModule,
-                    vacancyDetailsModule
+                    vacancyDetailsModule,
+                    similarVacanciesModule
                 )
             )
         }
