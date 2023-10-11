@@ -84,10 +84,11 @@ class VacancyDetailsFragment : Fragment() {
                 fillViews(screenState.vacancyDetails)
                 viewModel.isFavorite()
                 binding?.progressBarForLoad?.isVisible = false
+                binding?.placeholderServerError?.isVisible = false
             }
 
             is VacancyDetailsScreenState.Error -> {
-
+                showError()
             }
 
             is VacancyDetailsScreenState.Loading -> {
@@ -130,6 +131,12 @@ class VacancyDetailsFragment : Fragment() {
 
     private fun showLoading() {
         binding?.progressBarForLoad?.isVisible = true
+        binding?.placeholderServerError?.isVisible = false
+    }
+
+    private fun showError() {
+        binding?.progressBarForLoad?.isVisible = false
+        binding?.placeholderServerError?.isVisible = true
     }
 
     private fun getSalaryText(salary: Salary?, context: Context): String {

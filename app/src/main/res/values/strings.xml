@@ -49,8 +49,11 @@
     <string name="similar_vacancy">Похожие вакансии</string>
     <string name="select_industry">Выбор отрасли</string>
     <string name="input_industry">Введите отрасль</string>
-    <string name="server_error">Что-то пошло не так</string>
+    <string name="server_error">Ошибка сервера</string>
     <string name="error_list">Не удалось получить\n список вакансий</string>
+    <string name="no_internet">Нет интернета</string>
+    <string name="no_such_region">Такого региона нет</string>
+    <string name="no_list">Не удалось получить список</string>
 
     <plurals name="vacancies">
         <item quantity="zero">Найдено %1$d вакансий</item>
