@@ -175,6 +175,15 @@ class SearchFragment : Fragment() {
         findNavController().navigate(R.id.action_searchFragment_to_filteringSettingsFragment)
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.cancelDebounce = false
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.cancelDebounce=true
+    }
     /* Логика отображения активной/неактивной фильтрации
 
     private fun showEmptyFilterIcon() {
