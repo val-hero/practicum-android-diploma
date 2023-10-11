@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.MainNavGraphDirections
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.utils.adapter.VacancyAdapter
 import ru.practicum.android.diploma.databinding.FragmentFavoritesBinding
 import ru.practicum.android.diploma.favorites.ui.state.FavoritesScreenState
@@ -98,13 +99,11 @@ class FavoritesFragment : Fragment() {
     private fun openDeleteVacancyDialog(id: String) {
         viewModel.onLongVacancyClick(id)
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle("Удалить вакансию")
-            .setMessage("Вы хотите удалить вакансию ?")
-            .setNegativeButton("Нет") { dialog, which ->
-                Toast.makeText(requireContext(),"нажали нет",Toast.LENGTH_LONG).show()
+            .setTitle(resources.getString(R.string.delete_vacancy))
+            .setMessage(resources.getString(R.string.do_you_want_to_delete_a_vacancy))
+            .setNegativeButton(resources.getString(R.string.no)) { dialog, which ->
             }
-            .setPositiveButton("Да") { dialog, which ->
-                Toast.makeText(requireContext(),"\"нажали да\"",Toast.LENGTH_LONG).show()
+            .setPositiveButton(resources.getString(R.string.yes)) { dialog, which ->
                 viewModel.deleteVacancy()
 
             }
