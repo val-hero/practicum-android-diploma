@@ -106,11 +106,10 @@ class SearchFragment : Fragment() {
     private fun render(state: SearchScreenState) {
         when (state) {
             is SearchScreenState.Success -> showVacancies(state.vacancies)
-            is SearchScreenState.NoInternet -> showNoInternet()
             is SearchScreenState.Loading -> showLoading()
             is SearchScreenState.NothingFound -> showVacancies(state.vacancies)
             is SearchScreenState.Default -> showDefault()
-            is SearchScreenState.Error -> showError()
+            is SearchScreenState.Error -> showError(state.type)
         }
     }
 
@@ -134,24 +133,16 @@ class SearchFragment : Fragment() {
         }
     }
 
-    private fun showError() {
+    private fun showError(type: ErrorType) {
         binding?.placeholderImage?.isVisible = false
         binding?.placeholderError?.isVisible = false
         binding?.searchRecycler?.isVisible = false
         binding?.progressBarForLoad?.isVisible = false
         binding?.textFabSearch?.isVisible = false
-        binding?.placeholderNoInternet?.isVisible = false
-        binding?.placeholderServerError?.isVisible = true
-    }
-
-    private fun showNoInternet() {
-        binding?.placeholderImage?.isVisible = false
-        binding?.placeholderError?.isVisible = false
-        binding?.searchRecycler?.isVisible = false
-        binding?.progressBarForLoad?.isVisible = false
-        binding?.textFabSearch?.isVisible = false
-        binding?.placeholderNoInternet?.isVisible = true
-        binding?.placeholderServerError?.isVisible = false
+        when (type) {
+            ErrorType.NO_CONNECTION -> binding?.placeholderNoInternet?.isVisible = true
+            else -> binding?.placeholderServerError?.isVisible = true
+        }
     }
 
     private fun onVacancyClick(id: String) {

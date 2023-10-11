@@ -21,6 +21,4 @@ sealed interface SearchScreenState {
         val type: ErrorType
     ) : SearchScreenState
 
-    object NoInternet : SearchScreenState
-
 }
