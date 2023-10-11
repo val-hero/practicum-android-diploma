@@ -42,6 +42,7 @@ class FavoritesFragment : Fragment() {
             render(it)
         }
 
+
         initAdapter()
     }
 
@@ -95,6 +96,7 @@ class FavoritesFragment : Fragment() {
     }
 
     private fun openDeleteVacancyDialog(id: String) {
+        viewModel.onLongVacancyClick(id)
         MaterialAlertDialogBuilder(requireContext())
             .setTitle("Удалить вакансию")
             .setMessage("Вы хотите удалить вакансию ?")
@@ -103,6 +105,7 @@ class FavoritesFragment : Fragment() {
             }
             .setPositiveButton("Да") { dialog, which ->
                 Toast.makeText(requireContext(),"\"нажали да\"",Toast.LENGTH_LONG).show()
+                viewModel.deleteVacancy()
 
             }
             .show()
