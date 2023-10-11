@@ -11,8 +11,8 @@ import ru.practicum.android.diploma.search.domain.usecase.SearchUseCase
 import ru.practicum.android.diploma.search.ui.state.SearchScreenState
 
 class SearchViewModel(
-    private val searchUseCase: SearchUseCase
-    ) : ViewModel() {
+    private val searchUseCase: SearchUseCase,
+) : ViewModel() {
 
     val uiState = MutableLiveData<SearchScreenState>()
     var isClickable = true
@@ -39,12 +39,13 @@ class SearchViewModel(
     }
 
     fun search(query: String) {
-        if(query.isNullOrBlank())
+        if (query.isNullOrBlank())
             return
 
         renderState(SearchScreenState.Loading)
 
         viewModelScope.launch {
+
             searchUseCase(query).collect {
                 when (it) {
                     //TODO vacancies count

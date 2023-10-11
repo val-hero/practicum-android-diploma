@@ -6,25 +6,30 @@ import ru.practicum.android.diploma.core.utils.Constants.FILTER_PARAMETERS
 import ru.practicum.android.diploma.filter.data.models.FilterParametersDto
 import ru.practicum.android.diploma.filter.domain.api.FilterStorage
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
+import ru.practicum.android.diploma.filter.domain.models.fields.Country
+import ru.practicum.android.diploma.filter.domain.models.fields.Industry
+import ru.practicum.android.diploma.filter.domain.models.fields.toDto
+import ru.practicum.android.diploma.search.domain.models.fields.Area
+import ru.practicum.android.diploma.search.domain.models.fields.toDto
 
 class FilterStorageImpl(private val sharedPref: SharedPreferences, private val gson: Gson) :
     FilterStorage {
 
-    override suspend fun saveCountry(country: String) {
+    override suspend fun saveCountry(country: Country) {
         val params = getParamsOrCreateFilter()
-        params.country = country
+        params.country = country.toDto()
         updateField(params)
     }
 
-    override suspend fun saveArea(area: String) {
+    override suspend fun saveArea(area: Area) {
         val params = getParamsOrCreateFilter()
-        params.area = area
+        params.area = area.toDto()
         updateField(params)
     }
 
-    override suspend fun saveIndustry(industry: String) {
+    override suspend fun saveIndustry(industry: Industry) {
         val params = getParamsOrCreateFilter()
-        params.industry = industry
+        params.industry = industry.toDto()
         updateField(params)
     }
 
@@ -55,7 +60,7 @@ class FilterStorageImpl(private val sharedPref: SharedPreferences, private val g
         }
         return params
     }
-    private fun updateField(params: FilterParametersDto?) {
+    private suspend fun updateField(params: FilterParametersDto?) {
         val json = gson.toJson(params)
         sharedPref.edit()
             .putString(FILTER_PARAMETERS, json)

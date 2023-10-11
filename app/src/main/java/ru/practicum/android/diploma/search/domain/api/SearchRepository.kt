@@ -15,4 +15,5 @@ interface SearchRepository {
 
     suspend fun getVacanciesWithFilter(filters: Map<String, String>): ResourcesFlow<Vacancy>
 
+
 }

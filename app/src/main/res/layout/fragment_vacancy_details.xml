@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="false"
-    tools:context=".vacancy_details.ui.VacancyDetailsFragment">
+    tools:context=".vacancy_details.ui.fragment.VacancyDetailsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -29,8 +29,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/margin_8"
                 android:background="?android:attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/favorites"
-                app:tint="?attr/colorOnPrimary" />
+                android:src="@drawable/favorites_off" />
 
             <ImageView
                 android:id="@+id/share_button"
@@ -75,6 +74,23 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/placeholder_server_error"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextMedium_22_500"
+            android:layout_gravity="center"
+            android:drawablePadding="@dimen/padding_18"
+            android:text="@string/server_error"
+            android:textAlignment="center"
+            android:textColor="?attr/colorOnPrimary"
+            android:visibility="gone"
+            app:drawableTopCompat="@drawable/placeholder_server_error_cat"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
             android:id="@+id/vacancy_name"
             style="@style/TextBold_32_700"
             android:layout_width="0dp"
@@ -111,8 +127,9 @@
 
             <ImageView
                 android:id="@+id/employer_logo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/size_48"
+                android:layout_height="@dimen/size_48"
+                android:backgroundTint="@color/gray"
                 android:layout_marginStart="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_16"
                 android:src="@drawable/employer_logo_placeholder" />
@@ -386,6 +403,7 @@
             android:background="@drawable/shape_button"
             android:text="@string/similar_vacancy"
             android:textColor="?attr/colorOnSurface"
+            android:visibility="gone"
             app:cornerRadius="@dimen/corner_radius_12"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/right_border"

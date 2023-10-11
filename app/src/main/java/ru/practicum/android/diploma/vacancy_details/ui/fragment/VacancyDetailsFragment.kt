@@ -1,17 +1,22 @@
-package ru.practicum.android.diploma.vacancy_details.ui
+package ru.practicum.android.diploma.vacancy_details.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.core.text.HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyDetailsBinding
@@ -19,7 +24,8 @@ import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 import ru.practicum.android.diploma.search.domain.models.fields.KeySkills
 import ru.practicum.android.diploma.search.domain.models.fields.Phones
 import ru.practicum.android.diploma.search.domain.models.fields.Salary
-
+import ru.practicum.android.diploma.vacancy_details.ui.state.VacancyDetailsScreenState
+import ru.practicum.android.diploma.vacancy_details.ui.viewmodel.VacancyDetailsViewModel
 
 class VacancyDetailsFragment : Fragment() {
     private var binding: FragmentVacancyDetailsBinding? = null
@@ -41,17 +47,51 @@ class VacancyDetailsFragment : Fragment() {
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
             render(state)
         }
+
+        binding?.addToFavoriteButton?.setOnClickListener { button ->
+            (button as? ImageView)?.let { startAnimation(it) }
+            viewModel.onFavoriteButtonClick()
+        }
+
+        viewModel.observeFavoriteState().observe(viewLifecycleOwner) {
+            renderLikeButton(it)
+        }
+
+        initToolbar()
+    }
+
+    private fun initToolbar() {
+        binding?.vacancyToolbar?.setNavigationOnClickListener {
+            findNavController().navigateUp()
+        }
+    }
+
+    private fun renderLikeButton(isFavorite: Boolean) {
+        val imageResource = if (isFavorite) R.drawable.favorites_on
+        else R.drawable.favorites_off
+        binding?.addToFavoriteButton?.setImageResource(imageResource)
+    }
+
+    private fun startAnimation(button: ImageView) {
+        button.startAnimation(
+            AnimationUtils.loadAnimation(
+                requireContext(),
+                R.anim.scale
+            )
+        )
     }
 
     private fun render(screenState: VacancyDetailsScreenState) {
         when (screenState) {
             is VacancyDetailsScreenState.Content -> {
                 fillViews(screenState.vacancyDetails)
+                viewModel.isFavorite()
                 binding?.progressBarForLoad?.isVisible = false
+                binding?.placeholderServerError?.isVisible = false
             }
 
             is VacancyDetailsScreenState.Error -> {
-
+                showError()
             }
 
             is VacancyDetailsScreenState.Loading -> {
@@ -65,9 +105,17 @@ class VacancyDetailsFragment : Fragment() {
             vacancyName.text = vacancy.name
             area.text = vacancy.area?.name
             salary.text = getSalaryText(vacancy.salary, requireContext())
+
             Glide.with(this@VacancyDetailsFragment)
-                .load(vacancy.employer?.logoUrls?.mediumLogo)
+                .load(vacancy.employer?.logoUrls?.smallLogo)
                 .placeholder(R.drawable.employer_logo_placeholder)
+                .centerCrop().transform(
+                RoundedCorners(
+                    this@VacancyDetailsFragment.resources.getDimensionPixelSize(
+                        R.dimen.corner_radius_12
+                    )
+                )
+            )
                 .into(employerLogo)
 
             companyName.text = vacancy.employer?.name
@@ -86,6 +134,12 @@ class VacancyDetailsFragment : Fragment() {
 
     private fun showLoading() {
         binding?.progressBarForLoad?.isVisible = true
+        binding?.placeholderServerError?.isVisible = false
+    }
+
+    private fun showError() {
+        binding?.progressBarForLoad?.isVisible = false
+        binding?.placeholderServerError?.isVisible = true
     }
 
     private fun String.addSpacesAfterTags(): String {
@@ -133,6 +187,7 @@ class VacancyDetailsFragment : Fragment() {
             contactsCommentGroup.isVisible =
                 !vacancy?.contacts?.phones?.firstOrNull()?.comment.isNullOrBlank()
             contactsPersonGroup.isVisible = !vacancy?.contacts?.name.isNullOrBlank()
+            keySkillsGroup.isVisible = !vacancy?.keySkills.isNullOrEmpty()
         }
     }
 }
