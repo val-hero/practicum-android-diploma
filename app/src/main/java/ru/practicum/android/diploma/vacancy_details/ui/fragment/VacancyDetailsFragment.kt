@@ -2,15 +2,14 @@ package ru.practicum.android.diploma.vacancy_details.ui.fragment
 
 import android.content.Context
 import android.os.Bundle
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
+import android.widget.ImageView
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.core.text.HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM
-import android.view.animation.AnimationUtils
-import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -110,19 +109,29 @@ class VacancyDetailsFragment : Fragment() {
                 .load(vacancy.employer?.logoUrls?.smallLogo)
                 .placeholder(R.drawable.employer_logo_placeholder)
                 .centerCrop().transform(
-                RoundedCorners(
-                    this@VacancyDetailsFragment.resources.getDimensionPixelSize(
-                        R.dimen.corner_radius_12
+                    RoundedCorners(
+                        this@VacancyDetailsFragment.resources.getDimensionPixelSize(
+                            R.dimen.corner_radius_12
+                        )
                     )
                 )
-            )
                 .into(employerLogo)
 
             companyName.text = vacancy.employer?.name
             experience.text = vacancy.experience?.name
             scheduleEmployment.text = vacancy.schedule?.name
-            description.setText(HtmlCompat.fromHtml(vacancy.description?.addSpacesAfterTags() ?: "", FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM))
-            keySkills.setText(HtmlCompat.fromHtml(getKeySkillsText(vacancy.keySkills), FROM_HTML_MODE_COMPACT))
+            description.setText(
+                HtmlCompat.fromHtml(
+                    vacancy.description?.addSpacesAfterLiTags() ?: "",
+                    FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM
+                )
+            )
+            keySkills.setText(
+                HtmlCompat.fromHtml(
+                    getKeySkillsText(vacancy.keySkills),
+                    FROM_HTML_MODE_COMPACT
+                )
+            )
             contactsName.text = vacancy.contacts?.name
             contactsEmail.text = vacancy.contacts?.email
             contactsPhone.text = getPhonesText(vacancy.contacts?.phones)
@@ -142,8 +151,8 @@ class VacancyDetailsFragment : Fragment() {
         binding?.placeholderServerError?.isVisible = true
     }
 
-    private fun String.addSpacesAfterTags(): String {
-        return this.replace("<li>", "<li>\u00A0")
+    private fun String.addSpacesAfterLiTags(): String {
+        return this.replace(Regex("<li>\\s<p>|<li>"), "<li>\u00A0")
     }
 
     private fun getSalaryText(salary: Salary?, context: Context): String {
@@ -162,7 +171,7 @@ class VacancyDetailsFragment : Fragment() {
 
     private fun getKeySkillsText(keySkills: List<KeySkills>?): String {
         var text = "<ul>"
-        keySkills?.forEach { text += "<li>\u00A0 ${it.name}\n</li>" }
+        keySkills?.forEach { text += "<li>\u00A0 ${it.name}</li>\n" }
         text += "</ul>"
         return text
     }
