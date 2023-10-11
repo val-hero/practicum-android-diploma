@@ -52,6 +52,8 @@
     <string name="server_error">Ошибка сервера</string>
     <string name="error_list">Не удалось получить\n список вакансий</string>
     <string name="no_internet">Нет интернета</string>
+    <string name="no_such_region">Такого региона нет</string>
+    <string name="no_list">Не удалось получить список</string>
 
     <plurals name="vacancies">
         <item quantity="zero">Найдено %1$d вакансий</item>
