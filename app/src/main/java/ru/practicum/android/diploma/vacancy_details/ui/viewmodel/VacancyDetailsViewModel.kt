@@ -22,7 +22,7 @@ class VacancyDetailsViewModel(
     private val addToFavoritesUseCase: AddToFavorites,
     private val deleteFromFavoritesUseCase: DeleteFromFavorites,
     private val isInFavoritesCheckUseCase: IsInFavoritesCheck,
-    private val getFromFavoriteUseCase: GetFromFavorite,
+    private val getFromFavoriteUseCase: GetFromFavorite
 
     ) : ViewModel() {
 
@@ -82,7 +82,7 @@ class VacancyDetailsViewModel(
         }
     }
 
-    fun getVacancyFromDb(vacancy: VacancyDetails) {
+    fun getVacancyFromDb(vacancy: FavoriteVacancyEntity) {
         viewModelScope.launch {
             getFromFavoriteUseCase(vacancy.id).collect { vacancyFromDb ->
 

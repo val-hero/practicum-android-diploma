@@ -26,10 +26,12 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyDetailsBinding
+import ru.practicum.android.diploma.favorites.data.entity.FavoriteVacancyEntity
 import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 import ru.practicum.android.diploma.search.domain.models.fields.KeySkills
 import ru.practicum.android.diploma.search.domain.models.fields.Phones
 import ru.practicum.android.diploma.search.domain.models.fields.Salary
+import ru.practicum.android.diploma.search.domain.models.toFavoriteEntity
 import ru.practicum.android.diploma.vacancy_details.ui.state.VacancyDetailsScreenState
 import ru.practicum.android.diploma.vacancy_details.ui.viewmodel.VacancyDetailsViewModel
 
@@ -64,7 +66,7 @@ class VacancyDetailsFragment : Fragment() {
             binding?.detailsData?.visibility = View.VISIBLE
             binding?.addToFavoriteButton?.isClickable = true
             binding?.shareButton?.isClickable = true
-            fillViews()
+            fillViews(vacancyDetails)
         }
 
 
@@ -122,14 +124,14 @@ class VacancyDetailsFragment : Fragment() {
     private fun render(screenState: VacancyDetailsScreenState) {
         when (screenState) {
             is VacancyDetailsScreenState.Content -> {
-                fillViews()
+                fillViews(screenState.vacancyDetails)
                 viewModel.isFavorite()
                 binding?.progressBarForLoad?.isVisible = false
                 binding?.placeholderServerError?.isVisible = false
             }
 
             is VacancyDetailsScreenState.Error -> {
-                viewModel.getVacancyFromDb(vacancyDetails)
+                viewModel.getVacancyFromDb(vacancyDetails.toFavoriteEntity())
                 showError()
             }
 
@@ -139,11 +141,11 @@ class VacancyDetailsFragment : Fragment() {
         }
     }
 
-    private fun fillViews() {
+    private fun fillViews(vacancy: VacancyDetails) {
         with(binding!!) {
-            vacancyName.text = vacancyDetails.name
-            area.text = vacancyDetails.area?.name
-            salary.text = getSalaryText(vacancyDetails.salary, requireContext())
+            vacancyName.text = vacancy.name
+            area.text = vacancy.area?.name
+            salary.text = getSalaryText(vacancy.salary, requireContext())
 
             Glide.with(this@VacancyDetailsFragment)
                 .load(vacancyDetails.employer?.logoUrls?.smallLogo)
@@ -157,34 +159,34 @@ class VacancyDetailsFragment : Fragment() {
                 )
                 .into(employerLogo)
 
-            companyName.text = vacancyDetails.employer?.name
-            experience.text = vacancyDetails.experience?.name
-            scheduleEmployment.text = vacancyDetails.schedule?.name
+            companyName.text = vacancy.employer?.name
+            experience.text = vacancy.experience?.name
+            scheduleEmployment.text = vacancy.schedule?.name
             description.setText(
                 HtmlCompat.fromHtml(
-                    vacancyDetails.description?.addSpacesAfterLiTags() ?: "",
+                    vacancy.description?.addSpacesAfterLiTags() ?: "",
                     FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM
                 )
             )
             keySkills.setText(
                 HtmlCompat.fromHtml(
-                    getKeySkillsText(vacancyDetails.keySkills),
+                    getKeySkillsText(vacancy.keySkills),
                     FROM_HTML_MODE_COMPACT
                 )
             )
-            contactsName.text = vacancyDetails.contacts?.name
-            contactsEmail.text = vacancyDetails.contacts?.email
-            contactsPhone.text = getPhonesText(vacancyDetails.contacts?.phones)
-            contactsComment.text = getPhonesCommentsText(vacancyDetails.contacts?.phones)
+            contactsName.text = vacancy.contacts?.name
+            contactsEmail.text = vacancy.contacts?.email
+            contactsPhone.text = getPhonesText(vacancy.contacts?.phones)
+            contactsComment.text = getPhonesCommentsText(vacancy.contacts?.phones)
 
-            hideEmptyViews(vacancyDetails)
+            hideEmptyViews(vacancy)
 
             binding?.shareButton?.setOnClickListener {
-                if (vacancyDetails.alternateUrl != null) shareVacancy(vacancyDetails.alternateUrl!!)
+                if (vacancy.alternateUrl != null) shareVacancy(vacancy.alternateUrl!!)
             }
 
             binding?.contactsEmail?.setOnClickListener {
-                openPostClient(vacancyDetails.contacts?.email)
+                openPostClient(vacancy.contacts?.email)
             }
         }
     }
