@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.search.ui
 
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,14 +14,12 @@ import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.MainNavGraphDirections
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.core.utils.Constants
 import ru.practicum.android.diploma.core.utils.ErrorType
 import ru.practicum.android.diploma.core.utils.adapter.VacancyAdapter
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.ui.state.SearchScreenState
 import ru.practicum.android.diploma.search.ui.viewmodel.SearchViewModel
-import android.content.Context.INPUT_METHOD_SERVICE
 
 
 class SearchFragment : Fragment() {
@@ -60,6 +59,7 @@ class SearchFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.updateFilterSettings()
+        viewModel.cancelDebounce = false
     }
 
     private fun initAdapter() {
@@ -97,6 +97,7 @@ class SearchFragment : Fragment() {
             clearSearch()
         }
     }
+
     private fun clearSearch() {
         binding?.inputSearchForm?.setText("")
         val view = requireActivity().currentFocus
@@ -126,7 +127,7 @@ class SearchFragment : Fragment() {
         binding?.placeholderServerError?.isVisible = false
 
         if (vacancies.isEmpty()) {
-            binding?.textFabSearch?.text =resources.getString(R.string.no_vacancies)
+            binding?.textFabSearch?.text = resources.getString(R.string.no_vacancies)
             binding?.placeholderError?.isVisible = true
             binding?.searchRecycler?.isVisible = false
         } else {
@@ -179,17 +180,10 @@ class SearchFragment : Fragment() {
         findNavController().navigate(R.id.action_searchFragment_to_filteringSettingsFragment)
     }
 
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.cancelDebounce = false
-    }
-
     override fun onPause() {
         super.onPause()
-        viewModel.cancelDebounce=true
+        viewModel.cancelDebounce = true
     }
-
 
 
     /* Логика отображения активной/неактивной фильтрации
