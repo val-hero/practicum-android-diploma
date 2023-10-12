@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.MainNavGraphDirections
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.utils.adapter.VacancyAdapter
 import ru.practicum.android.diploma.databinding.FragmentFavoritesBinding
 import ru.practicum.android.diploma.favorites.ui.state.FavoritesScreenState
@@ -21,7 +24,7 @@ class FavoritesFragment : Fragment() {
     private val viewModel by viewModel<FavoritesFragmentViewModel>()
     private val adapter = VacancyAdapter(
         onClick = { onVacancyClick(id = it.id) },
-        onLongClick = { true }
+        onLongClick = { openDeleteVacancyDialog(id=it.id) }
     )
 
     override fun onCreateView(
@@ -39,6 +42,7 @@ class FavoritesFragment : Fragment() {
         viewModel.observeContentState().observe(viewLifecycleOwner) {
             render(it)
         }
+
 
         initAdapter()
     }
@@ -90,6 +94,20 @@ class FavoritesFragment : Fragment() {
         if (!viewModel.isClickable) return
         viewModel.onVacancyClick()
         findNavController().navigate(MainNavGraphDirections.actionToVacancyDetailsFragment(id))
+    }
+
+    private fun openDeleteVacancyDialog(id: String) {
+        viewModel.onLongVacancyClick(id)
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(resources.getString(R.string.delete_vacancy))
+            .setMessage(resources.getString(R.string.do_you_want_to_delete_a_vacancy))
+            .setNegativeButton(resources.getString(R.string.no)) { dialog, which ->
+            }
+            .setPositiveButton(resources.getString(R.string.yes)) { dialog, which ->
+                viewModel.deleteVacancy()
+
+            }
+            .show()
     }
 
 }

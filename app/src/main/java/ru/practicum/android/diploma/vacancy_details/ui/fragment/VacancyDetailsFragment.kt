@@ -1,12 +1,19 @@
 package ru.practicum.android.diploma.vacancy_details.ui.fragment
 
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
 import androidx.core.text.HtmlCompat.FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM
@@ -60,11 +67,21 @@ class VacancyDetailsFragment : Fragment() {
             )
         }
 
+        binding?.contactsPhone?.setOnClickListener {
+            onPhoneClicked()
+        }
+
         viewModel.observeFavoriteState().observe(viewLifecycleOwner) {
             renderLikeButton(it)
         }
 
+        binding?.email?.setOnClickListener {
+
+        }
+
         initToolbar()
+
+
     }
 
     private fun initToolbar() {
@@ -146,6 +163,14 @@ class VacancyDetailsFragment : Fragment() {
             contactsComment.text = getPhonesCommentsText(vacancy.contacts?.phones)
 
             hideEmptyViews(vacancy)
+
+            binding?.shareButton?.setOnClickListener {
+                if (vacancy.alternateUrl != null) shareVacancy(vacancy.alternateUrl)
+            }
+
+            binding?.contactsEmail?.setOnClickListener {
+                openPostClient(vacancy.contacts?.email)
+            }
         }
     }
 
@@ -205,6 +230,34 @@ class VacancyDetailsFragment : Fragment() {
                 !vacancy?.contacts?.phones?.firstOrNull()?.comment.isNullOrBlank()
             contactsPersonGroup.isVisible = !vacancy?.contacts?.name.isNullOrBlank()
             keySkillsGroup.isVisible = !vacancy?.keySkills.isNullOrEmpty()
+        }
+    }
+
+    private fun onPhoneClicked() {
+        val phoneNumber = binding?.contactsPhone?.text.toString().trim()
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:$phoneNumber")
+        val chooser = Intent.createChooser(intent, "Выберите приложение для звонка")
+        startActivity(chooser)
+    }
+
+    private fun shareVacancy(url: String) {
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, url)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_MULTIPLE_TASK)
+        }
+        ContextCompat.startActivity(requireContext(), shareIntent, null)
+    }
+
+    private fun openPostClient(emailData: String?) {
+        try {
+            val mailToSupportIntent = Intent(Intent.ACTION_SENDTO)
+            mailToSupportIntent.data = Uri.parse("mailto:$emailData")
+            mailToSupportIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            ContextCompat.startActivity(requireContext(), mailToSupportIntent, null)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, R.string.mail_client_not_found, Toast.LENGTH_SHORT).show()
         }
     }
 }
