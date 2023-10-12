@@ -81,7 +81,7 @@
 
     <fragment
         android:id="@+id/vacancyDetailsFragment"
-        android:name="ru.practicum.android.diploma.vacancy_details.ui.VacancyDetailsFragment"
+        android:name="ru.practicum.android.diploma.vacancy_details.ui.fragment.VacancyDetailsFragment"
         android:label="fragment_vacancy"
         tools:layout="@layout/fragment_vacancy_details">
         <action
@@ -108,7 +108,11 @@
         android:id="@+id/similarVacanciesFragment"
         android:name="ru.practicum.android.diploma.similar_vacancies.ui.SimilarVacanciesFragment"
         android:label="fragment_similar_vacancies"
-        tools:layout="@layout/fragment_similar_vacancies" />
+        tools:layout="@layout/fragment_similar_vacancies" >
+        <argument
+            android:name="vacancyId"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/favoritesFragment"

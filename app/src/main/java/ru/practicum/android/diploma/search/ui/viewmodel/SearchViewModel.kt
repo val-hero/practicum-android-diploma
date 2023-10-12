@@ -17,11 +17,12 @@ import ru.practicum.android.diploma.search.ui.state.SearchScreenState
 class SearchViewModel(
     private val searchUseCase: SearchUseCase,
     private val searchWithFiltersUseCase: SearchWithFiltersUseCase,
-    private val filterSettingsUseCase: GetFilterSettingsUseCase
-    ) : ViewModel() {
+    private val filterSettingsUseCase: GetFilterSettingsUseCase,
+) : ViewModel() {
 
     val uiState = MutableLiveData<SearchScreenState>()
     var isClickable = true
+    var cancelDebounce = false
     private var filterSettings: FilterParameters? = null
 
     private val vacanciesSearchDebounce =
@@ -35,7 +36,7 @@ class SearchViewModel(
         }
 
     fun searchDebounce(query: String) {
-        if (query.isNotEmpty()) {
+        if (query.isNotEmpty() && !cancelDebounce) {
             vacanciesSearchDebounce(query)
         }
     }
@@ -46,15 +47,14 @@ class SearchViewModel(
     }
 
     fun search(query: String) {
-        if(query.isNullOrBlank())
+        if (query.isNullOrBlank())
             return
 
         renderState(SearchScreenState.Loading)
-        Log.i("SETTINGSFILTER", "Настройки фильтра равны ${filterSettings}")
+
         if (filterSettings != null) {
             searchWithFilter(getFilterSettingsAsMap(query))
         } else {
-            Log.i("SETTINGSFILTER", "Запускаю поиск без фильтра")
             viewModelScope.launch {
                 searchUseCase(query).collect {
                     when (it) {
@@ -74,7 +74,6 @@ class SearchViewModel(
     }
 
     private fun getFilterSettingsAsMap(query: String): HashMap<String, String> {
-        Log.i("SETTINGSFILTER", "Получаем настройки фильтра. FilterSettings industry ${filterSettings?.industry?.name}, country ${filterSettings?.country?.name}  ")
             val result = HashMap<String, String>()
             result["text"] = query
             filterSettings?.industry?.id?.let {
@@ -96,7 +95,6 @@ class SearchViewModel(
     }
 
     fun searchWithFilter(filter: HashMap<String, String>) {
-        Log.i("SETTINGSFILTER", "Запускаю поиск с фильтром")
 
         viewModelScope.launch {
             searchWithFiltersUseCase(filter).collect {

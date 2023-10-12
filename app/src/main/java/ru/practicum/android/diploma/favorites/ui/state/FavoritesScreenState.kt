@@ -8,4 +8,6 @@ sealed interface FavoritesScreenState {
     data class FavoritesVacancies(
         val vacancies: List<VacancyDetails>,
     ) : FavoritesScreenState
+
+    object Error : FavoritesScreenState
 }

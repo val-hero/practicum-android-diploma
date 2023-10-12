@@ -78,7 +78,7 @@ class SearchFragment : Fragment() {
             }
 
             if (binding?.inputSearchForm?.hasFocus() == true && s.toString().isNotEmpty()) {
-                showPlaceholder()
+                showDefault()
             }
 
             viewModel.searchDebounce(binding?.inputSearchForm?.text.toString())
@@ -104,68 +104,93 @@ class SearchFragment : Fragment() {
             val imm = requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
-        showPlaceholder()
+        showDefault()
     }
 
     private fun render(state: SearchScreenState) {
         when (state) {
             is SearchScreenState.Success -> showVacancies(state.vacancies)
-            is SearchScreenState.Error -> showError(state.type)
             is SearchScreenState.Loading -> showLoading()
-            is SearchScreenState.NothingFound -> showNotFound()
-            is SearchScreenState.Default -> showPlaceholder()
+            is SearchScreenState.NothingFound -> showVacancies(state.vacancies)
+            is SearchScreenState.Default -> showDefault()
+            is SearchScreenState.Error -> showError(state.type)
         }
     }
 
     private fun showVacancies(vacancies: List<Vacancy>) {
         adapter.setVacancies(vacancies)
         binding?.placeholderImage?.isVisible = false
-        binding?.searchRecycler?.isVisible = true
         binding?.progressBarForLoad?.isVisible = false
+        binding?.placeholderNoInternet?.isVisible = false
         binding?.textFabSearch?.isVisible = true
-        binding?.textFabSearch?.text =
-            resources.getQuantityString(R.plurals.vacancies, vacancies.size, vacancies.size)
+        binding?.placeholderServerError?.isVisible = false
+
+        if (vacancies.isEmpty()) {
+            binding?.textFabSearch?.text =resources.getString(R.string.no_vacancies)
+            binding?.placeholderError?.isVisible = true
+            binding?.searchRecycler?.isVisible = false
+        } else {
+            binding?.textFabSearch?.text =
+                resources.getQuantityString(R.plurals.vacancies, vacancies.size, vacancies.size)
+            binding?.searchRecycler?.isVisible = true
+            binding?.placeholderError?.isVisible = false
+        }
     }
 
-    private fun showError(errorType: ErrorType) {
+    private fun showError(type: ErrorType) {
         binding?.placeholderImage?.isVisible = false
+        binding?.placeholderError?.isVisible = false
         binding?.searchRecycler?.isVisible = false
         binding?.progressBarForLoad?.isVisible = false
-        binding?.textFabSearch?.isVisible = true
-        binding?.textFabSearch?.text = errorType.toString()
+        binding?.textFabSearch?.isVisible = false
+        when (type) {
+            ErrorType.NO_CONNECTION -> binding?.placeholderNoInternet?.isVisible = true
+            else -> binding?.placeholderServerError?.isVisible = true
+        }
     }
 
     private fun onVacancyClick(id: String) {
-      if (!viewModel.isClickable) return
+        if (!viewModel.isClickable) return
         viewModel.onVacancyClick()
         findNavController().navigate(MainNavGraphDirections.actionToVacancyDetailsFragment(id))
     }
 
     private fun showLoading() {
         binding?.placeholderImage?.isVisible = false
+        binding?.placeholderError?.isVisible = false
         binding?.searchRecycler?.isVisible = false
         binding?.progressBarForLoad?.isVisible = true
         binding?.textFabSearch?.isVisible = false
+        binding?.placeholderNoInternet?.isVisible = false
+        binding?.placeholderServerError?.isVisible = false
     }
 
-    private fun showPlaceholder() {
+    private fun showDefault() {
         binding?.searchRecycler?.isVisible = false
         binding?.progressBarForLoad?.isVisible = false
         binding?.placeholderImage?.isVisible = true
         binding?.textFabSearch?.isVisible = false
-    }
-
-    private fun showNotFound() {
-        binding?.searchRecycler?.isVisible = false
-        binding?.progressBarForLoad?.isVisible = false
-        binding?.placeholderImage?.isVisible = false
-        binding?.textFabSearch?.isVisible = true
-        binding?.textFabSearch?.text = resources.getString(R.string.no_vacancies)
+        binding?.placeholderError?.isVisible = false
+        binding?.placeholderNoInternet?.isVisible = false
+        binding?.placeholderServerError?.isVisible = false
     }
 
     private fun navToFilter() {
         findNavController().navigate(R.id.action_searchFragment_to_filteringSettingsFragment)
     }
+
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.cancelDebounce = false
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.cancelDebounce=true
+    }
+
+
 
     /* Логика отображения активной/неактивной фильтрации
 

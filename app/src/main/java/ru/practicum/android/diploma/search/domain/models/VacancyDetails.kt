@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.search.domain.models
 
+import com.google.gson.annotations.SerializedName
 import ru.practicum.android.diploma.favorites.data.entity.FavoriteVacancyEntity
 import ru.practicum.android.diploma.search.domain.models.fields.Area
 import ru.practicum.android.diploma.search.domain.models.fields.Contacts
@@ -23,6 +24,7 @@ data class VacancyDetails(
     val keySkills: List<KeySkills>?,
     val salary: Salary?,
     val schedule: Schedule?,
+    val alternateUrl: String?
 )
 
 fun VacancyDetails.toFavoriteEntity(): FavoriteVacancyEntity {
@@ -38,8 +40,20 @@ fun VacancyDetails.toFavoriteEntity(): FavoriteVacancyEntity {
         name = this.name,
         salary = this.salary,
         schedule = this.schedule,
+        alternateUrl = this.alternateUrl,
         saveDate = Calendar.getInstance().timeInMillis
     )
+}
+
+fun VacancyDetails.toVacancy() : Vacancy {
+    return Vacancy(
+        id = this.id,
+        area = this.area,
+        employer = this.employer,
+        name = this.name,
+        salary = this.salary
+    )
+
 }
 
 

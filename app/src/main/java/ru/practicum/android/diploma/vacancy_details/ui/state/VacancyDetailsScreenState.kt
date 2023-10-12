@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.vacancy_details.ui
+package ru.practicum.android.diploma.vacancy_details.ui.state
 
 import ru.practicum.android.diploma.core.utils.ErrorType
 import ru.practicum.android.diploma.search.domain.models.VacancyDetails
