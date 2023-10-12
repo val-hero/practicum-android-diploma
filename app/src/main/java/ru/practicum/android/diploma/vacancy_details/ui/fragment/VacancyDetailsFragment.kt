@@ -59,6 +59,14 @@ class VacancyDetailsFragment : Fragment() {
             viewModel.onFavoriteButtonClick()
         }
 
+        binding?.buttonSimilarVacancy?.setOnClickListener {
+            findNavController().navigate(
+                VacancyDetailsFragmentDirections.actionVacancyFragmentToSimilarVacanciesFragment(
+                    args.vacancyId
+                )
+            )
+        }
+
         binding?.contactsPhone?.setOnClickListener {
             onPhoneClicked()
         }
