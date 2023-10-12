@@ -153,9 +153,6 @@ class VacancyDetailsFragment : Fragment() {
             binding?.shareButton?.setOnClickListener {
                 if (vacancy.alternateUrl != null) shareVacancy(vacancy.alternateUrl)
             }
-            binding?.contactsPhone?.setOnClickListener {
-                makeCall(getPhonesText(vacancy.contacts?.phones))
-            }
 
             binding?.contactsEmail?.setOnClickListener {
                 openPostClient(vacancy.contacts?.email)
@@ -220,13 +217,6 @@ class VacancyDetailsFragment : Fragment() {
             contactsPersonGroup.isVisible = !vacancy?.contacts?.name.isNullOrBlank()
             keySkillsGroup.isVisible = !vacancy?.keySkills.isNullOrEmpty()
         }
-    }
-
-    private fun makeCall(phoneNumber: String?) {
-        val callIntent = Intent(Intent.ACTION_DIAL).apply {
-            data = Uri.parse("tel:$phoneNumber")
-        }
-        ContextCompat.startActivity(requireContext(), callIntent, null)
     }
 
     private fun shareVacancy(url: String) {
