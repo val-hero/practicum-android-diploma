@@ -176,6 +176,18 @@ class SearchFragment : Fragment() {
     }
 
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.cancelDebounce = false
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.cancelDebounce=true
+    }
+
+
+
     /* Логика отображения активной/неактивной фильтрации
 
     private fun showEmptyFilterIcon() {

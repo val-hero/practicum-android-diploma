@@ -16,6 +16,7 @@ class SearchViewModel(
 
     val uiState = MutableLiveData<SearchScreenState>()
     var isClickable = true
+    var cancelDebounce = false
 
     private val vacanciesSearchDebounce =
         debounce<String>(Constants.SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { query ->
@@ -28,7 +29,7 @@ class SearchViewModel(
         }
 
     fun searchDebounce(query: String) {
-        if (query.isNotEmpty()) {
+        if (query.isNotEmpty() && !cancelDebounce) {
             vacanciesSearchDebounce(query)
         }
     }
