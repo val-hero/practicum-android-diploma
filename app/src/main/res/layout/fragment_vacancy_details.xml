@@ -8,6 +8,7 @@
     tools:context=".vacancy_details.ui.fragment.VacancyDetailsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/details_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

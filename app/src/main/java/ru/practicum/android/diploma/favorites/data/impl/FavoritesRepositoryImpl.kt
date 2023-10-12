@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.favorites.data.impl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.core.AppDatabase
+import ru.practicum.android.diploma.favorites.data.entity.FavoriteVacancyEntity
 import ru.practicum.android.diploma.favorites.data.entity.toDomain
 import ru.practicum.android.diploma.favorites.domain.repository.FavoritesRepository
 import ru.practicum.android.diploma.search.domain.models.VacancyDetails
@@ -38,5 +39,11 @@ class FavoritesRepositoryImpl(
             .favoritesVacanciesDao()
             .isFavorite(id)
         emit(isInFavorite)
+    }
+
+    override suspend fun getVacancyFromDb(id: String): Flow<FavoriteVacancyEntity> {
+        return database
+            .favoritesVacanciesDao()
+            .getFavoriteVacancyById(id)
     }
 }

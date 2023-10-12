@@ -37,6 +37,8 @@ class VacancyDetailsFragment : Fragment() {
     private var binding: FragmentVacancyDetailsBinding? = null
     private val viewModel by viewModel<VacancyDetailsViewModel>()
     private val args: VacancyDetailsFragmentArgs by navArgs()
+    private lateinit var vacancyDetails: VacancyDetails
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -53,6 +55,18 @@ class VacancyDetailsFragment : Fragment() {
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
             render(state)
         }
+
+        viewModel.stateVacancyInfoDb.observe(viewLifecycleOwner) { vacancyDetailsDb ->
+            if (vacancyDetailsDb == null){
+                return@observe
+            }
+            vacancyDetails = vacancyDetailsDb
+            binding?.detailsData?.visibility = View.VISIBLE
+            binding?.addToFavoriteButton?.isClickable = true
+            binding?.shareButton?.isClickable = true
+            fillViews()
+        }
+
 
         binding?.addToFavoriteButton?.setOnClickListener { button ->
             (button as? ImageView)?.let { startAnimation(it) }
@@ -108,13 +122,14 @@ class VacancyDetailsFragment : Fragment() {
     private fun render(screenState: VacancyDetailsScreenState) {
         when (screenState) {
             is VacancyDetailsScreenState.Content -> {
-                fillViews(screenState.vacancyDetails)
+                fillViews()
                 viewModel.isFavorite()
                 binding?.progressBarForLoad?.isVisible = false
                 binding?.placeholderServerError?.isVisible = false
             }
 
             is VacancyDetailsScreenState.Error -> {
+                viewModel.getVacancyFromDb(vacancyDetails)
                 showError()
             }
 
@@ -124,14 +139,14 @@ class VacancyDetailsFragment : Fragment() {
         }
     }
 
-    private fun fillViews(vacancy: VacancyDetails) {
+    private fun fillViews() {
         with(binding!!) {
-            vacancyName.text = vacancy.name
-            area.text = vacancy.area?.name
-            salary.text = getSalaryText(vacancy.salary, requireContext())
+            vacancyName.text = vacancyDetails.name
+            area.text = vacancyDetails.area?.name
+            salary.text = getSalaryText(vacancyDetails.salary, requireContext())
 
             Glide.with(this@VacancyDetailsFragment)
-                .load(vacancy.employer?.logoUrls?.smallLogo)
+                .load(vacancyDetails.employer?.logoUrls?.smallLogo)
                 .placeholder(R.drawable.employer_logo_placeholder)
                 .centerCrop().transform(
                     RoundedCorners(
@@ -142,34 +157,34 @@ class VacancyDetailsFragment : Fragment() {
                 )
                 .into(employerLogo)
 
-            companyName.text = vacancy.employer?.name
-            experience.text = vacancy.experience?.name
-            scheduleEmployment.text = vacancy.schedule?.name
+            companyName.text = vacancyDetails.employer?.name
+            experience.text = vacancyDetails.experience?.name
+            scheduleEmployment.text = vacancyDetails.schedule?.name
             description.setText(
                 HtmlCompat.fromHtml(
-                    vacancy.description?.addSpacesAfterLiTags() ?: "",
+                    vacancyDetails.description?.addSpacesAfterLiTags() ?: "",
                     FROM_HTML_SEPARATOR_LINE_BREAK_LIST_ITEM
                 )
             )
             keySkills.setText(
                 HtmlCompat.fromHtml(
-                    getKeySkillsText(vacancy.keySkills),
+                    getKeySkillsText(vacancyDetails.keySkills),
                     FROM_HTML_MODE_COMPACT
                 )
             )
-            contactsName.text = vacancy.contacts?.name
-            contactsEmail.text = vacancy.contacts?.email
-            contactsPhone.text = getPhonesText(vacancy.contacts?.phones)
-            contactsComment.text = getPhonesCommentsText(vacancy.contacts?.phones)
+            contactsName.text = vacancyDetails.contacts?.name
+            contactsEmail.text = vacancyDetails.contacts?.email
+            contactsPhone.text = getPhonesText(vacancyDetails.contacts?.phones)
+            contactsComment.text = getPhonesCommentsText(vacancyDetails.contacts?.phones)
 
-            hideEmptyViews(vacancy)
+            hideEmptyViews(vacancyDetails)
 
             binding?.shareButton?.setOnClickListener {
-                if (vacancy.alternateUrl != null) shareVacancy(vacancy.alternateUrl)
+                if (vacancyDetails.alternateUrl != null) shareVacancy(vacancyDetails.alternateUrl!!)
             }
 
             binding?.contactsEmail?.setOnClickListener {
-                openPostClient(vacancy.contacts?.email)
+                openPostClient(vacancyDetails.contacts?.email)
             }
         }
     }
