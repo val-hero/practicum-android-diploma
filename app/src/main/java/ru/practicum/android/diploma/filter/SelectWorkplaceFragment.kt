@@ -59,7 +59,8 @@ class SelectWorkplaceFragment : Fragment() {
             binding.country.setEndIconDrawable(R.drawable.ic_close)
             binding.country.setEndIconOnClickListener {
                 viewModel.clearCountryField()
-                viewModel.getFilterSettings()
+                binding.countryText.setText("")
+                binding.country.setEndIconDrawable(R.drawable.arrow_forward)
             }
         } else {
             binding.countryText.setText("")
@@ -70,8 +71,8 @@ class SelectWorkplaceFragment : Fragment() {
             binding.region.setEndIconDrawable(R.drawable.ic_close)
             binding.region.setEndIconOnClickListener {
                 viewModel.clearAreaField()
-                viewModel.getFilterSettings()
-
+                binding.regionText.setText("")
+                binding.region.setEndIconDrawable(R.drawable.arrow_forward)
             }
         } else {
             binding.countryText.setText("")

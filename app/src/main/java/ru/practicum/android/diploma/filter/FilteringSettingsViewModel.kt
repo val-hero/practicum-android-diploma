@@ -19,6 +19,9 @@ class FilteringSettingsViewModel(
     private val clearFilterSettingsUseCase: ClearFilterSettingsUseCase,
     private val saveSalaryFlagUseCase: SaveSalaryFlagUseCase,
     private val saveSalaryUseCase: SaveSalaryUseCase,
+    private val saveAreaUseCase: SaveAreaUseCase,
+    private val saveCountryUseCase: SaveCountryUseCase,
+    private val saveIndustryUseCase: SaveIndustryUseCase
 ) : ViewModel() {
 
     private val _filterSettings = MutableLiveData<FilterParameters?>()
@@ -43,6 +46,19 @@ class FilteringSettingsViewModel(
         viewModelScope.launch {
             clearFilterSettingsUseCase()
             _filterSettings.postValue(null)
+        }
+    }
+
+    fun clearAreaField() {
+        viewModelScope.launch {
+            saveAreaUseCase(null)
+            saveCountryUseCase(null)
+        }
+    }
+
+    fun clearIndustryField() {
+        viewModelScope.launch{
+            saveIndustryUseCase(null)
         }
     }
 

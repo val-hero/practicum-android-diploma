@@ -78,10 +78,30 @@ class FilteringSettingsFragment : Fragment() {
             binding.checkbox.isChecked = false
         } else {
             binding.btnGroup.visibility = View.VISIBLE
-            if(filterParameters.area != null) binding.workPlaceText.setText(filterParameters.area?.name)
-            if(filterParameters.industry != null) binding.industryText.setText(filterParameters.industry?.name)
-            if(filterParameters.salary != null) binding.salary.setText(filterParameters.salary?.toString())
-            if(filterParameters.onlyWithSalary == true) binding.checkbox.isChecked = true else binding.checkbox.isChecked = false
+            if (filterParameters.area != null) {
+                binding.workPlaceText.setText(filterParameters.area?.name)
+                binding.workPlace.setEndIconDrawable(R.drawable.ic_close)
+
+                binding.workPlace.setEndIconOnClickListener {
+                    viewModel.clearAreaField()
+                    binding.workPlaceText.setText("")
+                    binding.workPlace.setEndIconDrawable(R.drawable.arrow_forward)
+                }
+            }
+            if (filterParameters.industry != null) {
+                binding.industryText.setText(filterParameters.industry?.name)
+                binding.industry.setEndIconDrawable(R.drawable.ic_close)
+
+                binding.industry.setEndIconOnClickListener {
+                    viewModel.clearIndustryField()
+                    binding.industryText.setText("")
+                    binding.industry.setEndIconDrawable(R.drawable.arrow_forward)
+                }
+
+            }
+            if (filterParameters.salary != null) binding.salary.setText(filterParameters.salary?.toString())
+            if (filterParameters.onlyWithSalary == true) binding.checkbox.isChecked =
+                true else binding.checkbox.isChecked = false
         }
     }
 
