@@ -1,13 +1,18 @@
 package ru.practicum.android.diploma.vacancy_details.ui.fragment
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
@@ -148,6 +153,13 @@ class VacancyDetailsFragment : Fragment() {
             binding?.shareButton?.setOnClickListener {
                 if (vacancy.alternateUrl != null) shareVacancy(vacancy.alternateUrl)
             }
+            binding?.contactsPhone?.setOnClickListener {
+                makeCall(getPhonesText(vacancy.contacts?.phones))
+            }
+
+            binding?.contactsEmail?.setOnClickListener {
+                openPostClient(vacancy.contacts?.email)
+            }
         }
     }
 
@@ -210,8 +222,11 @@ class VacancyDetailsFragment : Fragment() {
         }
     }
 
-    private fun makeCall() {
-
+    private fun makeCall(phoneNumber: String?) {
+        val callIntent = Intent(Intent.ACTION_DIAL).apply {
+            data = Uri.parse("tel:$phoneNumber")
+        }
+        ContextCompat.startActivity(requireContext(), callIntent, null)
     }
 
     private fun shareVacancy(url: String) {
@@ -223,8 +238,15 @@ class VacancyDetailsFragment : Fragment() {
         ContextCompat.startActivity(requireContext(), shareIntent, null)
     }
 
-    private fun openPostClient() {
-
+    private fun openPostClient(emailData: String?) {
+        try {
+            val mailToSupportIntent = Intent(Intent.ACTION_SENDTO)
+            mailToSupportIntent.data = Uri.parse("mailto:$emailData")
+            mailToSupportIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            ContextCompat.startActivity(requireContext(), mailToSupportIntent, null)
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, R.string.mail_client_not_found, Toast.LENGTH_SHORT).show()
+        }
     }
 
 }
