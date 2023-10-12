@@ -25,7 +25,9 @@ data class VacancyDetailsDto(
     val contacts: ContactsDto?,
     val schedule: ScheduleDto?,
     @SerializedName("key_skills")
-    val keySkills: List<KeySkillsDto>?
+    val keySkills: List<KeySkillsDto>?,
+    @SerializedName("alternate_url")
+    val alternateUrl: String?
 ): ApiResponse()
 
 fun VacancyDetailsDto.toDomain(): VacancyDetails {
@@ -40,6 +42,7 @@ fun VacancyDetailsDto.toDomain(): VacancyDetails {
         experience = this.experience?.toDomain(),
         keySkills = this.keySkills?.map { it.toDomain() },
         salary = this.salary?.toDomain(),
-        schedule = this.schedule?.toDomain()
+        schedule = this.schedule?.toDomain(),
+        alternateUrl = this?.alternateUrl
     )
 }
