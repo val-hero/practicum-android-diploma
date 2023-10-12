@@ -42,5 +42,6 @@ interface HeadHunterApiService {
         @Query("per_page") perPage: Int
     ): VacanciesResponse
 
+    @GET("/vacancies")
     suspend fun getVacanciesWithFilters(@QueryMap filters: Map<String, String>): VacanciesResponse
 }

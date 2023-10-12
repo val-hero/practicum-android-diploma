@@ -15,34 +15,38 @@ import ru.practicum.android.diploma.search.domain.models.fields.toDto
 class FilterStorageImpl(private val sharedPref: SharedPreferences, private val gson: Gson) :
     FilterStorage {
 
-    override suspend fun saveCountry(country: Country) {
+    override suspend fun saveCountry(country: Country?) {
         val params = getParamsOrCreateFilter()
-        params.country = country.toDto()
+        if(country == null) params.country = null else params.country = country.toDto()
         updateField(params)
     }
 
-    override suspend fun saveArea(area: Area) {
+    override suspend fun saveArea(area: Area?) {
         val params = getParamsOrCreateFilter()
-        params.area = area.toDto()
+        if(area == null) params.area = null else params.area = area.toDto()
         updateField(params)
     }
 
-    override suspend fun saveIndustry(industry: Industry) {
+    override suspend fun saveIndustry(industry: Industry?) {
         val params = getParamsOrCreateFilter()
-        params.industry = industry.toDto()
+        if(industry == null) params.industry = null else params.industry = industry.toDto()
         updateField(params)
     }
 
-    override suspend fun saveSalary(salary: Int) {
+    override suspend fun saveSalary(salary: Int?) {
         val params = getParamsOrCreateFilter()
         params.salary = salary
         updateField(params)
     }
 
-    override suspend fun saveSalaryFlag(onlyWithSalary: Boolean) {
+    override suspend fun saveSalaryFlag(onlyWithSalary: Boolean?) {
         val params = getParamsOrCreateFilter()
         params.onlyWithSalary = onlyWithSalary
         updateField(params)
+    }
+
+    override suspend fun clearFilterSettings() {
+        sharedPref.edit().remove(FILTER_PARAMETERS).apply()
     }
 
     override suspend fun getParams(): FilterParameters? {

@@ -9,6 +9,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 import ru.practicum.android.diploma.core.utils.Constants.FILTER_PARAMETERS
+import ru.practicum.android.diploma.filter.FilteringSettingsViewModel
 import ru.practicum.android.diploma.filter.data.impl.AreasRepositoryImpl
 import ru.practicum.android.diploma.filter.data.impl.CountryRepositoryImpl
 import ru.practicum.android.diploma.filter.data.impl.IndustryRepositoryImpl
@@ -17,6 +18,7 @@ import ru.practicum.android.diploma.filter.domain.AreasRepository
 import ru.practicum.android.diploma.filter.domain.CountryRepository
 import ru.practicum.android.diploma.filter.domain.IndustryRepository
 import ru.practicum.android.diploma.filter.domain.api.FilterStorage
+import ru.practicum.android.diploma.filter.domain.usecase.ClearFilterSettingsUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetAreasUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetCountriesUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetFilterSettingsUseCase
@@ -27,6 +29,7 @@ import ru.practicum.android.diploma.filter.domain.usecase.SaveIndustryUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.SaveSalaryFlagUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.SaveSalaryUseCase
 import ru.practicum.android.diploma.filter.ui.SelectCountry.viewmodel.SelectCountryViewModel
+import ru.practicum.android.diploma.filter.ui.SelectWorkplaceViewModel
 import ru.practicum.android.diploma.filter.ui.selectindustry.viewmodel.SelectIndustryViewModel
 import ru.practicum.android.diploma.filter.ui.selectregion.viewmodel.SelectRegionViewModel
 
@@ -53,11 +56,17 @@ val filterModule = module {
 
     factoryOf(::SaveSalaryFlagUseCase).bind<SaveSalaryFlagUseCase>()
 
+    factoryOf(::ClearFilterSettingsUseCase).bind<ClearFilterSettingsUseCase>()
+
     singleOf(::CountryRepositoryImpl).bind<CountryRepository>()
 
     factoryOf(::GetCountriesUseCase).bind<GetCountriesUseCase>()
 
     viewModelOf(::SelectCountryViewModel).bind<SelectCountryViewModel>()
+
+    viewModelOf(::FilteringSettingsViewModel).bind<FilteringSettingsViewModel>()
+
+    viewModelOf(::SelectWorkplaceViewModel).bind<SelectWorkplaceViewModel>()
 
     singleOf(::AreasRepositoryImpl).bind<AreasRepository>()
 

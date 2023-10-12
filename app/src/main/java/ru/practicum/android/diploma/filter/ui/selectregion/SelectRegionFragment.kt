@@ -4,21 +4,20 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.databinding.FragmentSelectRegionBinding
-import ru.practicum.android.diploma.filter.IndustryAndRegionSelectorAdapter
 import ru.practicum.android.diploma.filter.ui.selectregion.viewmodel.SelectRegionViewModel
+import ru.practicum.android.diploma.search.domain.models.fields.Area
 
 class SelectRegionFragment : Fragment() {
 
     private var _binding: FragmentSelectRegionBinding? = null
     private val binding get() = _binding!!
-    private lateinit var adapter: IndustryAndRegionSelectorAdapter
+    private lateinit var adapter: RegionSelectorAdapter
     private val viewModel by viewModel<SelectRegionViewModel>()
 
     override fun onCreateView(
@@ -36,7 +35,7 @@ class SelectRegionFragment : Fragment() {
             when (resource) {
                 is Resource.Success -> {
 
-                    adapter.updateRegionOrIndustry(resource.data.map { it.name })
+                    adapter.updateRegion(resource.data.map { it })
                 }
 
                 is Resource.Error -> {
@@ -46,7 +45,7 @@ class SelectRegionFragment : Fragment() {
         }
 
         binding.regionsRecycler.layoutManager = LinearLayoutManager(requireContext())
-        adapter= IndustryAndRegionSelectorAdapter(emptyList(), ::onRegionClick)
+        adapter= RegionSelectorAdapter(emptyList(), ::onRegionClick)
         binding.regionsRecycler.adapter = adapter
 
         viewModel.getAreas()
@@ -56,8 +55,11 @@ class SelectRegionFragment : Fragment() {
         }
     }
 
-    private fun onRegionClick(regionName: String) {
-        Toast.makeText(requireContext(), "Клац", Toast.LENGTH_LONG).show()
+    private fun onRegionClick(region: Area) {
+        if(!region.areas.isNullOrEmpty()) {
+            adapter.updateRegion(region.areas)
+        }
+        viewModel.saveArea(region)
     }
 
     override fun onDestroy() {

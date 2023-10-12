@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.databinding.FragmentSelectCountryBinding
+import ru.practicum.android.diploma.filter.domain.models.fields.Country
 import ru.practicum.android.diploma.filter.ui.SelectCountry.viewmodel.SelectCountryViewModel
 
 class SelectCountryFragment : Fragment() {
@@ -36,7 +37,7 @@ class SelectCountryFragment : Fragment() {
             when (resource) {
                 is Resource.Success -> {
 
-                    adapter.updateCountries(resource.data.map { it.name })
+                    adapter.updateCountries(resource.data.map { it })
                 }
 
                 is Resource.Error -> {
@@ -61,7 +62,8 @@ class SelectCountryFragment : Fragment() {
         _binding = null
     }
 
-    private fun onCountryClick(countryName: String) {
-        Toast.makeText(requireContext(), "Клац", Toast.LENGTH_LONG).show()
+    private fun onCountryClick(country: Country) {
+        viewModel.saveCountry(country)
+        findNavController().popBackStack()
     }
 }
