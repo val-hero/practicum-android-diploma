@@ -26,6 +26,7 @@ data class FavoriteVacancyEntity(
     val name: String?,
     val salary: Salary?,
     val schedule: Schedule?,
+    val alternateUrl: String?,
     val saveDate: Long
 )
 
@@ -41,7 +42,8 @@ fun FavoriteVacancyEntity.toDomain(): VacancyDetails {
         experience = this.experience,
         keySkills = this.keySkills,
         salary = this.salary,
-        schedule = this.schedule
+        schedule = this.schedule,
+        alternateUrl = this.alternateUrl
     )
 }
 
