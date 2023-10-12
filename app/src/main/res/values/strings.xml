@@ -54,6 +54,11 @@
     <string name="no_internet">Нет интернета</string>
     <string name="no_such_region">Такого региона нет</string>
     <string name="no_list">Не удалось получить список</string>
+
+    <string name="delete_vacancy">Удалить вакансию</string>
+    <string name="do_you_want_to_delete_a_vacancy">Вы хотите удалить вакансию?</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
     <string name="mail_client_not_found">Почтовый клиент не найден</string>
 
     <plurals name="vacancies">

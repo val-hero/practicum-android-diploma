@@ -175,6 +175,7 @@ class SearchFragment : Fragment() {
         findNavController().navigate(R.id.action_searchFragment_to_filteringSettingsFragment)
     }
 
+
     /* Логика отображения активной/неактивной фильтрации
 
     private fun showEmptyFilterIcon() {
