@@ -75,8 +75,8 @@ class SelectWorkplaceFragment : Fragment() {
                 binding.region.setEndIconDrawable(R.drawable.arrow_forward)
             }
         } else {
-            binding.countryText.setText("")
-            binding.country.setEndIconDrawable(R.drawable.arrow_forward)
+            binding.regionText.setText("")
+            binding.region.setEndIconDrawable(R.drawable.arrow_forward)
         }
     }
 

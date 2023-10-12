@@ -52,7 +52,8 @@ class FilteringSettingsFragment : Fragment() {
         }
 
         binding.applyButton.setOnClickListener {
-            viewModel.saveSalarySettings(binding.salary.text.toString(), binding.checkbox.isChecked)
+            val salary = if (binding.salary.text.isNullOrBlank()) null else binding.salary.text.toString()
+            viewModel.saveSalarySettings(salary, binding.checkbox.isChecked)
             findNavController().popBackStack()
         }
 
