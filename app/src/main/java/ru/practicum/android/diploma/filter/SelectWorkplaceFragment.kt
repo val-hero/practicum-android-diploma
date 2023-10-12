@@ -32,7 +32,6 @@ class SelectWorkplaceFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
         viewModel.updateFilterSettings().observe(viewLifecycleOwner) {
             render(it)
         }

@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.filter
 
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,7 +30,7 @@ class FilteringSettingsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getFilterSettings().observe(viewLifecycleOwner) {
+        viewModel.updateFilterSettings().observe(viewLifecycleOwner) {
             render(it)
         }
 
@@ -65,7 +64,7 @@ class FilteringSettingsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateFilterSettings()
+        viewModel.getFilterSettings()
     }
 
     override fun onDestroy() {

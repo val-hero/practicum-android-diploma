@@ -25,13 +25,11 @@ class FilteringSettingsViewModel(
 ) : ViewModel() {
 
     private val _filterSettings = MutableLiveData<FilterParameters?>()
-    fun getFilterSettings(): LiveData<FilterParameters?> = _filterSettings
+    fun updateFilterSettings(): LiveData<FilterParameters?> = _filterSettings
 
-    fun updateFilterSettings() {
+    fun getFilterSettings() {
         viewModelScope.launch {
-            getFilterSettingsUseCase()?.let {
-                _filterSettings.postValue(getFilterSettingsUseCase())
-            }
+            _filterSettings.postValue(getFilterSettingsUseCase())
         }
     }
 
