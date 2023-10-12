@@ -59,6 +59,10 @@ class VacancyDetailsFragment : Fragment() {
             viewModel.onFavoriteButtonClick()
         }
 
+        binding?.contactsPhone?.setOnClickListener {
+            onPhoneClicked()
+        }
+
         viewModel.observeFavoriteState().observe(viewLifecycleOwner) {
             renderLikeButton(it)
         }
@@ -68,6 +72,8 @@ class VacancyDetailsFragment : Fragment() {
         }
 
         initToolbar()
+
+
     }
 
     private fun initToolbar() {
@@ -219,6 +225,14 @@ class VacancyDetailsFragment : Fragment() {
         }
     }
 
+    private fun onPhoneClicked() {
+        val phoneNumber = binding?.contactsPhone?.text.toString().trim()
+        val intent = Intent(Intent.ACTION_DIAL)
+        intent.data = Uri.parse("tel:$phoneNumber")
+        val chooser = Intent.createChooser(intent, "Выберите приложение для звонка")
+        startActivity(chooser)
+    }
+
     private fun shareVacancy(url: String) {
         val shareIntent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
@@ -238,5 +252,4 @@ class VacancyDetailsFragment : Fragment() {
             Toast.makeText(context, R.string.mail_client_not_found, Toast.LENGTH_SHORT).show()
         }
     }
-
 }
