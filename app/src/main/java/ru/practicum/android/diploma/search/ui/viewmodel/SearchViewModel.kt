@@ -95,7 +95,6 @@ class SearchViewModel(
     }
 
     fun searchWithFilter(filter: HashMap<String, String>) {
-
         viewModelScope.launch {
             searchWithFiltersUseCase(filter).collect {
                 when(it) {

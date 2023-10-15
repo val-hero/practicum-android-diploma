@@ -41,9 +41,9 @@ class SearchRepositoryImpl(
                     page,
                     perPage
                 )
-            ) as VacanciesResponse
+            )
 
-            if (apiResponse.resultCode == 200) {
+            if (apiResponse is VacanciesResponse && apiResponse.resultCode == 200) {
                 allVacancies += apiResponse.vacancies.map { it.toDomain() }
             } else {
                 emit(Resource.Error(getErrorType(apiResponse.resultCode)))
@@ -62,9 +62,9 @@ class SearchRepositoryImpl(
     override suspend fun getSimilarVacancies(id: String): ResourcesFlow<Vacancy> = flow {
 
         val apiResponse =
-            networkClient.doRequest(ApiRequest.SimilarVacancySearchRequest(id)) as VacanciesResponse
+            networkClient.doRequest(ApiRequest.SimilarVacancySearchRequest(id))
 
-        if (apiResponse.resultCode == 200)
+        if (apiResponse is VacanciesResponse && apiResponse.resultCode == 200)
             emit(Resource.Success(apiResponse.vacancies.map { it.toDomain() }))
         else
             emit(Resource.Error(getErrorType(apiResponse.resultCode)))
@@ -74,9 +74,9 @@ class SearchRepositoryImpl(
     override suspend fun getVacanciesWithFilter(filters: Map<String, String>): ResourcesFlow<Vacancy> =
         flow {
             val apiResponse =
-                networkClient.doRequest(ApiRequest.VacancySearchWithFiltersRequest(filters)) as VacanciesResponse
+                networkClient.doRequest(ApiRequest.VacancySearchWithFiltersRequest(filters))
 
-            if (apiResponse.resultCode == 200)
+            if (apiResponse is VacanciesResponse && apiResponse.resultCode == 200)
                 emit(Resource.Success(apiResponse.vacancies.map { it.toDomain() }))
             else
                 emit(Resource.Error(getErrorType(apiResponse.resultCode)))

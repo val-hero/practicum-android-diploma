@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.search.data.network.client
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
+import android.util.Log
 import retrofit2.HttpException
 import ru.practicum.android.diploma.search.data.network.api.ApiRequest
 import ru.practicum.android.diploma.search.data.network.api.ApiRequest.SimilarVacancySearchRequest
