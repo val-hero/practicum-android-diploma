@@ -36,11 +36,7 @@ interface HeadHunterApiService {
     suspend fun getIndustries(): List<IndustryDto>
 
     @GET("/vacancies")
-    suspend fun getVacancies(
-        @Query("text") query: String,
-        @Query("page") page: Int,
-        @Query("per_page") perPage: Int
-    ): VacanciesResponse
+    suspend fun getVacancies(@QueryMap parameters: Map<String,Any>): VacanciesResponse
 
     @GET("/vacancies")
     suspend fun getVacanciesWithFilters(@QueryMap filters: Map<String, String>): VacanciesResponse

@@ -4,12 +4,14 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.core.utils.Constants
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.core.utils.debounce
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 import ru.practicum.android.diploma.filter.domain.usecase.GetFilterSettingsUseCase
+import ru.practicum.android.diploma.search.domain.models.SearchResult
 import ru.practicum.android.diploma.search.domain.usecase.SearchUseCase
 import ru.practicum.android.diploma.search.domain.usecase.SearchWithFiltersUseCase
 import ru.practicum.android.diploma.search.ui.state.SearchScreenState
@@ -24,6 +26,10 @@ class SearchViewModel(
     var isClickable = true
     var cancelDebounce = false
     private var filterSettings: FilterParameters? = null
+    private var searchResult : SearchResult? = null
+    private var currentPage = 0
+    private var maxPage = 0
+    private var vacanciesList = 0
 
     private val vacanciesSearchDebounce =
         debounce<String>(Constants.SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { query ->
@@ -55,15 +61,7 @@ class SearchViewModel(
         if (filterSettings != null) {
             searchWithFilter(getFilterSettingsAsMap(query))
         } else {
-            viewModelScope.launch {
-                searchUseCase(query).collect {
-                    when (it) {
-                        //TODO vacancies count
-                        is Resource.Success -> renderState(SearchScreenState.Success(it.data))
-                        else -> {}
-                    }
-                }
-            }
+           searchNoFilters(getSearchResultAsMap(query))
         }
     }
 
@@ -72,6 +70,25 @@ class SearchViewModel(
             filterSettings = filterSettingsUseCase()
         }
     }
+
+    private fun getSearchResultAsMap (query: String): HashMap<String,Any>{
+        val result = HashMap<String,Any>()
+        result["text"] = query
+        searchResult?.found.let {
+            result["found"] = searchResult?.found as Int
+        }
+        searchResult?.page.let {
+            result["page"] = searchResult?.page as Int
+        }
+        searchResult?.per_page.let {
+            result["per_page"] = searchResult?.per_page as Int
+        }
+        searchResult?.pages.let{
+            result["pages"] = searchResult?.pages as Int
+        }
+        return result
+    }
+
 
     private fun getFilterSettingsAsMap(query: String): HashMap<String, String> {
             val result = HashMap<String, String>()
@@ -99,6 +116,17 @@ class SearchViewModel(
         viewModelScope.launch {
             searchWithFiltersUseCase(filter).collect {
                 when(it) {
+                    is Resource.Success -> renderState(SearchScreenState.Success(it.data))
+                    else -> {}
+                }
+            }
+        }
+    }
+
+    fun searchNoFilters(parameters : HashMap<String,Any>){
+        viewModelScope.launch {
+            searchUseCase(parameters).collect(){
+                when(it){
                     is Resource.Success -> renderState(SearchScreenState.Success(it.data))
                     else -> {}
                 }

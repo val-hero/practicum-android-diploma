@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 interface SearchRepository {
     suspend fun getVacancy(id: String): Flow<Resource<VacancyDetails>>
 
-    suspend fun getVacancies(query: String): ResourcesFlow<Vacancy>
+    suspend fun getVacancies(parameters: Map<String,Any>): ResourcesFlow<Vacancy>
 
     suspend fun getSimilarVacancies(id: String): ResourcesFlow<Vacancy>
 

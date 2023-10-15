@@ -27,7 +27,7 @@ class NetworkClientImpl(
         return try {
             when (request) {
                 is VacancySearchRequest -> {
-                    response = api.getVacancies(request.query, request.page, request.perPage)
+                    response = api.getVacancies(request.parameters)
                 }
 
                 is SimilarVacancySearchRequest -> {
