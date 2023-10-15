@@ -23,7 +23,7 @@ interface FavoritesVacanciesDao {
     suspend fun isFavorite(id: String): Boolean
 
     @Query("SELECT * FROM favorites_vacancy_table WHERE id = :id")
-    fun getFavoriteVacancyById(id: String): Flow<FavoriteVacancyEntity>
+    suspend fun getFavoriteVacancyById(id: String): FavoriteVacancyEntity
 
 
 }

@@ -46,6 +46,7 @@ class VacancyDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.isFavorite(args.vacancyId)
         viewModel.fetchDetails(args.vacancyId)
 
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
@@ -106,7 +107,7 @@ class VacancyDetailsFragment : Fragment() {
         when (screenState) {
             is VacancyDetailsScreenState.Content -> {
                 fillViews(screenState.vacancyDetails)
-                viewModel.isFavorite()
+               // viewModel.isFavorite()
                 binding?.progressBarForLoad?.isVisible = false
                 binding?.placeholderServerError?.isVisible = false
             }

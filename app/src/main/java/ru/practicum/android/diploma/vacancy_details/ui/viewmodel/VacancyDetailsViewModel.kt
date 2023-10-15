@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.core.utils.Resource
-import ru.practicum.android.diploma.favorites.data.entity.FavoriteVacancyEntity
 import ru.practicum.android.diploma.favorites.domain.usecase.AddToFavorites
 import ru.practicum.android.diploma.favorites.domain.usecase.DeleteFromFavorites
 import ru.practicum.android.diploma.favorites.domain.usecase.GetFromFavorite
@@ -29,18 +28,17 @@ class VacancyDetailsViewModel(
     private val isFavoriteLiveData = MutableLiveData<Boolean>()
     private var isFavorite: Boolean = false
     private lateinit var vacancy: VacancyDetails
-    private val stateVacancyInfoDb = MutableLiveData<FavoriteVacancyEntity?>()
+    private val stateVacancyInfoDb = MutableLiveData<VacancyDetails?>()
 
     fun observeFavoriteState(): LiveData<Boolean> = isFavoriteLiveData
 
-    fun isFavorite() {
+    fun isFavorite(id: String) {
+
         viewModelScope.launch(Dispatchers.IO) {
-            vacancy.let {
-                isInFavoritesCheckUseCase(it.id)
+                isInFavoritesCheckUseCase(id)
                     .collect {
                         isFavorite = it
                         isFavoriteLiveData.postValue(isFavorite)
-                    }
             }
         }
     }
@@ -70,9 +68,10 @@ class VacancyDetailsViewModel(
                     }
 
                     is Resource.Error -> {
-                        if(!isFavorite)
+                        isFavorite(id)
+                        if(isFavorite)
                         getVacancyFromDb(id)
-                       else _uiState.postValue(VacancyDetailsScreenState.Error(response.errorType))
+                        else _uiState.postValue(VacancyDetailsScreenState.Error(response.errorType))
                     }
                 }
             }
@@ -80,6 +79,7 @@ class VacancyDetailsViewModel(
     }
 
     private fun getVacancyFromDb(id: String) {
+
         viewModelScope.launch {
             getFromFavoriteUseCase(id).collect { vacancyFromDb ->
                 renderStateVacancyInfoDb(vacancyFromDb)
@@ -87,8 +87,10 @@ class VacancyDetailsViewModel(
         }
     }
 
-    private fun renderStateVacancyInfoDb(vacancyFromDb: FavoriteVacancyEntity) {
+    private fun renderStateVacancyInfoDb(vacancyFromDb: VacancyDetails) {
+        vacancy = vacancyFromDb
         stateVacancyInfoDb.postValue(vacancyFromDb)
+        _uiState.postValue(VacancyDetailsScreenState.Content(vacancy))
     }
 
 }
