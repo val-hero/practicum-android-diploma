@@ -28,7 +28,6 @@ import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 import ru.practicum.android.diploma.search.domain.models.fields.KeySkills
 import ru.practicum.android.diploma.search.domain.models.fields.Phones
 import ru.practicum.android.diploma.search.domain.models.fields.Salary
-import ru.practicum.android.diploma.search.domain.models.toFavoriteEntity
 import ru.practicum.android.diploma.vacancy_details.ui.state.VacancyDetailsScreenState
 import ru.practicum.android.diploma.vacancy_details.ui.viewmodel.VacancyDetailsViewModel
 
@@ -79,7 +78,6 @@ class VacancyDetailsFragment : Fragment() {
         }
 
         initToolbar()
-
 
     }
 
@@ -175,11 +173,13 @@ class VacancyDetailsFragment : Fragment() {
 
     private fun showLoading() {
         binding?.progressBarForLoad?.isVisible = true
+        binding?.buttonSimilarVacancy?.isVisible = false
         binding?.placeholderServerError?.isVisible = false
     }
 
     private fun showError() {
         binding?.progressBarForLoad?.isVisible = false
+        binding?.buttonSimilarVacancy?.isVisible = false
         binding?.placeholderServerError?.isVisible = true
     }
 
