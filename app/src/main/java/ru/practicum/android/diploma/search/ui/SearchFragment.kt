@@ -194,12 +194,10 @@ class SearchFragment : Fragment() {
 
     private fun showEmptyFilterIcon() {
         binding?.filterIcon?.setImageResource(R.drawable.ic_filter)
-        //TODO
     }
 
     private fun showNoEmptyFilterIcon() {
         binding?.filterIcon?.setImageResource(R.drawable.filter_on)
-        //TODO
     }
 
 }
