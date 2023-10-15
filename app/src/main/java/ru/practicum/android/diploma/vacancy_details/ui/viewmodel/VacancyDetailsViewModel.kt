@@ -14,6 +14,7 @@ import ru.practicum.android.diploma.favorites.domain.usecase.DeleteFromFavorites
 import ru.practicum.android.diploma.favorites.domain.usecase.GetFromFavorite
 import ru.practicum.android.diploma.favorites.domain.usecase.IsInFavoritesCheck
 import ru.practicum.android.diploma.search.domain.models.VacancyDetails
+import ru.practicum.android.diploma.search.domain.models.toFavoriteEntity
 import ru.practicum.android.diploma.search.domain.usecase.GetVacancyDetailsUseCase
 import ru.practicum.android.diploma.vacancy_details.ui.state.VacancyDetailsScreenState
 
@@ -32,8 +33,7 @@ class VacancyDetailsViewModel(
     private var isFavorite: Boolean = false
     private lateinit var vacancy: VacancyDetails
 
-    private val _stateVacancyInfoDb = MutableLiveData<VacancyDetails?>()
-    val stateVacancyInfoDb: LiveData<VacancyDetails?> = _stateVacancyInfoDb
+    private val stateVacancyInfoDb = MutableLiveData<FavoriteVacancyEntity?>()
 
 
     fun observeFavoriteState(): LiveData<Boolean> = isFavoriteLiveData
@@ -82,10 +82,9 @@ class VacancyDetailsViewModel(
         }
     }
 
-    fun getVacancyFromDb(vacancy: FavoriteVacancyEntity) {
+    fun getVacancyFromDb(id: String) {
         viewModelScope.launch {
-            getFromFavoriteUseCase(vacancy.id).collect { vacancyFromDb ->
-
+            getFromFavoriteUseCase(id).collect { vacancyFromDb ->
                 renderStateVacancyInfoDb(vacancyFromDb)
             }
         }
@@ -93,9 +92,9 @@ class VacancyDetailsViewModel(
 
     private fun renderStateVacancyInfoDb(vacancyFromDb: FavoriteVacancyEntity) {
         if (vacancyFromDb == null)
-            _stateVacancyInfoDb.postValue(null)
+            stateVacancyInfoDb.postValue(null)
         else
-            _stateVacancyInfoDb.postValue(vacancyFromDb.toDomain())
+            stateVacancyInfoDb.postValue(vacancyFromDb)
     }
 
 }

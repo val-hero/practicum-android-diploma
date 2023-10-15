@@ -3,7 +3,6 @@ package ru.practicum.android.diploma.vacancy_details.ui.fragment
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
@@ -26,7 +24,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentVacancyDetailsBinding
-import ru.practicum.android.diploma.favorites.data.entity.FavoriteVacancyEntity
 import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 import ru.practicum.android.diploma.search.domain.models.fields.KeySkills
 import ru.practicum.android.diploma.search.domain.models.fields.Phones
@@ -39,8 +36,6 @@ class VacancyDetailsFragment : Fragment() {
     private var binding: FragmentVacancyDetailsBinding? = null
     private val viewModel by viewModel<VacancyDetailsViewModel>()
     private val args: VacancyDetailsFragmentArgs by navArgs()
-    private lateinit var vacancyDetails: VacancyDetails
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -57,18 +52,6 @@ class VacancyDetailsFragment : Fragment() {
         viewModel.uiState.observe(viewLifecycleOwner) { state ->
             render(state)
         }
-
-        viewModel.stateVacancyInfoDb.observe(viewLifecycleOwner) { vacancyDetailsDb ->
-            if (vacancyDetailsDb == null){
-                return@observe
-            }
-            vacancyDetails = vacancyDetailsDb
-            binding?.detailsData?.visibility = View.VISIBLE
-            binding?.addToFavoriteButton?.isClickable = true
-            binding?.shareButton?.isClickable = true
-            fillViews(vacancyDetails)
-        }
-
 
         binding?.addToFavoriteButton?.setOnClickListener { button ->
             (button as? ImageView)?.let { startAnimation(it) }
@@ -131,7 +114,6 @@ class VacancyDetailsFragment : Fragment() {
             }
 
             is VacancyDetailsScreenState.Error -> {
-                viewModel.getVacancyFromDb(vacancyDetails.toFavoriteEntity())
                 showError()
             }
 
@@ -148,7 +130,7 @@ class VacancyDetailsFragment : Fragment() {
             salary.text = getSalaryText(vacancy.salary, requireContext())
 
             Glide.with(this@VacancyDetailsFragment)
-                .load(vacancyDetails.employer?.logoUrls?.smallLogo)
+                .load(vacancy.employer?.logoUrls?.smallLogo)
                 .placeholder(R.drawable.employer_logo_placeholder)
                 .centerCrop().transform(
                     RoundedCorners(
@@ -182,7 +164,7 @@ class VacancyDetailsFragment : Fragment() {
             hideEmptyViews(vacancy)
 
             binding?.shareButton?.setOnClickListener {
-                if (vacancy.alternateUrl != null) shareVacancy(vacancy.alternateUrl!!)
+                if (vacancy.alternateUrl != null) shareVacancy(vacancy.alternateUrl)
             }
 
             binding?.contactsEmail?.setOnClickListener {
