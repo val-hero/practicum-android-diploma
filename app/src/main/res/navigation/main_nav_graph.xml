@@ -106,7 +106,7 @@
 
     <fragment
         android:id="@+id/similarVacanciesFragment"
-        android:name="ru.practicum.android.diploma.similar_vacancies.ui.SimilarVacanciesFragment"
+        android:name="ru.practicum.android.diploma.similar_vacancies.ui.fragment.SimilarVacanciesFragment"
         android:label="fragment_similar_vacancies"
         tools:layout="@layout/fragment_similar_vacancies" >
         <argument
