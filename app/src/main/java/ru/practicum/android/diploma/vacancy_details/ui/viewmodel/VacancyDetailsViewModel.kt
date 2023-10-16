@@ -69,8 +69,8 @@ class VacancyDetailsViewModel(
                     }
 
                     is Resource.Error -> {
-                        if(isFavorite(id))
-                        getVacancyFromDb(id)
+                        if (isFavorite(id))
+                            getVacancyFromDb(id)
                         else _uiState.postValue(VacancyDetailsScreenState.Error(response.errorType))
                     }
                 }

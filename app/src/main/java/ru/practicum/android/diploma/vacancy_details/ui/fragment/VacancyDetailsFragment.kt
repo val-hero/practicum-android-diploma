@@ -181,6 +181,13 @@ class VacancyDetailsFragment : Fragment() {
         binding?.progressBarForLoad?.isVisible = false
         binding?.buttonSimilarVacancy?.isVisible = false
         binding?.placeholderServerError?.isVisible = true
+        binding?.cardView?.isVisible = false
+        binding?.experienceTitle?.isVisible = false
+        binding?.scheduleEmployment?.isVisible = false
+        binding?.descriptionTitle?.isVisible = false
+        binding?.description?.isVisible = false
+        hideEmptyViews(null)
+
     }
 
     private fun String.addSpacesAfterLiTags(): String {
