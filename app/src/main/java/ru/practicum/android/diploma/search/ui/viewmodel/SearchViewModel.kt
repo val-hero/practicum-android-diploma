@@ -73,7 +73,7 @@ class SearchViewModel(
     fun updateFilterSettings() {
         viewModelScope.launch {
             filterSettings = filterSettingsUseCase()
-            if(filterSettings != null) _filterSettingsState.postValue(true) else _filterSettingsState.postValue(false)
+            _filterSettingsState.value = filterSettings != null
         }
     }
 
