@@ -58,9 +58,8 @@ class SearchViewModel(
             viewModelScope.launch {
                 searchUseCase(query).collect {
                     when (it) {
-                        //TODO vacancies count
                         is Resource.Success -> renderState(SearchScreenState.Success(it.data))
-                        else -> {}
+                        is Resource.Error -> renderState(SearchScreenState.Error(it.errorType))
                     }
                 }
             }
