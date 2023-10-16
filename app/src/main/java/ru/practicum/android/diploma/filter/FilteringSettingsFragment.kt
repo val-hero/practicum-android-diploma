@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -57,7 +58,7 @@ class FilteringSettingsFragment : Fragment() {
 
         binding.applyButton.setOnClickListener {
             val salary = if (binding.salary.text.isNullOrBlank()) null else binding.salary.text.toString()
-            viewModel.saveSalarySettings(salary, binding.checkbox.isChecked)
+            viewModel.saveSalary(salary)
             findNavController().popBackStack()
         }
 
@@ -70,7 +71,7 @@ class FilteringSettingsFragment : Fragment() {
             if(binding.checkbox.isChecked) {
                 viewModel.saveSalaryFlag(true)
             } else {
-                viewModel.saveSalaryFlag(false)
+                viewModel.saveSalaryFlag(null)
             }
             viewModel.getFilterSettings()
         }
@@ -123,13 +124,13 @@ class FilteringSettingsFragment : Fragment() {
         binding.salary.doOnTextChanged { s: CharSequence?, _, _, _ ->
             if (s.isNullOrEmpty()) {
                 binding.amountTextLayout.endIconMode = END_ICON_NONE
-                if (filterParameters == null) binding.btnGroup.visibility = View.GONE
-
+                binding.btnGroup.isVisible = filterParameters != null
             } else {
                 binding.amountTextLayout.endIconMode = END_ICON_CUSTOM
                 binding.btnGroup.visibility = View.VISIBLE
                 binding.amountTextLayout.setEndIconOnClickListener {
                     binding.salary.setText("")
+                    viewModel.saveSalary(null)
                 }
             }
         }
