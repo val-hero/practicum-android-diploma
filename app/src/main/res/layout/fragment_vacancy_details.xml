@@ -83,7 +83,7 @@
             android:text="@string/server_error"
             android:textAlignment="center"
             android:textColor="?attr/colorOnPrimary"
-            android:visibility="visible"
+            android:visibility="gone"
             app:drawableTopCompat="@drawable/placeholder_server_error_cat"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
