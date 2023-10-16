@@ -67,14 +67,15 @@ class FilteringSettingsFragment : Fragment() {
             findNavController().popBackStack()
         }
 
-        binding.checkbox.setOnClickListener {
-            if(binding.checkbox.isChecked) {
+        binding.salaryFlagCheckbox.setOnClickListener {
+            if(binding.salaryFlagCheckbox.isChecked) {
                 viewModel.saveSalaryFlag(true)
             } else {
                 viewModel.saveSalaryFlag(null)
             }
             viewModel.getFilterSettings()
         }
+
     }
 
     override fun onResume() {
@@ -90,7 +91,7 @@ class FilteringSettingsFragment : Fragment() {
     private fun render(filterParameters: FilterParameters?) {
         if (filterParameters == null) {
             binding.btnGroup.visibility = View.GONE
-            binding.checkbox.isChecked = false
+            binding.salaryFlagCheckbox.isChecked = false
         } else {
             binding.btnGroup.visibility = View.VISIBLE
             if (filterParameters.area != null) {
@@ -115,8 +116,8 @@ class FilteringSettingsFragment : Fragment() {
 
             }
             if (filterParameters.salary != null) binding.salary.setText(filterParameters.salary?.toString())
-            if (filterParameters.onlyWithSalary == true) binding.checkbox.isChecked =
-                true else binding.checkbox.isChecked = false
+            if (filterParameters.onlyWithSalary == true) binding.salaryFlagCheckbox.isChecked =
+                true else binding.salaryFlagCheckbox.isChecked = false
         }
     }
 
