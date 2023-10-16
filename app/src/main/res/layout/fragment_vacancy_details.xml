@@ -79,17 +79,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextMedium_22_500"
-            android:layout_gravity="center"
             android:drawablePadding="@dimen/padding_18"
             android:text="@string/server_error"
             android:textAlignment="center"
             android:textColor="?attr/colorOnPrimary"
-            android:visibility="gone"
+            android:visibility="visible"
             app:drawableTopCompat="@drawable/placeholder_server_error_cat"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@id/card_view" />
 
         <TextView
             android:id="@+id/vacancy_name"
