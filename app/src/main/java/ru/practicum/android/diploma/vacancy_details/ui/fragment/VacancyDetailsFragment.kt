@@ -23,12 +23,12 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.databinding.FragmentFavoritesBinding
 import ru.practicum.android.diploma.databinding.FragmentVacancyDetailsBinding
 import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 import ru.practicum.android.diploma.search.domain.models.fields.KeySkills
 import ru.practicum.android.diploma.search.domain.models.fields.Phones
 import ru.practicum.android.diploma.search.domain.models.fields.Salary
+import ru.practicum.android.diploma.vacancy_details.ui.state.ButtonSameVacanciesState
 import ru.practicum.android.diploma.vacancy_details.ui.state.VacancyDetailsScreenState
 import ru.practicum.android.diploma.vacancy_details.ui.viewmodel.VacancyDetailsViewModel
 
@@ -59,7 +59,7 @@ class VacancyDetailsFragment : Fragment() {
             viewModel.onFavoriteButtonClick()
         }
 
-        binding.buttonSimilarVacancy?.setOnClickListener {
+        binding.buttonSimilarVacancy.setOnClickListener {
             findNavController().navigate(
                 VacancyDetailsFragmentDirections.actionVacancyFragmentToSimilarVacanciesFragment(
                     args.vacancyId
@@ -73,6 +73,10 @@ class VacancyDetailsFragment : Fragment() {
 
         viewModel.observeFavoriteState().observe(viewLifecycleOwner) {
             renderLikeButton(it)
+        }
+
+        viewModel.buttonSameVacanciesState.observe(viewLifecycleOwner) { state ->
+            changeVisibilityButtonSameVacancies(state)
         }
 
         binding.email.setOnClickListener {
@@ -124,6 +128,13 @@ class VacancyDetailsFragment : Fragment() {
             is VacancyDetailsScreenState.Loading -> {
                 showLoading()
             }
+        }
+    }
+
+    private fun changeVisibilityButtonSameVacancies(state: ButtonSameVacanciesState) {
+        when (state) {
+            is ButtonSameVacanciesState.Active -> binding.buttonSimilarVacancy.isVisible = true
+            is ButtonSameVacanciesState.Inactive -> binding.buttonSimilarVacancy.isVisible = false
         }
     }
 
