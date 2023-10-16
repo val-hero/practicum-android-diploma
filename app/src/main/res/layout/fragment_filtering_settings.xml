@@ -65,6 +65,9 @@
         android:layout_marginTop="@dimen/margin_24"
         android:focusableInTouchMode="true"
         android:hint="@string/expected_salary"
+        app:endIconMode="none"
+        app:endIconDrawable="@drawable/ic_close"
+        app:endIconTint="?attr/colorOnPrimary"
         app:hintTextColor="@color/hint_expected_salary_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -96,7 +99,7 @@
         app:layout_constraintTop_toBottomOf="@id/amount_text_layout" />
 
     <CheckBox
-        android:id="@+id/checkbox"
+        android:id="@+id/salary_flag_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
