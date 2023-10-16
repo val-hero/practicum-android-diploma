@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.filter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,20 +34,11 @@ class FilteringSettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.updateFilterSettings().observe(viewLifecycleOwner) {
-            Log.i("FILTERUODATE", "Обновил настройки фильтра в фрагменте, фильтр $it")
+            initEditTextListener(it)
             render(it)
         }
 
-        binding?.salary?.doOnTextChanged { s: CharSequence?, _, _, _ ->
-            if (s.isNullOrEmpty()) {
-                binding?.amountTextLayout?.endIconMode = END_ICON_NONE
-            } else {
-                binding?.amountTextLayout?.endIconMode = END_ICON_CUSTOM
-                binding?.amountTextLayout?.setEndIconOnClickListener {
-                    binding?.salary?.setText("")
-                }
-            }
-        }
+
 
         binding.workPlaceText.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
@@ -126,6 +116,22 @@ class FilteringSettingsFragment : Fragment() {
             if (filterParameters.salary != null) binding.salary.setText(filterParameters.salary?.toString())
             if (filterParameters.onlyWithSalary == true) binding.checkbox.isChecked =
                 true else binding.checkbox.isChecked = false
+        }
+    }
+
+    private fun initEditTextListener(filterParameters: FilterParameters?) {
+        binding.salary.doOnTextChanged { s: CharSequence?, _, _, _ ->
+            if (s.isNullOrEmpty()) {
+                binding.amountTextLayout.endIconMode = END_ICON_NONE
+                if (filterParameters == null) binding.btnGroup.visibility = View.GONE
+
+            } else {
+                binding.amountTextLayout.endIconMode = END_ICON_CUSTOM
+                binding.btnGroup.visibility = View.VISIBLE
+                binding.amountTextLayout.setEndIconOnClickListener {
+                    binding.salary.setText("")
+                }
+            }
         }
     }
 
