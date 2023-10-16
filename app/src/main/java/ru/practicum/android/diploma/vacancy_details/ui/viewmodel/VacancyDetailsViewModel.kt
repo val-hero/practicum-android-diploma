@@ -33,6 +33,7 @@ class VacancyDetailsViewModel(
     private val stateVacancyInfoDb = MutableLiveData<VacancyDetails?>()
 
     fun observeFavoriteState(): LiveData<Boolean> = isFavoriteLiveData
+
     suspend fun isFavorite(id: String): Boolean = suspendCoroutine { continuation ->
         viewModelScope.launch(Dispatchers.IO) {
             isInFavoritesCheckUseCase(id)
@@ -64,6 +65,7 @@ class VacancyDetailsViewModel(
             getVacancyDetailsUseCase(id).collect { response ->
                 when (response) {
                     is Resource.Success -> {
+                        isFavorite(id)
                         _uiState.postValue(VacancyDetailsScreenState.Content(response.data))
                         vacancy = response.data
                     }

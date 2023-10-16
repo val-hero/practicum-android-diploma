@@ -106,7 +106,7 @@ class VacancyDetailsFragment : Fragment() {
         when (screenState) {
             is VacancyDetailsScreenState.Content -> {
                 fillViews(screenState.vacancyDetails)
-               // viewModel.isFavorite()
+               //viewModel.isFavorite()
                 binding?.progressBarForLoad?.isVisible = false
                 binding?.placeholderServerError?.isVisible = false
             }
