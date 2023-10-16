@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -20,7 +19,8 @@ import ru.practicum.android.diploma.search.domain.models.toVacancy
 
 class FavoritesFragment : Fragment() {
 
-    private lateinit var binding: FragmentFavoritesBinding
+    private var _binding : FragmentFavoritesBinding? = null
+    private val binding get() = _binding!!
     private val viewModel by viewModel<FavoritesFragmentViewModel>()
     private val adapter = VacancyAdapter(
         onClick = { onVacancyClick(id = it.id) },
@@ -32,7 +32,7 @@ class FavoritesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFavoritesBinding.inflate(inflater, container, false)
+        _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -42,7 +42,6 @@ class FavoritesFragment : Fragment() {
         viewModel.observeContentState().observe(viewLifecycleOwner) {
             render(it)
         }
-
 
         initAdapter()
     }
@@ -56,7 +55,7 @@ class FavoritesFragment : Fragment() {
         when (state) {
             is FavoritesScreenState.Empty ->  showEmpty()
             is FavoritesScreenState.FavoritesVacancies -> showList(state.vacancies.map { it.toVacancy() })
-            else -> showError()
+            is FavoritesScreenState.Error-> showError()
         }
     }
 
@@ -89,7 +88,6 @@ class FavoritesFragment : Fragment() {
         }
     }
 
-
     private fun onVacancyClick(id: String) {
         if (!viewModel.isClickable) return
         viewModel.onVacancyClick()
@@ -101,12 +99,8 @@ class FavoritesFragment : Fragment() {
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(resources.getString(R.string.delete_vacancy))
             .setMessage(resources.getString(R.string.do_you_want_to_delete_a_vacancy))
-            .setNegativeButton(resources.getString(R.string.no)) { dialog, which ->
-            }
-            .setPositiveButton(resources.getString(R.string.yes)) { dialog, which ->
-                viewModel.deleteVacancy()
-
-            }
+            .setNegativeButton(resources.getString(R.string.no)) { _, _  -> }
+            .setPositiveButton(resources.getString(R.string.yes)) { _, _ -> viewModel.deleteVacancy() }
             .show()
     }
 
