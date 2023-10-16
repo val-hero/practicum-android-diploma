@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.filter
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -28,6 +29,7 @@ class FilteringSettingsViewModel(
     fun updateFilterSettings(): LiveData<FilterParameters?> = _filterSettings
 
     fun getFilterSettings() {
+        Log.i("FILTERUODATE", "Запущен метод getFilterSettings")
         viewModelScope.launch {
             _filterSettings.postValue(getFilterSettingsUseCase())
         }
@@ -57,6 +59,13 @@ class FilteringSettingsViewModel(
     fun clearIndustryField() {
         viewModelScope.launch{
             saveIndustryUseCase(null)
+        }
+    }
+
+    fun saveSalaryFlag(isChecked: Boolean?) {
+        Log.i("FILTERUODATE", "Отправляю в настройки фильтра $isChecked")
+        viewModelScope.launch {
+            saveSalaryFlagUseCase(isChecked)
         }
     }
 

@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.filter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,6 +32,7 @@ class FilteringSettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         viewModel.updateFilterSettings().observe(viewLifecycleOwner) {
+            Log.i("FILTERUODATE", "Обновил настройки фильтра в фрагменте, фильтр $it")
             render(it)
         }
 
@@ -59,6 +61,15 @@ class FilteringSettingsFragment : Fragment() {
         binding.clearButton.setOnClickListener {
             viewModel.clearFilterSettings()
             findNavController().popBackStack()
+        }
+
+        binding.checkbox.setOnClickListener {
+            if(binding.checkbox.isChecked) {
+                viewModel.saveSalaryFlag(true)
+            } else {
+                viewModel.saveSalaryFlag(false)
+            }
+            viewModel.getFilterSettings()
         }
     }
 

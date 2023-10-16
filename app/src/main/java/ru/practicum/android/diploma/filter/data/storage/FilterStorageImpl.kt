@@ -53,7 +53,11 @@ class FilterStorageImpl(private val sharedPref: SharedPreferences, private val g
         val json = sharedPref.getString(FILTER_PARAMETERS, null) ?: return null
         val filterParametersDto =
             gson.fromJson(json, FilterParametersDto::class.java)
-        return filterParametersDto.toDomain()
+        return if (filterParametersDto.country == null && filterParametersDto.area == null && filterParametersDto.industry == null && filterParametersDto.salary == null && filterParametersDto.onlyWithSalary == null) {
+            null
+        } else {
+            filterParametersDto.toDomain()
+        }
     }
 
     private suspend fun getParamsOrCreateFilter(): FilterParametersDto {
