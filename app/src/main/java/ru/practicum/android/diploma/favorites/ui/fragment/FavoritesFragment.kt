@@ -51,6 +51,11 @@ class FavoritesFragment : Fragment() {
         viewModel.getFavoritesVacancies()
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     private fun render(state: FavoritesScreenState) {
         when (state) {
             is FavoritesScreenState.Empty ->  showEmpty()
