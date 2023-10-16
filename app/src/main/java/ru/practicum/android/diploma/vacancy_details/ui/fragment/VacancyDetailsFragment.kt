@@ -46,7 +46,6 @@ class VacancyDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.isFavorite(args.vacancyId)
         viewModel.fetchDetails(args.vacancyId)
 
         viewModel.uiState.observe(viewLifecycleOwner) { state ->

@@ -14,6 +14,8 @@ import ru.practicum.android.diploma.favorites.domain.usecase.IsInFavoritesCheck
 import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 import ru.practicum.android.diploma.search.domain.usecase.GetVacancyDetailsUseCase
 import ru.practicum.android.diploma.vacancy_details.ui.state.VacancyDetailsScreenState
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class VacancyDetailsViewModel(
     private val getVacancyDetailsUseCase: GetVacancyDetailsUseCase,
@@ -31,15 +33,14 @@ class VacancyDetailsViewModel(
     private val stateVacancyInfoDb = MutableLiveData<VacancyDetails?>()
 
     fun observeFavoriteState(): LiveData<Boolean> = isFavoriteLiveData
-
-    fun isFavorite(id: String) {
-
+    suspend fun isFavorite(id: String): Boolean = suspendCoroutine { continuation ->
         viewModelScope.launch(Dispatchers.IO) {
-                isInFavoritesCheckUseCase(id)
-                    .collect {
-                        isFavorite = it
-                        isFavoriteLiveData.postValue(isFavorite)
-            }
+            isInFavoritesCheckUseCase(id)
+                .collect {
+                    val isFavorite = it
+                    isFavoriteLiveData.postValue(isFavorite)
+                    continuation.resume(isFavorite)
+                }
         }
     }
 
@@ -68,8 +69,7 @@ class VacancyDetailsViewModel(
                     }
 
                     is Resource.Error -> {
-                        isFavorite(id)
-                        if(isFavorite)
+                        if(isFavorite(id))
                         getVacancyFromDb(id)
                         else _uiState.postValue(VacancyDetailsScreenState.Error(response.errorType))
                     }
