@@ -98,7 +98,7 @@ class SearchViewModel(
             searchWithFiltersUseCase(filter).collect {
                 when(it) {
                     is Resource.Success -> renderState(SearchScreenState.Success(it.data))
-                    else -> {}
+                    is Resource.Error -> renderState(SearchScreenState.Error(it.errorType))
                 }
             }
         }
