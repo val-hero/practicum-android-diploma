@@ -63,6 +63,11 @@ class SearchFragment : Fragment() {
         viewModel.cancelDebounce = false
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     private fun initAdapter() {
         binding.searchRecycler.adapter = adapter
     }
