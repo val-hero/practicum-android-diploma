@@ -5,8 +5,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.textfield.TextInputLayout.END_ICON_CUSTOM
+import com.google.android.material.textfield.TextInputLayout.END_ICON_NONE
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilteringSettingsBinding
@@ -36,6 +39,16 @@ class FilteringSettingsFragment : Fragment() {
             render(it)
         }
 
+        binding?.salary?.doOnTextChanged { s: CharSequence?, _, _, _ ->
+            if (s.isNullOrEmpty()) {
+                binding?.amountTextLayout?.endIconMode = END_ICON_NONE
+            } else {
+                binding?.amountTextLayout?.endIconMode = END_ICON_CUSTOM
+                binding?.amountTextLayout?.setEndIconOnClickListener {
+                    binding?.salary?.setText("")
+                }
+            }
+        }
 
         binding.workPlaceText.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
