@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.search.domain.models
 
-import com.google.gson.annotations.SerializedName
 import ru.practicum.android.diploma.favorites.data.entity.FavoriteVacancyEntity
 import ru.practicum.android.diploma.search.domain.models.fields.Area
 import ru.practicum.android.diploma.search.domain.models.fields.Contacts

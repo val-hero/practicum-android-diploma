@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.search.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -61,9 +60,8 @@ class SearchViewModel(
             viewModelScope.launch {
                 searchUseCase(query).collect {
                     when (it) {
-                        //TODO vacancies count
                         is Resource.Success -> renderState(SearchScreenState.Success(it.data))
-                        else -> {}
+                        is Resource.Error -> renderState(SearchScreenState.Error(it.errorType))
                     }
                 }
             }
@@ -103,7 +101,7 @@ class SearchViewModel(
             searchWithFiltersUseCase(filter).collect {
                 when(it) {
                     is Resource.Success -> renderState(SearchScreenState.Success(it.data))
-                    else -> {}
+                    is Resource.Error -> renderState(SearchScreenState.Error(it.errorType))
                 }
             }
         }

@@ -20,9 +20,9 @@ class SearchRepositoryImpl(
     override suspend fun getVacancy(id: String): Flow<Resource<VacancyDetails>> = flow {
 
         val apiResponse =
-            networkClient.doRequest(ApiRequest.VacancyDetailsRequest(id)) as VacancyDetailsDto
+            networkClient.doRequest(ApiRequest.VacancyDetailsRequest(id))
 
-        if (apiResponse.resultCode == 200) {
+        if (apiResponse is VacancyDetailsDto && apiResponse.resultCode == 200) {
             emit(Resource.Success(apiResponse.toDomain()))
         } else
             emit(Resource.Error(getErrorType(apiResponse.resultCode)))

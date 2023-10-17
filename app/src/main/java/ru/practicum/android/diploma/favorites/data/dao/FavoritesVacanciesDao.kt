@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 import ru.practicum.android.diploma.favorites.data.entity.FavoriteVacancyEntity
 
 @Dao
@@ -20,5 +21,9 @@ interface FavoritesVacanciesDao {
 
     @Query("SELECT EXISTS(SELECT 1 FROM favorites_vacancy_table WHERE id = :id)")
     suspend fun isFavorite(id: String): Boolean
+
+    @Query("SELECT * FROM favorites_vacancy_table WHERE id = :id")
+    suspend fun getFavoriteVacancyById(id: String): FavoriteVacancyEntity
+
 
 }
