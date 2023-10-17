@@ -75,14 +75,10 @@ class VacancyDetailsFragment : Fragment() {
         }
 
         viewModel.isActiveButtonSameVacancies.observe(viewLifecycleOwner) {
-            when(it) {
+            when (it) {
                 true -> binding.buttonSimilarVacancy.isVisible = true
                 else -> binding.buttonSimilarVacancy.isVisible = false
             }
-        }
-
-        binding.email.setOnClickListener {
-
         }
 
         initToolbar()
