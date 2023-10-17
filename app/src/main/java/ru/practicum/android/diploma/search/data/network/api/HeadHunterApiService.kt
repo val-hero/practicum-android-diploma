@@ -8,7 +8,7 @@ import retrofit2.http.QueryMap
 import ru.practicum.android.diploma.BuildConfig
 import ru.practicum.android.diploma.filter.data.network.dto.fields.CountryDto
 import ru.practicum.android.diploma.filter.data.network.dto.fields.IndustryDto
-import ru.practicum.android.diploma.search.data.network.VacanciesResponse
+import ru.practicum.android.diploma.search.data.network.SearchResponseDto
 import ru.practicum.android.diploma.search.data.network.dto.VacancyDetailsDto
 import ru.practicum.android.diploma.search.data.network.dto.fields.AreaDto
 
@@ -23,7 +23,7 @@ interface HeadHunterApiService {
     suspend fun getVacancy(@Path("vacancy_id") id: String): VacancyDetailsDto
 
     @GET("/vacancies/{vacancy_id}/similar_vacancies")
-    suspend fun getSimilarVacancies(@Path("vacancy_id") id: String): VacanciesResponse
+    suspend fun getSimilarVacancies(@Path("vacancy_id") id: String): SearchResponseDto
 
 
     @GET("/areas/countries")
@@ -38,10 +38,10 @@ interface HeadHunterApiService {
     @GET("/vacancies")
     suspend fun getVacancies(
         @Query("text") query: String,
-        @Query("page") page: Int,
-        @Query("per_page") perPage: Int
-    ): VacanciesResponse
+//        @Query("page") page: Int,
+//        @Query("per_page") perPage: Int
+    ): SearchResponseDto
 
     @GET("/vacancies")
-    suspend fun getVacanciesWithFilters(@QueryMap filters: Map<String, String>): VacanciesResponse
+    suspend fun getVacanciesWithFilters(@QueryMap filters: Map<String, String>): SearchResponseDto
 }

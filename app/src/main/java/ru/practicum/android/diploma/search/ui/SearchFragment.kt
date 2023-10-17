@@ -110,15 +110,15 @@ class SearchFragment : Fragment() {
 
     private fun render(state: SearchScreenState) {
         when (state) {
-            is SearchScreenState.Success -> showVacancies(state.vacancies)
+            is SearchScreenState.Success -> showVacancies(state.vacancies,state.found)
             is SearchScreenState.Loading -> showLoading()
-            is SearchScreenState.NothingFound -> showVacancies(state.vacancies)
+            is SearchScreenState.NothingFound -> showVacancies(state.vacancies,state.found)
             is SearchScreenState.Default -> showDefault()
             is SearchScreenState.Error -> showError(state.type)
         }
     }
 
-    private fun showVacancies(vacancies: List<Vacancy>) {
+    private fun showVacancies(vacancies: List<Vacancy>,found:Int) {
         adapter.setVacancies(vacancies)
         binding?.placeholderImage?.isVisible = false
         binding?.progressBarForLoad?.isVisible = false
@@ -132,7 +132,7 @@ class SearchFragment : Fragment() {
             binding?.searchRecycler?.isVisible = false
         } else {
             binding?.textFabSearch?.text =
-                resources.getQuantityString(R.plurals.vacancies, vacancies.size, vacancies.size)
+                resources.getQuantityString(R.plurals.vacancies, found, found)
             binding?.searchRecycler?.isVisible = true
             binding?.placeholderError?.isVisible = false
         }
