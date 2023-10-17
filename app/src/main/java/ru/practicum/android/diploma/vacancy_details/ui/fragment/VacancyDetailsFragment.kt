@@ -214,7 +214,7 @@ class VacancyDetailsFragment : Fragment() {
         return when {
             (salary?.currency == null) -> context.getString(R.string.no_salary)
 
-            (((salary.to == null) && (salary.from == null))) -> context.getString(R.string.no_salary)
+            ((salary.to == null) && (salary.from == null)) -> context.getString(R.string.no_salary)
 
             (salary.to == null) -> "${context.getString(R.string.from)} ${salary.from} ${salary.currency}"
 
