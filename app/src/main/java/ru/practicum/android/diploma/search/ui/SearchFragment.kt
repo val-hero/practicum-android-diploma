@@ -65,7 +65,7 @@ class SearchFragment : Fragment() {
                     val pos = (binding!!.searchRecycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     val itemCount = adapter.itemCount
                     if (pos >= itemCount-1) {
-                        viewModel.search(binding?.inputSearchForm?.text.toString())
+                        viewModel.loadNextPage()
                     }
                 }
             }

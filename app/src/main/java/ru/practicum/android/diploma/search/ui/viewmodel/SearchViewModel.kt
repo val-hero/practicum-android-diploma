@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.search.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,8 +25,9 @@ class SearchViewModel(
     var isClickable = true
     var cancelDebounce = false
     private var filterSettings: FilterParameters? = null
-    var currentPage = 0
-    var maxPages = Int.MAX_VALUE
+    private var currentPage = 0
+    private var maxPages = Int.MAX_VALUE
+    private var latestSearchQuery: String? = null
 
     lateinit var vacanciesList: MutableList<Vacancy>
 
@@ -58,11 +60,10 @@ class SearchViewModel(
             return
 
         renderState(SearchScreenState.Loading)
-
+        latestSearchQuery = query
         if (filterSettings != null) {
             searchWithFilter(getFilterSettingsAsMap(query))
         } else {
-            currentPage++
             viewModelScope.launch {
                 searchUseCase(query, currentPage).collect {
                     when (it) {
@@ -72,12 +73,23 @@ class SearchViewModel(
                             maxPages = it.data.pages
                         }
 
-                        else -> {}
+                        is Resource.Error -> {
+                            Log.e("Err", it.errorType.name)
+                        }
                     }
 
                 }
             }
         }
+    }
+
+    fun loadNextPage() {
+        if (currentPage >= maxPages)
+            return
+
+        renderState(SearchScreenState.Loading)
+        searchDebounce(latestSearchQuery ?: "")
+        currentPage++
     }
 
 
