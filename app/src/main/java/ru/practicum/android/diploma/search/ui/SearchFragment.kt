@@ -59,7 +59,13 @@ class SearchFragment : Fragment() {
             }
         }
 
-        binding?.filterIcon?.setOnClickListener {
+        binding.filterIcon.setOnClickListener {
+            viewModel.filterSettingsState.observe(viewLifecycleOwner) {
+                when(it) {
+                    true -> showNoEmptyFilterIcon()
+                    else -> showEmptyFilterIcon()
+                }
+            }
             navToFilter()
         }
     }
