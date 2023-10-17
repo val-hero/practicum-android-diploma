@@ -90,11 +90,13 @@ class SearchFragment : Fragment() {
         binding?.inputSearchForm?.doOnTextChanged { s: CharSequence?, _, _, _ ->
             if (s.isNullOrEmpty()) {
                 binding?.editTextImage?.setImageResource(R.drawable.ic_search)
+                viewModel.vacanciesList = mutableListOf()
             } else {
                 binding?.editTextImage?.setImageResource(R.drawable.ic_close)
             }
 
             if (binding?.inputSearchForm?.hasFocus() == true && s.toString().isNotEmpty()) {
+
                 showDefault()
             }
 
@@ -111,6 +113,7 @@ class SearchFragment : Fragment() {
         binding?.inputSearchForm?.requestFocus()
 
         binding?.editTextImage?.setOnClickListener {
+            viewModel.vacanciesList = mutableListOf()
             clearSearch()
         }
     }
