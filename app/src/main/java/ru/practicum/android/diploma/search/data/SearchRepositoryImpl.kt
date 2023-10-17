@@ -30,9 +30,22 @@ class SearchRepositoryImpl(
             emit(Resource.Error(getErrorType(apiResponse.resultCode)))
     }
 
-    override suspend fun getVacancies(query: String): Flow<Resource<SearchResponse>> = flow {
+    override suspend fun getVacancies(
+        query: String,
+        page: Int,
+        perPage: Int,
+        pages: Int
+    ): Flow<Resource<SearchResponse>> = flow {
+
         val apiResponse =
-            networkClient.doRequest(ApiRequest.VacancySearchRequest(query)) as SearchResponseDto
+            networkClient.doRequest(
+                ApiRequest.VacancySearchRequest(
+                    query,
+                    page,
+                    perPage,
+                    pages
+                )
+            ) as SearchResponseDto
 
         if (apiResponse.resultCode == 200) {
             emit(Resource.Success(apiResponse.toDomain()))

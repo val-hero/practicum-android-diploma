@@ -11,6 +11,9 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.MainNavGraphDirections
 import ru.practicum.android.diploma.R
@@ -54,6 +57,19 @@ class SearchFragment : Fragment() {
         binding?.filterIcon?.setOnClickListener {
             navToFilter()
         }
+
+        binding?.searchRecycler?.addOnScrollListener(object :OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy>0){
+                    val pos = (binding!!.searchRecycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val itemCount = adapter.itemCount
+                    if (pos >= itemCount-1) {
+                        viewModel.search(binding?.inputSearchForm?.text.toString())
+                    }
+                }
+            }
+        })
     }
 
     override fun onResume() {
