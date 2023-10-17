@@ -53,12 +53,12 @@ class SearchViewModel(
             return
 
         renderState(SearchScreenState.Loading)
-
+        val titleQuery = "NAME:$query"
         if (filterSettings != null) {
-            searchWithFilter(getFilterSettingsAsMap(query))
+            searchWithFilter(getFilterSettingsAsMap(titleQuery))
         } else {
             viewModelScope.launch {
-                searchUseCase(query).collect {
+                searchUseCase(titleQuery).collect {
                     when (it) {
                         is Resource.Success -> renderState(SearchScreenState.Success(it.data))
                         is Resource.Error -> renderState(SearchScreenState.Error(it.errorType))
