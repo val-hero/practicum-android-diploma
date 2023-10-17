@@ -52,7 +52,14 @@ class SearchFragment : Fragment() {
             render(it)
         }
 
-        binding.filterIcon.setOnClickListener {
+        viewModel.filterSettingsState.observe(viewLifecycleOwner) {
+            when(it) {
+                true -> showNoEmptyFilterIcon()
+                else -> showEmptyFilterIcon()
+            }
+        }
+
+        binding?.filterIcon?.setOnClickListener {
             navToFilter()
         }
     }
@@ -191,18 +198,12 @@ class SearchFragment : Fragment() {
         viewModel.cancelDebounce = true
     }
 
-
-    /* Логика отображения активной/неактивной фильтрации
-
     private fun showEmptyFilterIcon() {
-        binding?.filterIcon?.setImageResource(R.drawable.ic_filter)
-        //TODO
+        binding.filterIcon.setImageResource(R.drawable.ic_filter)
     }
 
     private fun showNoEmptyFilterIcon() {
-        binding?.filterIcon?.setImageResource(R.drawable.filter_on)
-        //TODO
+        binding.filterIcon.setImageResource(R.drawable.filter_on)
     }
 
-     */
 }

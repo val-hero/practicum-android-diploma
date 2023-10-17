@@ -36,7 +36,6 @@ class SelectCountryFragment : Fragment() {
         viewModel.countries.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Success -> {
-
                     adapter.updateCountries(resource.data.map { it })
                 }
 

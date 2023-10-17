@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.search.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,6 +23,8 @@ class SearchViewModel(
     val uiState = MutableLiveData<SearchScreenState>()
     var isClickable = true
     var cancelDebounce = false
+    val _filterSettingsState = MutableLiveData<Boolean>()
+    val filterSettingsState: LiveData<Boolean> = _filterSettingsState
     private var filterSettings: FilterParameters? = null
 
     private val vacanciesSearchDebounce =
@@ -68,6 +71,7 @@ class SearchViewModel(
     fun updateFilterSettings() {
         viewModelScope.launch {
             filterSettings = filterSettingsUseCase()
+            _filterSettingsState.value = filterSettings != null
         }
     }
 

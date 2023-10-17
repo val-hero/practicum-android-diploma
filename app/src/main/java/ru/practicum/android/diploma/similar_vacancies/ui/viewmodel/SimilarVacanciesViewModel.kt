@@ -9,7 +9,7 @@ import ru.practicum.android.diploma.core.utils.Constants
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.core.utils.debounce
 import ru.practicum.android.diploma.search.domain.usecase.GetSimilarVacanciesUseCase
-import ru.practicum.android.diploma.similar_vacancies.ui.SimilarVacanciesScreenState
+import ru.practicum.android.diploma.similar_vacancies.ui.state.SimilarVacanciesScreenState
 
 class SimilarVacanciesViewModel(
     private val getSimilarVacanciesUseCase: GetSimilarVacanciesUseCase
