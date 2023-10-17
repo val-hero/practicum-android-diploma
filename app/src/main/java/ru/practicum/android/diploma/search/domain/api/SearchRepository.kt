@@ -12,9 +12,7 @@ interface SearchRepository {
 
     suspend fun getVacancies(
         query: String,
-        page: Int,
-        perPage: Int,
-        pages: Int
+        page: Int
     ): Flow<Resource<SearchResponse>>
 
     suspend fun getSimilarVacancies(id: String): ResourcesFlow<Vacancy>

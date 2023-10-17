@@ -39,8 +39,7 @@ interface HeadHunterApiService {
     suspend fun getVacancies(
         @Query("text") query: String,
         @Query("page") page: Int,
-        @Query("per_page") perPage: Int,
-        @Query("pages") pages: Int
+        @Query("per_page") perPage: Int = 20
     ): SearchResponseDto
 
     @GET("/vacancies")

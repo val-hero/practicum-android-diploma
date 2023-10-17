@@ -3,14 +3,12 @@ package ru.practicum.android.diploma.search.ui.viewmodel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.core.utils.Constants
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.core.utils.debounce
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 import ru.practicum.android.diploma.filter.domain.usecase.GetFilterSettingsUseCase
-import ru.practicum.android.diploma.search.domain.models.SearchResponse
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.domain.usecase.SearchUseCase
 import ru.practicum.android.diploma.search.domain.usecase.SearchWithFiltersUseCase
@@ -28,7 +26,6 @@ class SearchViewModel(
     private var filterSettings: FilterParameters? = null
     var currentPage = 0
     var maxPages = Int.MAX_VALUE
-    private var perPage = 20
 
     lateinit var vacanciesList: MutableList<Vacancy>
 
@@ -57,7 +54,7 @@ class SearchViewModel(
 
         if (query.isNullOrBlank())
             return
-        if (currentPage == maxPages)
+        if (currentPage >= maxPages)
             return
 
         renderState(SearchScreenState.Loading)
@@ -66,17 +63,15 @@ class SearchViewModel(
             searchWithFilter(getFilterSettingsAsMap(query))
         } else {
             currentPage++
-            viewModelScope.launch() {
-                searchUseCase(query, currentPage, perPage, maxPages).collect {
+            viewModelScope.launch {
+                searchUseCase(query, currentPage).collect {
                     when (it) {
+                        is Resource.Success -> {
+                            renderState(SearchScreenState.Success(it.data.vacancies, it.data.found))
+                            currentPage = it.data.page
+                            maxPages = it.data.pages
+                        }
 
-                        is Resource.Success ->
-                            renderState(
-                                SearchScreenState.Success(
-                                    it.data.vacancies,
-                                    it.data.found
-                                )
-                            )
                         else -> {}
                     }
 
