@@ -46,7 +46,7 @@ class SelectIndustryFragment : Fragment() {
         }
 
         binding.industryRecycler.layoutManager = LinearLayoutManager(requireContext())
-        adapter = IndustrySelectorAdapter(emptyList(), ::onIndustryClick)
+        adapter = IndustrySelectorAdapter(emptyList(), ::onIndustryClick, binding.searchIndustry)
         binding.industryRecycler.adapter = adapter
 
         viewModel.getIndustry()
