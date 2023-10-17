@@ -28,7 +28,6 @@ import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 import ru.practicum.android.diploma.search.domain.models.fields.KeySkills
 import ru.practicum.android.diploma.search.domain.models.fields.Phones
 import ru.practicum.android.diploma.search.domain.models.fields.Salary
-import ru.practicum.android.diploma.vacancy_details.ui.state.ButtonSameVacanciesState
 import ru.practicum.android.diploma.vacancy_details.ui.state.VacancyDetailsScreenState
 import ru.practicum.android.diploma.vacancy_details.ui.viewmodel.VacancyDetailsViewModel
 
@@ -75,8 +74,11 @@ class VacancyDetailsFragment : Fragment() {
             renderLikeButton(it)
         }
 
-        viewModel.buttonSameVacanciesState.observe(viewLifecycleOwner) { state ->
-            changeVisibilityButtonSameVacancies(state)
+        viewModel.isActiveButtonSameVacancies.observe(viewLifecycleOwner) {
+            when(it) {
+                true -> binding.buttonSimilarVacancy.isVisible = true
+                else -> binding.buttonSimilarVacancy.isVisible = false
+            }
         }
 
         binding.email.setOnClickListener {
@@ -128,13 +130,6 @@ class VacancyDetailsFragment : Fragment() {
             is VacancyDetailsScreenState.Loading -> {
                 showLoading()
             }
-        }
-    }
-
-    private fun changeVisibilityButtonSameVacancies(state: ButtonSameVacanciesState) {
-        when (state) {
-            is ButtonSameVacanciesState.Active -> binding.buttonSimilarVacancy.isVisible = true
-            is ButtonSameVacanciesState.Inactive -> binding.buttonSimilarVacancy.isVisible = false
         }
     }
 
