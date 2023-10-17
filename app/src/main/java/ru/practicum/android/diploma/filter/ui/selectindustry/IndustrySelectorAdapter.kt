@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.filter.ui.selectindustry
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,24 +12,37 @@ class IndustrySelectorAdapter(
     private val onClick: (Industry) -> Unit
 ) : RecyclerView.Adapter<IndustrySelectorViewHolder>() {
 
+    private var selectedPosition = RecyclerView.NO_POSITION
+
     fun updateIndustry(newIndustry: List<Industry?>) {
         industry = newIndustry
         notifyDataSetChanged()
     }
+
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): IndustrySelectorViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_regions_industries, parent, false)
-        return IndustrySelectorViewHolder(view,onClick)
+        return IndustrySelectorViewHolder(view, onClick)
     }
 
     override fun getItemCount(): Int {
-       return industry.size
+        return industry.size
     }
 
-    override fun onBindViewHolder(holder: IndustrySelectorViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: IndustrySelectorViewHolder, @SuppressLint("RecyclerView") position: Int) {
         industry[position]?.let { holder.bind(it) }
+
+        holder.radioButton.isChecked = selectedPosition == position
+
+        holder.radioButton.setOnClickListener {
+            if (selectedPosition != position) {
+                notifyItemChanged(selectedPosition)
+                selectedPosition = position
+                notifyItemChanged(selectedPosition)
+            }
+        }
     }
 }

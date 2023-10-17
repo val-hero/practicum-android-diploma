@@ -12,6 +12,7 @@ import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.databinding.FragmentSelectIndustryBinding
 import ru.practicum.android.diploma.filter.domain.models.fields.Industry
 import ru.practicum.android.diploma.filter.ui.selectindustry.viewmodel.SelectIndustryViewModel
+import java.util.ArrayList
 
 
 class SelectIndustryFragment : Fragment() {
@@ -35,8 +36,7 @@ class SelectIndustryFragment : Fragment() {
         viewModel.industry.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Success -> {
-
-                    adapter.updateIndustry(resource.data.map { it })
+                    adapter.updateIndustry(getSortedIndustryList(resource.data).map { it })
                 }
 
                 is Resource.Error -> {
@@ -58,10 +58,22 @@ class SelectIndustryFragment : Fragment() {
     }
 
     private fun onIndustryClick(industry: Industry) {
-        if(!industry.industries.isNullOrEmpty()) {
-            adapter.updateIndustry(industry.industries)
-        }
         viewModel.saveIndustry(industry)
+    }
+
+    private fun getSortedIndustryList(industryList: List<Industry>): List<Industry> {
+        val industries: ArrayList<Industry> = arrayListOf()
+
+        fun flatten(industry: Industry) {
+            industries.add(industry)
+            industry.industries?.forEach { flatten(it) }
+        }
+
+        industryList.forEach {
+            flatten(it)
+        }
+        industries.sortBy { it.name }
+        return industries
     }
 
     override fun onDestroy() {
