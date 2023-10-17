@@ -30,7 +30,6 @@ class SearchFragment : Fragment() {
     private val viewModel by viewModel<SearchViewModel>()
     private val adapter = VacancyAdapter(
         onClick = { onVacancyClick(it.id) },
-
         onLongClick = { true }
     )
 
@@ -58,14 +57,16 @@ class SearchFragment : Fragment() {
             navToFilter()
         }
 
-        binding?.searchRecycler?.addOnScrollListener(object :OnScrollListener(){
+        binding?.searchRecycler?.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (dy>0){
-                    val pos = (binding!!.searchRecycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                if (dy > 0) {
+                    val pos =
+                        (binding!!.searchRecycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     val itemCount = adapter.itemCount
-                    if (pos >= itemCount-1) {
+                    if (pos >= itemCount - 1) {
                         viewModel.loadNextPage()
+
                     }
                 }
             }
@@ -126,16 +127,16 @@ class SearchFragment : Fragment() {
 
     private fun render(state: SearchScreenState) {
         when (state) {
-            is SearchScreenState.Success -> showVacancies(state.vacancies,state.found)
+            is SearchScreenState.Success -> showVacancies(state.vacancies, state.found)
             is SearchScreenState.Loading -> showLoading()
-            is SearchScreenState.NothingFound -> showVacancies(state.vacancies,state.found)
+            is SearchScreenState.NothingFound -> showVacancies(state.vacancies, state.found)
             is SearchScreenState.Default -> showDefault()
             is SearchScreenState.Error -> showError(state.type)
         }
     }
 
-    private fun showVacancies(vacancies: List<Vacancy>,found:Int) {
-        adapter.setVacancies(vacancies)
+    private fun showVacancies(vacancies: List<Vacancy>, found: Int) {
+        adapter.setVacancies(viewModel.vacanciesList)
         binding?.placeholderImage?.isVisible = false
         binding?.progressBarForLoad?.isVisible = false
         binding?.placeholderNoInternet?.isVisible = false

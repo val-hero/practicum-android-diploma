@@ -29,7 +29,7 @@ class SearchViewModel(
     private var maxPages = Int.MAX_VALUE
     private var latestSearchQuery: String? = null
 
-    lateinit var vacanciesList: MutableList<Vacancy>
+    var vacanciesList: MutableList<Vacancy> = mutableListOf()
 
     private val vacanciesSearchDebounce =
         debounce<String>(Constants.SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { query ->
@@ -71,6 +71,7 @@ class SearchViewModel(
                             renderState(SearchScreenState.Success(it.data.vacancies, it.data.found))
                             currentPage = it.data.page
                             maxPages = it.data.pages
+                            vacanciesList.addAll(it.data.vacancies)
                         }
 
                         is Resource.Error -> {
@@ -91,6 +92,7 @@ class SearchViewModel(
         searchDebounce(latestSearchQuery ?: "")
         currentPage++
     }
+
 
 
     fun updateFilterSettings() {
