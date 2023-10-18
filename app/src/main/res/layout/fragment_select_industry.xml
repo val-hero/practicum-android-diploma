@@ -88,7 +88,7 @@
         android:text="@string/no_list"
         android:textAlignment="center"
         android:textColor="?attr/colorOnPrimary"
-        android:visibility="visible"
+        android:visibility="gone"
         app:drawableTopCompat="@drawable/placeholder_list_error"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
