@@ -74,11 +74,6 @@ class SelectRegionFragment : Fragment() {
                 } else {
                     editTextImage.setImageResource(R.drawable.ic_close)
                 }
-
-                if (binding.searchRegion.hasFocus() && s.toString().isNotEmpty()) {
-                    //todo
-                }
-                //todo debounce(?)
             }
 
             searchRegion.setOnEditorActionListener { _, actionId, _ ->

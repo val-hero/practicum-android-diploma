@@ -79,11 +79,6 @@ class SelectIndustryFragment : Fragment() {
                 } else {
                     editTextImage.setImageResource(R.drawable.ic_close)
                 }
-
-                if (binding.searchIndustry.hasFocus() && s.toString().isNotEmpty()) {
-                    //todo
-                }
-                //todo debounce(?)
             }
 
             searchIndustry.setOnEditorActionListener { _, actionId, _ ->
