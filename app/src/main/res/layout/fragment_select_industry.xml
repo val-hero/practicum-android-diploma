@@ -79,6 +79,23 @@
         app:layout_constraintStart_toEndOf="@id/leftBorder"
         app:layout_constraintTop_toBottomOf="@id/search_industry" />
 
+    <TextView
+        android:id="@+id/placeholder_error"
+        style="@style/TextMedium_22_500"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/padding_18"
+        android:text="@string/no_list"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/placeholder_list_error"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        app:layout_constraintTop_toBottomOf="@id/search_industry"
+        app:layout_constraintVertical_bias="0.3" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/choose_button"
         style="@style/FilterBottomButtonsStyle"

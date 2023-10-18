@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -44,9 +45,8 @@ class SelectIndustryFragment : Fragment() {
                     adapter.updateIndustry(resource.data.map { it })
                 }
 
-                is Resource.Error -> {
-                    // Показать ошибку
-                }
+                is Resource.Error -> showError()
+
             }
         }
 
@@ -65,6 +65,13 @@ class SelectIndustryFragment : Fragment() {
     private fun initToolbar() {
         binding.selectIndustryToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun showError() {
+        with(binding) {
+            industryRecycler.isVisible = false
+            placeholderError.isVisible = true
         }
     }
 
