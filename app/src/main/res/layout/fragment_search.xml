@@ -91,10 +91,10 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchAppBarLayout"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_bar"
+        app:layout_constraintBottom_toTopOf="@+id/progress_bar_in_end"
         tools:itemCount="10"
-        tools:listitem="@layout/item_search"
-        tools:ignore="UnknownIdInLayout" />
+        tools:listitem="@layout/item_search" />
+
 
     <TextView
         android:id="@+id/placeholder_error"
