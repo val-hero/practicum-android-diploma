@@ -179,7 +179,7 @@ class SearchFragment : Fragment() {
     private fun showLoading() {
         binding?.placeholderImage?.isVisible = false
         binding?.placeholderError?.isVisible = false
-        binding?.searchRecycler?.isVisible = false
+        binding?.searchRecycler?.isVisible = true
         binding?.progressBarForLoad?.isVisible = true
         binding?.textFabSearch?.isVisible = false
         binding?.placeholderNoInternet?.isVisible = false
