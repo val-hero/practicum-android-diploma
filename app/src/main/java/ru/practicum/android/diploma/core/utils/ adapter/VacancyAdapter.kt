@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.core.utils.adapter
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -37,11 +38,13 @@ class VacancyAdapter(
     }
 
     fun setVacancies(newVacancies: List<Vacancy>?) {
+        val diffCallback = VacancyDiffCallback(vacancies, newVacancies ?: emptyList())
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         vacancies.clear()
         if (!newVacancies.isNullOrEmpty()) {
             vacancies.addAll(newVacancies)
         }
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 }
 
