@@ -53,7 +53,7 @@ class SearchFragment : Fragment() {
         }
 
         viewModel.filterSettingsState.observe(viewLifecycleOwner) {
-            when(it) {
+            when (it) {
                 true -> showNoEmptyFilterIcon()
                 else -> showEmptyFilterIcon()
             }
@@ -61,7 +61,7 @@ class SearchFragment : Fragment() {
 
         binding.filterIcon.setOnClickListener {
             viewModel.filterSettingsState.observe(viewLifecycleOwner) {
-                when(it) {
+                when (it) {
                     true -> showNoEmptyFilterIcon()
                     else -> showEmptyFilterIcon()
                 }
