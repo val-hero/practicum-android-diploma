@@ -18,7 +18,7 @@ import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 
 class FilteringSettingsFragment : Fragment() {
 
-    private var _binding : FragmentFilteringSettingsBinding? = null
+    private var _binding: FragmentFilteringSettingsBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<FilteringSettingsViewModel>()
 
@@ -27,7 +27,7 @@ class FilteringSettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentFilteringSettingsBinding.inflate(inflater,container,false)
+        _binding = FragmentFilteringSettingsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -57,7 +57,8 @@ class FilteringSettingsFragment : Fragment() {
         }
 
         binding.applyButton.setOnClickListener {
-            val salary = if (binding.salary.text.isNullOrBlank()) null else binding.salary.text.toString()
+            val salary =
+                if (binding.salary.text.isNullOrBlank()) null else binding.salary.text.toString()
             viewModel.saveSalary(salary)
             findNavController().popBackStack()
         }
@@ -68,7 +69,7 @@ class FilteringSettingsFragment : Fragment() {
         }
 
         binding.salaryFlagCheckbox.setOnClickListener {
-            if(binding.salaryFlagCheckbox.isChecked) {
+            if (binding.salaryFlagCheckbox.isChecked) {
                 viewModel.saveSalaryFlag(true)
             } else {
                 viewModel.saveSalaryFlag(null)

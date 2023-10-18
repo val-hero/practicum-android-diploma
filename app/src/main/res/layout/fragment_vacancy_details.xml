@@ -76,9 +76,9 @@
 
         <TextView
             android:id="@+id/placeholder_server_error"
+            style="@style/TextMedium_22_500"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/TextMedium_22_500"
             android:drawablePadding="@dimen/padding_18"
             android:text="@string/server_error"
             android:textAlignment="center"
@@ -129,9 +129,9 @@
                 android:id="@+id/employer_logo"
                 android:layout_width="@dimen/size_48"
                 android:layout_height="@dimen/size_48"
-                android:backgroundTint="@color/gray"
                 android:layout_marginStart="@dimen/margin_16"
                 android:layout_marginTop="@dimen/margin_16"
+                android:backgroundTint="@color/gray"
                 android:src="@drawable/employer_logo_placeholder" />
 
             <TextView

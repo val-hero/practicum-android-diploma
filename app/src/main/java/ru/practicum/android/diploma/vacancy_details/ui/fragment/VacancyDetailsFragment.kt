@@ -28,7 +28,6 @@ import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 import ru.practicum.android.diploma.search.domain.models.fields.KeySkills
 import ru.practicum.android.diploma.search.domain.models.fields.Phones
 import ru.practicum.android.diploma.search.domain.models.fields.Salary
-import ru.practicum.android.diploma.vacancy_details.ui.state.ButtonSameVacanciesState
 import ru.practicum.android.diploma.vacancy_details.ui.state.VacancyDetailsScreenState
 import ru.practicum.android.diploma.vacancy_details.ui.viewmodel.VacancyDetailsViewModel
 
@@ -75,12 +74,11 @@ class VacancyDetailsFragment : Fragment() {
             renderLikeButton(it)
         }
 
-        viewModel.buttonSameVacanciesState.observe(viewLifecycleOwner) { state ->
-            changeVisibilityButtonSameVacancies(state)
-        }
-
-        binding.email.setOnClickListener {
-
+        viewModel.isActiveButtonSameVacancies.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> binding.buttonSimilarVacancy.isVisible = true
+                else -> binding.buttonSimilarVacancy.isVisible = false
+            }
         }
 
         initToolbar()
@@ -128,13 +126,6 @@ class VacancyDetailsFragment : Fragment() {
             is VacancyDetailsScreenState.Loading -> {
                 showLoading()
             }
-        }
-    }
-
-    private fun changeVisibilityButtonSameVacancies(state: ButtonSameVacanciesState) {
-        when (state) {
-            is ButtonSameVacanciesState.Active -> binding.buttonSimilarVacancy.isVisible = true
-            is ButtonSameVacanciesState.Inactive -> binding.buttonSimilarVacancy.isVisible = false
         }
     }
 
@@ -214,7 +205,7 @@ class VacancyDetailsFragment : Fragment() {
         return when {
             (salary?.currency == null) -> context.getString(R.string.no_salary)
 
-            (((salary.to == null) && (salary.from == null))) -> context.getString(R.string.no_salary)
+            ((salary.to == null) && (salary.from == null)) -> context.getString(R.string.no_salary)
 
             (salary.to == null) -> "${context.getString(R.string.from)} ${salary.from} ${salary.currency}"
 
