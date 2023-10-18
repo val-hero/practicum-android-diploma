@@ -34,8 +34,7 @@ class SelectRegionFragment : Fragment() {
         viewModel.areas.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Success -> {
-
-                    adapter.updateRegion(resource.data.map { it })
+                    adapter.updateRegion(getFlatAreaList(resource.data).map { it })
                 }
 
                 is Resource.Error -> {
@@ -55,10 +54,18 @@ class SelectRegionFragment : Fragment() {
         }
     }
 
-    private fun onRegionClick(region: Area) {
-        if(!region.areas.isNullOrEmpty()) {
-            adapter.updateRegion(region.areas)
+    private fun getFlatAreaList(areaList: List<Area>): List<Area> {
+        val flatAreaList = arrayListOf<Area>()
+
+        fun flatten(area: Area) {
+            flatAreaList.add(area)
+            area.areas?.let { area.areas.forEach { flatten(it) } }
         }
+        areaList.forEach { flatten(it) }
+        return flatAreaList.sortedBy { it.name }
+    }
+
+    private fun onRegionClick(region: Area) {
         viewModel.saveArea(region)
     }
 

@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.core.utils.Resource
+import ru.practicum.android.diploma.filter.domain.models.fields.Country
 import ru.practicum.android.diploma.filter.domain.usecase.GetAreasUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetFilterSettingsUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.SaveAreaUseCase
@@ -21,6 +22,8 @@ class SelectRegionViewModel(
 
     private val _areas = MutableLiveData<Resource<List<Area>>>()
     val areas: LiveData<Resource<List<Area>>> = _areas
+    private val _countrySettings = MutableLiveData<Country?>()
+    val countrySettings: LiveData<Country?> = _countrySettings
 
     fun getAreas() {
         viewModelScope.launch {
@@ -33,6 +36,12 @@ class SelectRegionViewModel(
     fun saveArea(area: Area) {
         viewModelScope.launch {
             saveAreaUseCase(area)
+        }
+    }
+
+    fun getCountry() {
+        viewModelScope.launch {
+            _countrySettings.postValue(getFilterSettingsUseCase()?.country)
         }
     }
 }
