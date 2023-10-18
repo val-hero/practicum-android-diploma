@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimary"
     tools:context=".search.ui.SearchFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -12,6 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
@@ -87,47 +89,64 @@
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/searchAppBarLayout"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_nav_bar"
         tools:itemCount="10"
-        tools:listitem="@layout/item_search" />
+        tools:listitem="@layout/item_search"
+        tools:ignore="UnknownIdInLayout" />
 
     <TextView
         android:id="@+id/placeholder_error"
+        style="@style/TextMedium_22_500"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TextMedium_22_500"
         android:layout_gravity="center"
         android:drawablePadding="@dimen/padding_18"
         android:text="@string/error_list"
         android:textAlignment="center"
         android:textColor="?attr/colorOnPrimary"
         android:visibility="gone"
-        app:drawableTopCompat="@drawable/placeholder_list_error" />
+        app:drawableTopCompat="@drawable/placeholder_list_error"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/searchAppBarLayout"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/placeholder_no_internet"
+        style="@style/TextMedium_22_500"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TextMedium_22_500"
         android:layout_gravity="center"
         android:drawablePadding="@dimen/padding_18"
         android:text="@string/no_internet"
         android:textAlignment="center"
         android:textColor="?attr/colorOnPrimary"
         android:visibility="gone"
-        app:drawableTopCompat="@drawable/placeholder_no_internet" />
+        app:drawableTopCompat="@drawable/placeholder_no_internet"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/searchAppBarLayout"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
 
     <TextView
         android:id="@+id/placeholder_server_error"
+        style="@style/TextMedium_22_500"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TextMedium_22_500"
         android:layout_gravity="center"
         android:drawablePadding="@dimen/padding_18"
         android:text="@string/server_error"
         android:textAlignment="center"
         android:textColor="?attr/colorOnPrimary"
         android:visibility="gone"
-        app:drawableTopCompat="@drawable/placeholder_server_error" />
+        app:drawableTopCompat="@drawable/placeholder_server_error"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/searchAppBarLayout"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ImageView
         android:id="@+id/placeholder_image"
@@ -135,7 +154,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:src="@drawable/placeholder_search"
-        android:visibility="visible" />
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/searchAppBarLayout"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ProgressBar
         android:id="@+id/progress_bar_for_load"
@@ -144,7 +167,11 @@
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:indeterminateTint="@color/blue"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/searchAppBarLayout"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <ProgressBar
         android:id="@+id/progress_bar_in_end"
@@ -153,6 +180,10 @@
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="@dimen/margin_16"
         android:indeterminateTint="@color/blue"
-        android:visibility="gone" />
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/search_recycler"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
