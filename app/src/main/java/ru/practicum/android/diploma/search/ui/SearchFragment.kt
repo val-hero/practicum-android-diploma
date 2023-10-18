@@ -62,21 +62,15 @@ class SearchFragment : Fragment() {
         }
 
         binding.filterIcon.setOnClickListener {
-            viewModel.filterSettingsState.observe(viewLifecycleOwner) {
-                when (it) {
-                    true -> showNoEmptyFilterIcon()
-                    else -> showEmptyFilterIcon()
-                }
-            }
             navToFilter()
         }
 
-        binding?.searchRecycler?.addOnScrollListener(object : OnScrollListener() {
+        binding.searchRecycler.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (dy > 0) {
                     val pos =
-                        (binding!!.searchRecycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                        (binding.searchRecycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
                     val itemCount = adapter.itemCount
                     if (pos >= itemCount - 1) {
                         viewModel.loadNextPage()

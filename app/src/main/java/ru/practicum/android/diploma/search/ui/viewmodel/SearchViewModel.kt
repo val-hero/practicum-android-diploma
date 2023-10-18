@@ -24,7 +24,7 @@ class SearchViewModel(
     val uiState = MutableLiveData<SearchScreenState>()
     var isClickable = true
     var cancelDebounce = false
-    val _filterSettingsState = MutableLiveData<Boolean>()
+    private val _filterSettingsState = MutableLiveData<Boolean>()
     val filterSettingsState: LiveData<Boolean> = _filterSettingsState
     private var filterSettings: FilterParameters? = null
     private var currentPage = 0
@@ -61,8 +61,11 @@ class SearchViewModel(
             return
 
         renderState(SearchScreenState.Loading)
+
         latestSearchQuery = query
+
         val titleQuery = "NAME:$query"
+
         if (filterSettings != null) {
             searchWithFilter(getFilterSettingsAsMap(titleQuery))
         } else {
@@ -75,6 +78,7 @@ class SearchViewModel(
                             maxPages = it.data.pages
                             vacanciesList.addAll(it.data.vacancies)
                         }
+
                         is Resource.Error -> renderState(SearchScreenState.Error(it.errorType))
                     }
                 }
@@ -92,7 +96,6 @@ class SearchViewModel(
     }
 
 
-
     fun updateFilterSettings() {
         viewModelScope.launch {
             filterSettings = filterSettingsUseCase()
@@ -101,8 +104,10 @@ class SearchViewModel(
     }
 
     private fun getFilterSettingsAsMap(query: String): HashMap<String, String> {
+
         val result = HashMap<String, String>()
         result["text"] = query
+
         filterSettings?.industry?.id?.let {
             result["industry"] = filterSettings?.industry?.id as String
         }
@@ -124,13 +129,14 @@ class SearchViewModel(
     fun searchWithFilter(filter: HashMap<String, String>) {
         viewModelScope.launch {
             searchWithFiltersUseCase(filter).collect {
-                when(it) {
+                when (it) {
                     is Resource.Success -> renderState(
                         SearchScreenState.Success(
                             it.data,
                             it.data.size
                         )
                     )
+
                     is Resource.Error -> renderState(SearchScreenState.Error(it.errorType))
                 }
             }
