@@ -132,7 +132,7 @@
         android:background="?attr/colorPrimary"
         android:stateListAnimator="@null"
         android:text="@string/cancel"
-        android:textColor="?attr/colorSurfaceVariant"
+        android:textColor="?attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
