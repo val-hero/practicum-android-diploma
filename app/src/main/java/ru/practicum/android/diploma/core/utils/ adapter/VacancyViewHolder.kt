@@ -16,7 +16,15 @@ class VacancyViewHolder(
 
     fun bind(model: Vacancy) {
         with(binding) {
-            title.text = "${model.name}, ${model.area?.name}"
+            if (model.area?.name?.isNotBlank() == true) {
+                val header = buildString {
+                    append(model.name)
+                    append(", ")
+                    append(model.area.name)
+                }
+                title.text = header
+            } else title.text = model.name
+
             company.text = model.employer?.name
             salary.text = getSalary(model, salary.context)
             root.setOnClickListener { onClick(model) }
