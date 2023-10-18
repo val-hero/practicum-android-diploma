@@ -88,7 +88,7 @@ class SearchViewModel(
         if (currentPage >= maxPages)
             return
 
-        renderState(SearchScreenState.Loading)
+        renderState(SearchScreenState.LoadNextPage)
         searchDebounce(latestSearchQuery ?: "")
         currentPage++
     }

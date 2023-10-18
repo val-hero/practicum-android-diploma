@@ -132,6 +132,7 @@ class SearchFragment : Fragment() {
         when (state) {
             is SearchScreenState.Success -> showVacancies(state.vacancies, state.found)
             is SearchScreenState.Loading -> showLoading()
+            is SearchScreenState.LoadNextPage -> showNextPage()
             is SearchScreenState.NothingFound -> showVacancies(state.vacancies, state.found)
             is SearchScreenState.Default -> showDefault()
             is SearchScreenState.Error -> showError(state.type)
@@ -142,6 +143,7 @@ class SearchFragment : Fragment() {
         adapter.setVacancies(viewModel.vacanciesList)
         binding?.placeholderImage?.isVisible = false
         binding?.progressBarForLoad?.isVisible = false
+        binding?.progressBarInEnd?.isVisible = false
         binding?.placeholderNoInternet?.isVisible = false
         binding?.textFabSearch?.isVisible = true
         binding?.placeholderServerError?.isVisible = false
@@ -181,6 +183,16 @@ class SearchFragment : Fragment() {
         binding?.placeholderError?.isVisible = false
         binding?.searchRecycler?.isVisible = true
         binding?.progressBarForLoad?.isVisible = true
+        binding?.textFabSearch?.isVisible = false
+        binding?.placeholderNoInternet?.isVisible = false
+        binding?.placeholderServerError?.isVisible = false
+    }
+
+    private fun showNextPage(){
+        binding?.placeholderImage?.isVisible = false
+        binding?.placeholderError?.isVisible = false
+        binding?.searchRecycler?.isVisible = true
+        binding?.progressBarInEnd?.isVisible = true
         binding?.textFabSearch?.isVisible = false
         binding?.placeholderNoInternet?.isVisible = false
         binding?.placeholderServerError?.isVisible = false
