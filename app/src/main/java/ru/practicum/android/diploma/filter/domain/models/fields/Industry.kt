@@ -6,7 +6,7 @@ data class Industry(
     val id: String,
     val name: String,
     val parentId: String?,
-    val industries: List<Industry>?
+    val industries: List<Industry>?,
 )
 
 fun Industry.toDto(): IndustryDto {
