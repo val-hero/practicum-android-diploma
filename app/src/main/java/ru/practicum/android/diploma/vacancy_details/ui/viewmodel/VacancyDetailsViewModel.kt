@@ -13,7 +13,6 @@ import ru.practicum.android.diploma.favorites.domain.usecase.GetFromFavorite
 import ru.practicum.android.diploma.favorites.domain.usecase.IsInFavoritesCheck
 import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 import ru.practicum.android.diploma.search.domain.usecase.GetVacancyDetailsUseCase
-import ru.practicum.android.diploma.vacancy_details.ui.state.ButtonSameVacanciesState
 import ru.practicum.android.diploma.vacancy_details.ui.state.VacancyDetailsScreenState
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
@@ -32,8 +31,8 @@ class VacancyDetailsViewModel(
     private var isFavorite: Boolean = false
     private lateinit var vacancy: VacancyDetails
     private val stateVacancyInfoDb = MutableLiveData<VacancyDetails?>()
-    private val _buttonSameVacanciesState = MutableLiveData<ButtonSameVacanciesState>()
-    val buttonSameVacanciesState: LiveData<ButtonSameVacanciesState> = _buttonSameVacanciesState
+    private val _isActiveButtonSameVacancies = MutableLiveData<Boolean>()
+    var isActiveButtonSameVacancies: LiveData<Boolean> = _isActiveButtonSameVacancies
 
     fun observeFavoriteState(): LiveData<Boolean> = isFavoriteLiveData
 
@@ -69,7 +68,7 @@ class VacancyDetailsViewModel(
                 when (response) {
                     is Resource.Success -> {
                         isFavorite(id)
-                        _buttonSameVacanciesState.postValue(ButtonSameVacanciesState.Active)
+                        _isActiveButtonSameVacancies.postValue(true)
                         _uiState.postValue(VacancyDetailsScreenState.Content(response.data))
                         vacancy = response.data
                     }
@@ -77,7 +76,7 @@ class VacancyDetailsViewModel(
                     is Resource.Error -> {
                         if (isFavorite(id)) {
                             getVacancyFromDb(id)
-                            _buttonSameVacanciesState.postValue(ButtonSameVacanciesState.Inactive)
+                            _isActiveButtonSameVacancies.postValue(false)
                         } else
                             _uiState.postValue(VacancyDetailsScreenState.Error(response.errorType))
                     }
