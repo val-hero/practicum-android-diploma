@@ -26,7 +26,8 @@ import ru.practicum.android.diploma.search.ui.viewmodel.SearchViewModel
 
 
 class SearchFragment : Fragment() {
-    private var binding: FragmentSearchBinding? = null
+    private var _binding: FragmentSearchBinding? = null
+    private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
     private val adapter = VacancyAdapter(
         onClick = { onVacancyClick(it.id) },
@@ -38,8 +39,8 @@ class SearchFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentSearchBinding.inflate(inflater, container, false)
-        return binding?.root
+        _binding = FragmentSearchBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -53,7 +54,20 @@ class SearchFragment : Fragment() {
             render(it)
         }
 
-        binding?.filterIcon?.setOnClickListener {
+        viewModel.filterSettingsState.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> showNoEmptyFilterIcon()
+                else -> showEmptyFilterIcon()
+            }
+        }
+
+        binding.filterIcon.setOnClickListener {
+            viewModel.filterSettingsState.observe(viewLifecycleOwner) {
+                when (it) {
+                    true -> showNoEmptyFilterIcon()
+                    else -> showEmptyFilterIcon()
+                }
+            }
             navToFilter()
         }
 
@@ -79,47 +93,51 @@ class SearchFragment : Fragment() {
         viewModel.cancelDebounce = false
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
     private fun initAdapter() {
-        binding?.searchRecycler?.adapter = adapter
+        binding.searchRecycler.adapter = adapter
     }
 
     private fun initInput() {
-        binding?.inputSearchForm?.setOnClickListener {
-            binding?.inputSearchForm?.isCursorVisible = true
+        binding.inputSearchForm.setOnClickListener {
+            binding.inputSearchForm.isCursorVisible = true
         }
-        binding?.inputSearchForm?.doOnTextChanged { s: CharSequence?, _, _, _ ->
+        binding.inputSearchForm.doOnTextChanged { s: CharSequence?, _, _, _ ->
             if (s.isNullOrEmpty()) {
-                binding?.editTextImage?.setImageResource(R.drawable.ic_search)
+                binding.editTextImage.setImageResource(R.drawable.ic_search)
                 viewModel.vacanciesList = mutableListOf()
             } else {
-                binding?.editTextImage?.setImageResource(R.drawable.ic_close)
+                binding.editTextImage.setImageResource(R.drawable.ic_close)
             }
 
-            if (binding?.inputSearchForm?.hasFocus() == true && s.toString().isNotEmpty()) {
-
+            if (binding.inputSearchForm.hasFocus() == true && s.toString().isNotEmpty()) {
                 showDefault()
             }
 
-            viewModel.searchDebounce(binding?.inputSearchForm?.text.toString())
+            viewModel.searchDebounce(binding.inputSearchForm.text.toString())
         }
 
-        binding?.inputSearchForm?.setOnEditorActionListener { _, actionId, _ ->
+        binding.inputSearchForm.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                viewModel.search(binding?.inputSearchForm?.text.toString())
+                viewModel.search(binding.inputSearchForm.text.toString())
             }
             false
         }
 
-        binding?.inputSearchForm?.requestFocus()
+        binding.inputSearchForm.requestFocus()
 
-        binding?.editTextImage?.setOnClickListener {
+        binding.editTextImage.setOnClickListener {
             viewModel.vacanciesList = mutableListOf()
             clearSearch()
         }
     }
 
     private fun clearSearch() {
-        binding?.inputSearchForm?.setText("")
+        binding.inputSearchForm.setText("")
         val view = requireActivity().currentFocus
         if (view != null) {
             val imm = requireActivity().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
@@ -141,34 +159,34 @@ class SearchFragment : Fragment() {
 
     private fun showVacancies(vacancies: List<Vacancy>, found: Int) {
         adapter.setVacancies(viewModel.vacanciesList)
-        binding?.placeholderImage?.isVisible = false
-        binding?.progressBarForLoad?.isVisible = false
-        binding?.progressBarInEnd?.isVisible = false
-        binding?.placeholderNoInternet?.isVisible = false
-        binding?.textFabSearch?.isVisible = true
-        binding?.placeholderServerError?.isVisible = false
+        binding.placeholderImage.isVisible = false
+        binding.progressBarForLoad.isVisible = false
+        binding.progressBarInEnd.isVisible = false
+        binding.placeholderNoInternet.isVisible = false
+        binding.textFabSearch.isVisible = true
+        binding.placeholderServerError.isVisible = false
 
         if (vacancies.isEmpty()) {
-            binding?.textFabSearch?.text = resources.getString(R.string.no_vacancies)
-            binding?.placeholderError?.isVisible = true
-            binding?.searchRecycler?.isVisible = false
+            binding.textFabSearch.text = resources.getString(R.string.no_vacancies)
+            binding.placeholderError.isVisible = true
+            binding.searchRecycler.isVisible = false
         } else {
-            binding?.textFabSearch?.text =
+            binding.textFabSearch.text =
                 resources.getQuantityString(R.plurals.vacancies, found, found)
-            binding?.searchRecycler?.isVisible = true
-            binding?.placeholderError?.isVisible = false
+            binding.searchRecycler.isVisible = true
+            binding.placeholderError.isVisible = false
         }
     }
 
     private fun showError(type: ErrorType) {
-        binding?.placeholderImage?.isVisible = false
-        binding?.placeholderError?.isVisible = false
-        binding?.searchRecycler?.isVisible = false
-        binding?.progressBarForLoad?.isVisible = false
-        binding?.textFabSearch?.isVisible = false
+        binding.placeholderImage.isVisible = false
+        binding.placeholderError.isVisible = false
+        binding.searchRecycler.isVisible = false
+        binding.progressBarForLoad.isVisible = false
+        binding.textFabSearch.isVisible = false
         when (type) {
-            ErrorType.NO_CONNECTION -> binding?.placeholderNoInternet?.isVisible = true
-            else -> binding?.placeholderServerError?.isVisible = true
+            ErrorType.NO_CONNECTION -> binding.placeholderNoInternet.isVisible = true
+            else -> binding.placeholderServerError.isVisible = true
         }
     }
 
@@ -179,33 +197,33 @@ class SearchFragment : Fragment() {
     }
 
     private fun showLoading() {
-        binding?.placeholderImage?.isVisible = false
-        binding?.placeholderError?.isVisible = false
-        binding?.searchRecycler?.isVisible = true
-        binding?.progressBarForLoad?.isVisible = true
-        binding?.textFabSearch?.isVisible = false
-        binding?.placeholderNoInternet?.isVisible = false
-        binding?.placeholderServerError?.isVisible = false
+        binding.placeholderImage.isVisible = false
+        binding.placeholderError.isVisible = false
+        binding.searchRecycler.isVisible = true
+        binding.progressBarForLoad.isVisible = true
+        binding.textFabSearch.isVisible = false
+        binding.placeholderNoInternet.isVisible = false
+        binding.placeholderServerError.isVisible = false
     }
 
     private fun showNextPage(){
-        binding?.placeholderImage?.isVisible = false
-        binding?.placeholderError?.isVisible = false
-        binding?.searchRecycler?.isVisible = true
-        binding?.progressBarInEnd?.isVisible = true
-        binding?.textFabSearch?.isVisible = false
-        binding?.placeholderNoInternet?.isVisible = false
-        binding?.placeholderServerError?.isVisible = false
+        binding.placeholderImage.isVisible = false
+        binding.placeholderError.isVisible = false
+        binding.searchRecycler.isVisible = true
+        binding.progressBarInEnd.isVisible = true
+        binding.textFabSearch.isVisible = false
+        binding.placeholderNoInternet.isVisible = false
+        binding.placeholderServerError.isVisible = false
     }
 
     private fun showDefault() {
-        binding?.searchRecycler?.isVisible = false
-        binding?.progressBarForLoad?.isVisible = false
-        binding?.placeholderImage?.isVisible = true
-        binding?.textFabSearch?.isVisible = false
-        binding?.placeholderError?.isVisible = false
-        binding?.placeholderNoInternet?.isVisible = false
-        binding?.placeholderServerError?.isVisible = false
+        binding.searchRecycler.isVisible = false
+        binding.progressBarForLoad.isVisible = false
+        binding.placeholderImage.isVisible = true
+        binding.textFabSearch.isVisible = false
+        binding.placeholderError.isVisible = false
+        binding.placeholderNoInternet.isVisible = false
+        binding.placeholderServerError.isVisible = false
     }
 
     private fun navToFilter() {
@@ -217,18 +235,12 @@ class SearchFragment : Fragment() {
         viewModel.cancelDebounce = true
     }
 
-
-    /* Логика отображения активной/неактивной фильтрации
-
     private fun showEmptyFilterIcon() {
-        binding?.filterIcon?.setImageResource(R.drawable.ic_filter)
-        //TODO
+        binding.filterIcon.setImageResource(R.drawable.ic_filter)
     }
 
     private fun showNoEmptyFilterIcon() {
-        binding?.filterIcon?.setImageResource(R.drawable.filter_on)
-        //TODO
+        binding.filterIcon.setImageResource(R.drawable.filter_on)
     }
 
-     */
 }

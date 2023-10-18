@@ -33,10 +33,9 @@ class FilteringSettingsViewModel(
         }
     }
 
-    fun saveSalarySettings(salary: String?, isChecked: Boolean?) {
+    fun saveSalary(salary: String?) {
         viewModelScope.launch {
             saveSalaryUseCase(salary?.toInt())
-            saveSalaryFlagUseCase(isChecked)
         }
     }
 
@@ -57,6 +56,12 @@ class FilteringSettingsViewModel(
     fun clearIndustryField() {
         viewModelScope.launch{
             saveIndustryUseCase(null)
+        }
+    }
+
+    fun saveSalaryFlag(isChecked: Boolean?) {
+        viewModelScope.launch {
+            saveSalaryFlagUseCase(isChecked)
         }
     }
 

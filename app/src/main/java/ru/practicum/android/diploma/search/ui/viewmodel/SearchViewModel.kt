@@ -1,6 +1,6 @@
 package ru.practicum.android.diploma.search.ui.viewmodel
 
-import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -24,6 +24,8 @@ class SearchViewModel(
     val uiState = MutableLiveData<SearchScreenState>()
     var isClickable = true
     var cancelDebounce = false
+    val _filterSettingsState = MutableLiveData<Boolean>()
+    val filterSettingsState: LiveData<Boolean> = _filterSettingsState
     private var filterSettings: FilterParameters? = null
     private var currentPage = 0
     private var maxPages = Int.MAX_VALUE
@@ -53,7 +55,6 @@ class SearchViewModel(
     }
 
     fun search(query: String) {
-
         if (query.isNullOrBlank())
             return
         if (currentPage >= maxPages)
@@ -61,11 +62,12 @@ class SearchViewModel(
 
         renderState(SearchScreenState.Loading)
         latestSearchQuery = query
+        val titleQuery = "NAME:$query"
         if (filterSettings != null) {
-            searchWithFilter(getFilterSettingsAsMap(query))
+            searchWithFilter(getFilterSettingsAsMap(titleQuery))
         } else {
             viewModelScope.launch {
-                searchUseCase(query, currentPage).collect {
+                searchUseCase(titleQuery, currentPage).collect {
                     when (it) {
                         is Resource.Success -> {
                             renderState(SearchScreenState.Success(it.data.vacancies, it.data.found))
@@ -73,12 +75,8 @@ class SearchViewModel(
                             maxPages = it.data.pages
                             vacanciesList.addAll(it.data.vacancies)
                         }
-
-                        is Resource.Error -> {
-                            Log.e("Err", it.errorType.name)
-                        }
+                        is Resource.Error -> renderState(SearchScreenState.Error(it.errorType))
                     }
-
                 }
             }
         }
@@ -98,6 +96,7 @@ class SearchViewModel(
     fun updateFilterSettings() {
         viewModelScope.launch {
             filterSettings = filterSettingsUseCase()
+            _filterSettingsState.value = filterSettings != null
         }
     }
 
@@ -125,16 +124,14 @@ class SearchViewModel(
     fun searchWithFilter(filter: HashMap<String, String>) {
         viewModelScope.launch {
             searchWithFiltersUseCase(filter).collect {
-                when (it) {
-//                    не уверен что  тут надо передавать it.data.size
+                when(it) {
                     is Resource.Success -> renderState(
                         SearchScreenState.Success(
                             it.data,
                             it.data.size
                         )
                     )
-
-                    else -> {}
+                    is Resource.Error -> renderState(SearchScreenState.Error(it.errorType))
                 }
             }
         }

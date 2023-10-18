@@ -10,6 +10,7 @@ import ru.practicum.android.diploma.favorites.domain.repository.FavoritesReposit
 import ru.practicum.android.diploma.favorites.domain.usecase.AddToFavorites
 import ru.practicum.android.diploma.favorites.domain.usecase.DeleteFromFavorites
 import ru.practicum.android.diploma.favorites.domain.usecase.GetFavorites
+import ru.practicum.android.diploma.favorites.domain.usecase.GetFromFavorite
 import ru.practicum.android.diploma.favorites.domain.usecase.IsInFavoritesCheck
 import ru.practicum.android.diploma.favorites.ui.viewmodel.FavoritesFragmentViewModel
 
@@ -26,5 +27,7 @@ val favoritesModule = module {
     factoryOf(::IsInFavoritesCheck).bind<IsInFavoritesCheck>()
 
     viewModelOf(::FavoritesFragmentViewModel).bind()
+
+    factoryOf(::GetFromFavorite).bind()
 
 }

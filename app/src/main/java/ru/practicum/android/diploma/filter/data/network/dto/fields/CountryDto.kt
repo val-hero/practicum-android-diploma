@@ -10,6 +10,7 @@ data class CountryDto(
 fun CountryDto.toDomain(): Country {
     return Country(
         id = this.id,
-        name = this.name
+        name = this.name,
+        areas = null
     )
 }

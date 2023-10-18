@@ -65,6 +65,9 @@
         android:layout_marginTop="@dimen/margin_24"
         android:focusableInTouchMode="true"
         android:hint="@string/expected_salary"
+        app:endIconMode="none"
+        app:endIconDrawable="@drawable/ic_close"
+        app:endIconTint="@color/black"
         app:hintTextColor="@color/hint_expected_salary_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,8 +80,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_search"
-            android:cursorVisible="false"
-            android:textCursorDrawable="@drawable/cursor" />
+            android:textCursorDrawable="@drawable/cursor"
+            android:focusableInTouchMode="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
@@ -96,7 +99,7 @@
         app:layout_constraintTop_toBottomOf="@id/amount_text_layout" />
 
     <CheckBox
-        android:id="@+id/checkbox"
+        android:id="@+id/salary_flag_checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical|end"
@@ -129,7 +132,7 @@
         android:background="?attr/colorPrimary"
         android:stateListAnimator="@null"
         android:text="@string/cancel"
-        android:textColor="?attr/colorSurfaceVariant"
+        android:textColor="?attr/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
