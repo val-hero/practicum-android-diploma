@@ -28,7 +28,6 @@ class SearchFragment : Fragment() {
     private val viewModel by viewModel<SearchViewModel>()
     private val adapter = VacancyAdapter(
         onClick = { onVacancyClick(it.id) },
-
         onLongClick = { true }
     )
 
