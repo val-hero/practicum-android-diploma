@@ -175,7 +175,7 @@
         android:layout_width="@dimen/size_36"
         android:layout_height="@dimen/size_36"
         android:layout_gravity="bottom|center"
-        android:layout_marginBottom="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_79dp"
         android:indeterminateTint="@color/blue"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"

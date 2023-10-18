@@ -11,6 +11,9 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.MainNavGraphDirections
 import ru.practicum.android.diploma.R
@@ -67,6 +70,21 @@ class SearchFragment : Fragment() {
             }
             navToFilter()
         }
+
+        binding?.searchRecycler?.addOnScrollListener(object : OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0) {
+                    val pos =
+                        (binding!!.searchRecycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
+                    val itemCount = adapter.itemCount
+                    if (pos >= itemCount - 1) {
+                        viewModel.loadNextPage()
+
+                    }
+                }
+            }
+        })
     }
 
     override fun onResume() {
@@ -91,11 +109,12 @@ class SearchFragment : Fragment() {
         binding.inputSearchForm.doOnTextChanged { s: CharSequence?, _, _, _ ->
             if (s.isNullOrEmpty()) {
                 binding.editTextImage.setImageResource(R.drawable.ic_search)
+                viewModel.vacanciesList = mutableListOf()
             } else {
                 binding.editTextImage.setImageResource(R.drawable.ic_close)
             }
 
-            if (binding.inputSearchForm.hasFocus() && s.toString().isNotEmpty()) {
+            if (binding.inputSearchForm.hasFocus() == true && s.toString().isNotEmpty()) {
                 showDefault()
             }
 
@@ -112,6 +131,7 @@ class SearchFragment : Fragment() {
         binding.inputSearchForm.requestFocus()
 
         binding.editTextImage.setOnClickListener {
+            viewModel.vacanciesList = mutableListOf()
             clearSearch()
         }
     }
@@ -128,18 +148,20 @@ class SearchFragment : Fragment() {
 
     private fun render(state: SearchScreenState) {
         when (state) {
-            is SearchScreenState.Success -> showVacancies(state.vacancies)
+            is SearchScreenState.Success -> showVacancies(state.vacancies, state.found)
             is SearchScreenState.Loading -> showLoading()
-            is SearchScreenState.NothingFound -> showVacancies(state.vacancies)
+            is SearchScreenState.LoadNextPage -> showNextPage()
+            is SearchScreenState.NothingFound -> showVacancies(state.vacancies, state.found)
             is SearchScreenState.Default -> showDefault()
             is SearchScreenState.Error -> showError(state.type)
         }
     }
 
-    private fun showVacancies(vacancies: List<Vacancy>) {
-        adapter.setVacancies(vacancies)
+    private fun showVacancies(vacancies: List<Vacancy>, found: Int) {
+        adapter.setVacancies(viewModel.vacanciesList)
         binding.placeholderImage.isVisible = false
         binding.progressBarForLoad.isVisible = false
+        binding.progressBarInEnd.isVisible = false
         binding.placeholderNoInternet.isVisible = false
         binding.textFabSearch.isVisible = true
         binding.placeholderServerError.isVisible = false
@@ -150,7 +172,7 @@ class SearchFragment : Fragment() {
             binding.searchRecycler.isVisible = false
         } else {
             binding.textFabSearch.text =
-                resources.getQuantityString(R.plurals.vacancies, vacancies.size, vacancies.size)
+                resources.getQuantityString(R.plurals.vacancies, found, found)
             binding.searchRecycler.isVisible = true
             binding.placeholderError.isVisible = false
         }
@@ -177,8 +199,18 @@ class SearchFragment : Fragment() {
     private fun showLoading() {
         binding.placeholderImage.isVisible = false
         binding.placeholderError.isVisible = false
-        binding.searchRecycler.isVisible = false
+        binding.searchRecycler.isVisible = true
         binding.progressBarForLoad.isVisible = true
+        binding.textFabSearch.isVisible = false
+        binding.placeholderNoInternet.isVisible = false
+        binding.placeholderServerError.isVisible = false
+    }
+
+    private fun showNextPage(){
+        binding.placeholderImage.isVisible = false
+        binding.placeholderError.isVisible = false
+        binding.searchRecycler.isVisible = true
+        binding.progressBarInEnd.isVisible = true
         binding.textFabSearch.isVisible = false
         binding.placeholderNoInternet.isVisible = false
         binding.placeholderServerError.isVisible = false

@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.core.utils.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.databinding.ItemSearchBinding
 import ru.practicum.android.diploma.search.domain.models.Vacancy
@@ -39,10 +40,12 @@ class VacancyAdapter(
     }
 
     fun setVacancies(newVacancies: List<Vacancy>?) {
+        val diffCallback = VacancyDiffCallback(vacancies, newVacancies ?: emptyList())
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         vacancies.clear()
         if (!newVacancies.isNullOrEmpty()) {
             vacancies.addAll(newVacancies)
         }
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 }
