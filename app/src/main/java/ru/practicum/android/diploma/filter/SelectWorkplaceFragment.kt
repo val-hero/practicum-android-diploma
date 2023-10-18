@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.filter
 
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -53,7 +52,7 @@ class SelectWorkplaceFragment : Fragment() {
     }
 
     private fun render(it: FilterParameters?) {
-        if(it?.country != null) {
+        if (it?.country != null) {
             binding.countryText.setText(it.country?.name)
             binding.country.setEndIconDrawable(R.drawable.ic_close)
             binding.country.setEndIconOnClickListener {
@@ -65,7 +64,7 @@ class SelectWorkplaceFragment : Fragment() {
             binding.countryText.setText("")
             binding.country.setEndIconDrawable(R.drawable.arrow_forward)
         }
-        if(it?.area != null) {
+        if (it?.area != null) {
             binding.regionText.setText(it.area?.name)
             binding.region.setEndIconDrawable(R.drawable.ic_close)
             binding.region.setEndIconOnClickListener {
