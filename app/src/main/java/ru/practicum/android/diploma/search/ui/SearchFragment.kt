@@ -28,7 +28,6 @@ class SearchFragment : Fragment() {
     private val viewModel by viewModel<SearchViewModel>()
     private val adapter = VacancyAdapter(
         onClick = { onVacancyClick(it.id) },
-
         onLongClick = { true }
     )
 
@@ -53,7 +52,7 @@ class SearchFragment : Fragment() {
         }
 
         viewModel.filterSettingsState.observe(viewLifecycleOwner) {
-            when(it) {
+            when (it) {
                 true -> showNoEmptyFilterIcon()
                 else -> showEmptyFilterIcon()
             }
@@ -61,7 +60,7 @@ class SearchFragment : Fragment() {
 
         binding.filterIcon.setOnClickListener {
             viewModel.filterSettingsState.observe(viewLifecycleOwner) {
-                when(it) {
+                when (it) {
                     true -> showNoEmptyFilterIcon()
                     else -> showEmptyFilterIcon()
                 }
