@@ -15,7 +15,6 @@ import ru.practicum.android.diploma.filter.domain.usecase.SaveCountryUseCase
 class SelectCountryViewModel(
     private val getCountriesUseCase: GetCountriesUseCase,
     private val saveCountryUseCase: SaveCountryUseCase,
-    private val saveAreaUseCase: SaveAreaUseCase
 ) : ViewModel() {
 
     private val _countries = MutableLiveData<Resource<List<Country>>>()
@@ -24,7 +23,6 @@ class SelectCountryViewModel(
     fun saveCountry(country: Country) {
         viewModelScope.launch {
             saveCountryUseCase(country)
-            saveAreaUseCase(country.toArea())
         }
     }
     fun getCountries() {
