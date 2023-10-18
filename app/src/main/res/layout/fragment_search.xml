@@ -79,6 +79,7 @@
             tools:text="@string/no_vacancies" />
     </com.google.android.material.appbar.AppBarLayout>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_recycler"
         style="@style/VacancyRecycler"
@@ -92,9 +93,9 @@
 
     <TextView
         android:id="@+id/placeholder_error"
+        style="@style/TextMedium_22_500"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TextMedium_22_500"
         android:layout_gravity="center"
         android:drawablePadding="@dimen/padding_18"
         android:text="@string/error_list"
@@ -105,9 +106,9 @@
 
     <TextView
         android:id="@+id/placeholder_no_internet"
+        style="@style/TextMedium_22_500"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TextMedium_22_500"
         android:layout_gravity="center"
         android:drawablePadding="@dimen/padding_18"
         android:text="@string/no_internet"
@@ -118,9 +119,9 @@
 
     <TextView
         android:id="@+id/placeholder_server_error"
+        style="@style/TextMedium_22_500"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/TextMedium_22_500"
         android:layout_gravity="center"
         android:drawablePadding="@dimen/padding_18"
         android:text="@string/server_error"
@@ -151,8 +152,9 @@
         android:layout_width="@dimen/size_36"
         android:layout_height="@dimen/size_36"
         android:layout_gravity="bottom|center"
-        android:layout_marginBottom="@dimen/margin_16"
+        android:layout_marginBottom="@dimen/margin_79dp"
         android:indeterminateTint="@color/blue"
         android:visibility="gone" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
