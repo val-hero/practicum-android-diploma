@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.filter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,11 +15,13 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilteringSettingsBinding
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
+import ru.practicum.android.diploma.filter.domain.models.fields.Industry
+import ru.practicum.android.diploma.search.domain.models.fields.Area
 
 
 class FilteringSettingsFragment : Fragment() {
 
-    private var _binding : FragmentFilteringSettingsBinding? = null
+    private var _binding: FragmentFilteringSettingsBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<FilteringSettingsViewModel>()
 
@@ -27,14 +30,14 @@ class FilteringSettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentFilteringSettingsBinding.inflate(inflater,container,false)
+        _binding = FragmentFilteringSettingsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.updateFilterSettings().observe(viewLifecycleOwner) {
+        viewModel.filterSettings.observe(viewLifecycleOwner) {
             initEditTextListener(it)
             render(it)
         }
@@ -57,7 +60,8 @@ class FilteringSettingsFragment : Fragment() {
         }
 
         binding.applyButton.setOnClickListener {
-            val salary = if (binding.salary.text.isNullOrBlank()) null else binding.salary.text.toString()
+            val salary =
+                if (binding.salary.text.isNullOrBlank()) null else binding.salary.text.toString()
             viewModel.saveSalary(salary)
             findNavController().popBackStack()
         }
@@ -68,7 +72,7 @@ class FilteringSettingsFragment : Fragment() {
         }
 
         binding.salaryFlagCheckbox.setOnClickListener {
-            if(binding.salaryFlagCheckbox.isChecked) {
+            if (binding.salaryFlagCheckbox.isChecked) {
                 viewModel.saveSalaryFlag(true)
             } else {
                 viewModel.saveSalaryFlag(null)
@@ -92,33 +96,55 @@ class FilteringSettingsFragment : Fragment() {
         if (filterParameters == null) {
             binding.btnGroup.visibility = View.GONE
             binding.salaryFlagCheckbox.isChecked = false
+            clearFields()
         } else {
             binding.btnGroup.visibility = View.VISIBLE
-            if (filterParameters.area != null) {
-                binding.workPlaceText.setText(filterParameters.area?.name)
-                binding.workPlace.setEndIconDrawable(R.drawable.ic_close)
-
-                binding.workPlace.setEndIconOnClickListener {
-                    viewModel.clearAreaField()
-                    binding.workPlaceText.setText("")
-                    binding.workPlace.setEndIconDrawable(R.drawable.arrow_forward)
-                }
-            }
-            if (filterParameters.industry != null) {
-                binding.industryText.setText(filterParameters.industry?.name)
-                binding.industry.setEndIconDrawable(R.drawable.ic_close)
-
-                binding.industry.setEndIconOnClickListener {
-                    viewModel.clearIndustryField()
-                    binding.industryText.setText("")
-                    binding.industry.setEndIconDrawable(R.drawable.arrow_forward)
-                }
-
-            }
+            renderAreaField(filterParameters.area)
+            renderIndustryField(filterParameters.industry)
             if (filterParameters.salary != null) binding.salary.setText(filterParameters.salary?.toString())
-            if (filterParameters.onlyWithSalary == true) binding.salaryFlagCheckbox.isChecked =
-                true else binding.salaryFlagCheckbox.isChecked = false
+            binding.salaryFlagCheckbox.isChecked = filterParameters.onlyWithSalary == true
         }
+    }
+
+    private fun renderIndustryField(industry: Industry?) {
+        if (industry != null) {
+            binding.industryText.setText(industry.name)
+            binding.industry.setEndIconDrawable(R.drawable.ic_close)
+            binding.industry.setEndIconOnClickListener {
+                viewModel.clearIndustryField()
+                clearIndustryField()
+            }
+        } else {
+            clearIndustryField()
+        }
+    }
+
+    private fun renderAreaField(area: Area?) {
+        if (area != null) {
+            binding.workPlaceText.setText(area.name)
+            binding.workPlace.setEndIconDrawable(R.drawable.ic_close)
+            binding.workPlace.setEndIconOnClickListener {
+                viewModel.clearAreaField()
+                clearAreaField()
+            }
+        } else {
+            clearAreaField()
+        }
+    }
+
+    private fun clearIndustryField() {
+        binding.industryText.setText("")
+        binding.industry.setEndIconDrawable(R.drawable.arrow_forward)
+    }
+
+    private fun clearAreaField() {
+        binding.workPlaceText.setText("")
+        binding.workPlace.setEndIconDrawable(R.drawable.arrow_forward)
+    }
+
+    private fun clearFields() {
+        clearIndustryField()
+        clearAreaField()
     }
 
     private fun initEditTextListener(filterParameters: FilterParameters?) {

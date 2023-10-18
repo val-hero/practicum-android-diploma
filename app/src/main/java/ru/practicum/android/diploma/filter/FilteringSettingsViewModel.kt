@@ -25,7 +25,7 @@ class FilteringSettingsViewModel(
 ) : ViewModel() {
 
     private val _filterSettings = MutableLiveData<FilterParameters?>()
-    fun updateFilterSettings(): LiveData<FilterParameters?> = _filterSettings
+    val filterSettings: LiveData<FilterParameters?> = _filterSettings
 
     fun getFilterSettings() {
         viewModelScope.launch {
