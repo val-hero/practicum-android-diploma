@@ -7,7 +7,7 @@ sealed interface SearchScreenState {
 
     object Loading : SearchScreenState
 
-    object LoadNextPage :SearchScreenState
+    object LoadNextPage : SearchScreenState
 
     object Default : SearchScreenState
 
