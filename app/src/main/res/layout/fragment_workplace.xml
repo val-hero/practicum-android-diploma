@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".filter.SelectWorkplaceFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/workplace_toolbar"
+        style="@style/tool_bar"
+        app:buttonGravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:navigationIcon="@drawable/baseline_arrow_back_24"
+        app:title="@string/choosing_a_place_to_work" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/country"
+        style="@style/FilterStyle"
+        android:layout_marginTop="@dimen/margin_16"
+        android:hint="@string/country"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/arrow_forward"
+        app:endIconTint="?attr/colorOnPrimary"
+        app:hintTextColor="?attr/colorOnPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/workplace_toolbar">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/country_text"
+            style="@style/FilterEditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="?attr/colorPrimary" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/region"
+        style="@style/FilterStyle"
+        android:hint="@string/region"
+        android:paddingStart="0dp"
+        app:endIconMode="custom"
+        app:endIconDrawable="@drawable/arrow_forward"
+        app:endIconTint="?attr/colorOnPrimary"
+        app:hintTextColor="?attr/colorOnPrimary"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/country">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/region_text"
+            style="@style/FilterEditTextStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:backgroundTint="?attr/colorPrimary" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/choose_button"
+        style="@style/FilterBottomButtonsStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_8"
+        android:background="@drawable/shape_button"
+        android:text="@string/choose"
+        android:textColor="?attr/colorOnSurface"
+        android:visibility="gone"
+        app:cornerRadius="@dimen/corner_radius_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

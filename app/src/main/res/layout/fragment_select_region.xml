@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".filter.ui.selectregion.SelectRegionFragment">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/rightBorder"
+        android:layout_width="@dimen/layout_width_0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_end="@dimen/guide_begin_16"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/leftBorder"
+        android:layout_width="@dimen/layout_width_0dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintGuide_begin="@dimen/guide_begin_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/select_region_toolbar"
+        style="@style/tool_bar"
+        app:buttonGravity="center_vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:navigationIcon="@drawable/baseline_arrow_back_24"
+        app:title="@string/select_region" />
+
+    <EditText
+        android:id="@+id/search_region"
+        style="@style/SearchEditText"
+        android:layout_width="@dimen/layout_width_0dp"
+        android:layout_height="@dimen/size_56"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_search"
+        android:cursorVisible="false"
+        android:drawableEnd="@drawable/ic_search"
+        android:drawablePadding="@dimen/padding_8"
+        android:hint="@string/input_region"
+        android:imeOptions="actionDone"
+        android:padding="@dimen/padding_8"
+        android:paddingStart="@dimen/padding_10"
+        android:paddingEnd="@dimen/padding_32"
+        android:textCursorDrawable="@drawable/cursor"
+        app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        app:layout_constraintTop_toBottomOf="@id/select_region_toolbar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/regions_recycler"
+        android:layout_width="@dimen/layout_width_0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_8"
+        app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        app:layout_constraintTop_toBottomOf="@id/search_region" />
+
+    <TextView
+        android:id="@+id/placeholder_error"
+        style="@style/TextMedium_22_500"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/padding_18"
+        android:text="@string/no_such_region"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/placeholder_list_error"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        app:layout_constraintTop_toBottomOf="@id/search_region"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <TextView
+        android:id="@+id/placeholder_no_list"
+        style="@style/TextMedium_22_500"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/padding_18"
+        android:text="@string/no_list"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/placeholder_no_list"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        app:layout_constraintTop_toBottomOf="@id/search_region"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/choose_button"
+        style="@style/FilterBottomButtonsStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_8"
+        android:background="@drawable/shape_button"
+        android:text="@string/choose"
+        android:textColor="?attr/colorOnSurface"
+        android:visibility="gone"
+        app:cornerRadius="@dimen/corner_radius_12"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

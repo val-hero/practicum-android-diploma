@@ -1,7 +1,41 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.PracticumAndroidDiploma" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+<resources>
+
+    <style name="Base.Theme.PracticumAndroidDiploma" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Фон -->
+        <item name="colorPrimary">@color/black</item>
+
+        <!-- Текст, который находится непосредственно на фоне -->
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Строка поиска, неактивные элементы, фон компании на экране вакансии -->
+        <!-- ожидаемая ЗП, место работы и отрасль на экране фильтрации -->
+        <item name="colorSecondary">@color/gray</item>
+        <item name="colorSecondaryVariant">@color/light_gray</item>
+
+        <!-- Вводимый текст в Edit Text -->
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Подсказки в Edit Text -->
+        <item name="colorOnSecondaryFixed">@color/white</item>
+
+        <!-- Для синих кнопок с белым текстом -->
+        <item name="colorSurface">@color/blue</item>
+        <item name="colorOnSurface">@color/white</item>
+
+        <!-- Для кнопки "Сбросить" и иконки "Избранного" в активном состоянии -->
+        <item name="colorAccent">@color/red</item>
+
+        <item name="android:windowBackground">?attr/colorPrimary</item>
+
+        <!-- Для фона кнопки активный/неактивный фильтр на экране поиска -->
+        <item name="colorControlActivated">@color/black</item>
+
+        <item name="colorSurfaceVariant">@color/white</item>
+        <!-- Для контура плэйсхолдера лого компании -->
+        <item name="colorOutline">@color/white</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/black</item>
+
     </style>
 </resources>

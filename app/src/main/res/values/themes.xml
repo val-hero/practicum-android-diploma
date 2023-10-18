@@ -1,9 +1,43 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.PracticumAndroidDiploma" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-    </style>
+<resources>
+
+    <style name="Base.Theme.PracticumAndroidDiploma" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Фон -->
+        <item name="colorPrimary">@color/white</item>
+
+        <!-- Текст, который находится непосредственно на фоне -->
+        <item name="colorOnPrimary">@color/black</item>
+
+        <!-- Строка поиска, неактивные элементы, фон компании на экране вакансии -->
+        <!-- ожидаемая ЗП, место работы и отрасль на экране фильтрации -->
+        <item name="colorSecondary">@color/light_gray</item>
+        <item name="colorSecondaryVariant">@color/gray</item>
+
+        <!-- Вводимый текст в Edit Text -->
+        <item name="colorOnSecondary">@color/black</item>
+
+        <!-- Подсказки в Edit Text -->
+        <item name="colorOnSecondaryFixed">@color/gray</item>
+
+        <!-- Для синих кнопок с белым текстом -->
+        <item name="colorSurface">@color/blue</item>
+        <item name="colorOnSurface">@color/white</item>
+
+        <!-- Для кнопки "Сбросить" и иконки "Избранного" в активном состоянии -->
+        <item name="colorAccent">@color/red</item>
+
+        <item name="android:windowBackground">?attr/colorPrimary</item>
+
+        <!-- Для фона кнопки активный/неактивный фильтр на экране поиска -->
+        <item name="colorControlActivated">@color/blue</item>
+
+        <item name="colorSurfaceVariant">@color/red</item>
+        <!-- Для контура плэйсхолдера лого компании -->
+        <item name="colorOutline">@color/light_gray</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/white</item>
+
+  </style>
 
     <style name="Theme.PracticumAndroidDiploma" parent="Base.Theme.PracticumAndroidDiploma" />
 </resources>

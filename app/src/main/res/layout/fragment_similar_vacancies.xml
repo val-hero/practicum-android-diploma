@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/similar_vacancy_toolbar"
+        style="@style/tool_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_scrollFlags="scroll|enterAlways"
+        app:navigationIcon="@drawable/baseline_arrow_back_24"
+        app:title="@string/similar_vacancy" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/similar_vacancies_recycler"
+        style="@style/VacancyRecycler"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/similar_vacancy_toolbar"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_search"
+        tools:visibility="visible" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar_for_load"
+        android:layout_width="@dimen/size_36"
+        android:layout_height="@dimen/size_36"
+        android:indeterminateTint="@color/blue"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/placeholder_no_internet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextMedium_22_500"
+        android:layout_gravity="center"
+        android:drawablePadding="@dimen/padding_18"
+        android:text="@string/no_internet"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/placeholder_no_internet"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/placeholder_server_error"
+        style="@style/TextMedium_22_500"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:drawablePadding="@dimen/padding_18"
+        android:text="@string/server_error"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/placeholder_server_error"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
