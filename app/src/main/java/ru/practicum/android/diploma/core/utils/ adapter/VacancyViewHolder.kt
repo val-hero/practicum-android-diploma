@@ -33,7 +33,8 @@ class VacancyViewHolder(
                 true
             }
 
-            Glide.with(itemView).load(model.employer?.logoUrls?.smallLogo)
+            Glide.with(itemView)
+                .load(model.employer?.logoUrls?.smallLogo)
                 .placeholder(R.drawable.employer_logo_placeholder)
                 .centerCrop()
                 .transform(
