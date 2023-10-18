@@ -17,13 +17,10 @@ import ru.practicum.android.diploma.search.domain.models.fields.Area
 class SelectRegionViewModel(
     private val getAreasUseCase: GetAreasUseCase,
     private val saveAreaUseCase: SaveAreaUseCase,
-    private val getFilterSettingsUseCase: GetFilterSettingsUseCase
 ) : ViewModel() {
 
     private val _areas = MutableLiveData<Resource<List<Area>>>()
     val areas: LiveData<Resource<List<Area>>> = _areas
-    private val _countrySettings = MutableLiveData<Country?>()
-    val countrySettings: LiveData<Country?> = _countrySettings
 
     fun getAreas() {
         viewModelScope.launch {
@@ -39,9 +36,4 @@ class SelectRegionViewModel(
         }
     }
 
-    fun getCountry() {
-        viewModelScope.launch {
-            _countrySettings.postValue(getFilterSettingsUseCase()?.country)
-        }
-    }
 }

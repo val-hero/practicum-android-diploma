@@ -61,8 +61,10 @@ class SelectRegionFragment : Fragment() {
             flatAreaList.add(area)
             area.areas?.let { area.areas.forEach { flatten(it) } }
         }
+
         areaList.forEach { flatten(it) }
-        return flatAreaList.sortedBy { it.name }
+        val listWithoutCountry = flatAreaList.filter { it.countryId != null }
+        return listWithoutCountry.sortedBy { it.name }
     }
 
     private fun onRegionClick(region: Area) {
