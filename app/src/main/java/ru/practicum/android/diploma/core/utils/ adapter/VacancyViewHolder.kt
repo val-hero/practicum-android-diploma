@@ -34,7 +34,9 @@ class VacancyViewHolder(
             }
 
             Glide.with(itemView).load(model.employer?.logoUrls?.smallLogo)
-                .placeholder(R.drawable.employer_logo_placeholder).centerCrop().transform(
+                .placeholder(R.drawable.employer_logo_placeholder)
+                .centerCrop()
+                .transform(
                     RoundedCorners(
                         itemView.resources.getDimensionPixelSize(
                             R.dimen.corner_radius_12
