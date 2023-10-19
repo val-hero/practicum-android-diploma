@@ -41,6 +41,7 @@ class SelectIndustryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        hideKeyboard()
 
         viewModel.industry.observe(viewLifecycleOwner) { resource ->
             when (resource) {
@@ -147,5 +148,11 @@ class SelectIndustryFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun hideKeyboard() {
+        val inputManager =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 }
