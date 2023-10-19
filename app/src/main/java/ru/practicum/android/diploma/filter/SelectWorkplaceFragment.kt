@@ -62,13 +62,12 @@ class SelectWorkplaceFragment : Fragment() {
                 viewModel.clearCountryField()
                 binding.countryText.setText("")
                 binding.country.setEndIconDrawable(R.drawable.arrow_forward)
+                initCountryButtonNavigationListener()
             }
         } else {
             binding.countryText.setText("")
             binding.country.setEndIconDrawable(R.drawable.arrow_forward)
-            binding.country.setEndIconOnClickListener {
-                navigateToRegion(countryId)
-            }
+            initCountryButtonNavigationListener()
         }
         if (it?.area != null) {
             binding.regionText.setText(it.area?.name)
@@ -77,13 +76,12 @@ class SelectWorkplaceFragment : Fragment() {
                 viewModel.clearAreaField()
                 binding.regionText.setText("")
                 binding.region.setEndIconDrawable(R.drawable.arrow_forward)
+                initRegionButtonNavigationListener()
             }
         } else {
             binding.regionText.setText("")
             binding.region.setEndIconDrawable(R.drawable.arrow_forward)
-            binding.region.setEndIconOnClickListener {
-                navigateToRegion(countryId)
-            }
+            initRegionButtonNavigationListener()
 
         }
     }
@@ -100,5 +98,21 @@ class SelectWorkplaceFragment : Fragment() {
 
     private fun navigateToRegion(countryId: String?) {
         findNavController().navigate(SelectWorkplaceFragmentDirections.actionSelectWorkplaceFragmentToSelectRegionFragment(countryId))
+    }
+
+    private fun navigateToCountry() {
+        findNavController().navigate(SelectWorkplaceFragmentDirections.actionSelectWorkplaceFragmentToSelectCountryFragment())
+    }
+
+    private fun initCountryButtonNavigationListener() {
+        binding.country.setEndIconOnClickListener {
+            navigateToCountry()
+        }
+    }
+
+    private fun initRegionButtonNavigationListener() {
+        binding.region.setEndIconOnClickListener {
+            navigateToRegion(countryId)
+        }
     }
 }
