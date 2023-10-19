@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.filter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,9 +14,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilteringSettingsBinding
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
-import ru.practicum.android.diploma.filter.domain.models.fields.Country
 import ru.practicum.android.diploma.filter.domain.models.fields.Industry
-import ru.practicum.android.diploma.search.domain.models.fields.Area
 
 
 class FilteringSettingsFragment : Fragment() {

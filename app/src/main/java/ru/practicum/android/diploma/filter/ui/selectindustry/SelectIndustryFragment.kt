@@ -12,7 +12,6 @@ import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.databinding.FragmentSelectIndustryBinding
 import ru.practicum.android.diploma.filter.domain.models.fields.Industry
 import ru.practicum.android.diploma.filter.ui.selectindustry.viewmodel.SelectIndustryViewModel
-import java.util.ArrayList
 
 
 class SelectIndustryFragment : Fragment() {

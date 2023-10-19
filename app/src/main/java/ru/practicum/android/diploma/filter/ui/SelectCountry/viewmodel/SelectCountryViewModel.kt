@@ -7,9 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.filter.domain.models.fields.Country
-import ru.practicum.android.diploma.filter.domain.models.fields.toArea
 import ru.practicum.android.diploma.filter.domain.usecase.GetCountriesUseCase
-import ru.practicum.android.diploma.filter.domain.usecase.SaveAreaUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.SaveCountryUseCase
 
 class SelectCountryViewModel(

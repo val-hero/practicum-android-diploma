@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.filter
 
 import android.os.Bundle
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +17,8 @@ class SelectWorkplaceFragment : Fragment() {
     private var _binding: FragmentWorkplaceBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<SelectWorkplaceViewModel>()
+    private var countryId: String? = null
+
 
 
     override fun onCreateView(
@@ -43,7 +44,7 @@ class SelectWorkplaceFragment : Fragment() {
         }
         binding.regionText.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
-                findNavController().navigate(R.id.action_selectWorkplaceFragment_to_selectRegionFragment)
+                navigateToRegion(countryId)
             }
         }
 
@@ -56,6 +57,7 @@ class SelectWorkplaceFragment : Fragment() {
         if(it?.country != null) {
             binding.countryText.setText(it.country?.name)
             binding.country.setEndIconDrawable(R.drawable.ic_close)
+            countryId = it.country?.id
             binding.country.setEndIconOnClickListener {
                 viewModel.clearCountryField()
                 binding.countryText.setText("")
@@ -65,7 +67,7 @@ class SelectWorkplaceFragment : Fragment() {
             binding.countryText.setText("")
             binding.country.setEndIconDrawable(R.drawable.arrow_forward)
             binding.country.setEndIconOnClickListener {
-                findNavController().navigate(R.id.action_selectWorkplaceFragment_to_selectCountryFragment)
+                navigateToRegion(countryId)
             }
         }
         if(it?.area != null) {
@@ -80,7 +82,7 @@ class SelectWorkplaceFragment : Fragment() {
             binding.regionText.setText("")
             binding.region.setEndIconDrawable(R.drawable.arrow_forward)
             binding.region.setEndIconOnClickListener {
-                findNavController().navigate(R.id.action_selectWorkplaceFragment_to_selectRegionFragment)
+                navigateToRegion(countryId)
             }
 
         }
@@ -94,5 +96,9 @@ class SelectWorkplaceFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun navigateToRegion(countryId: String?) {
+        findNavController().navigate(SelectWorkplaceFragmentDirections.actionSelectWorkplaceFragmentToSelectRegionFragment(countryId))
     }
 }

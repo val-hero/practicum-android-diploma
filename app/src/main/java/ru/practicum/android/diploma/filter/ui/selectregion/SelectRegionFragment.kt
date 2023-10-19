@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.core.utils.Resource
@@ -19,6 +20,7 @@ class SelectRegionFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapter: RegionSelectorAdapter
     private val viewModel by viewModel<SelectRegionViewModel>()
+    private val args: SelectRegionFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,7 +36,7 @@ class SelectRegionFragment : Fragment() {
         viewModel.areas.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Success -> {
-                    adapter.updateRegion(getFlatAreaList(resource.data).map { it })
+                    adapter.updateRegion(resource.data.map { it })
                 }
 
                 is Resource.Error -> {
@@ -47,24 +49,11 @@ class SelectRegionFragment : Fragment() {
         adapter= RegionSelectorAdapter(emptyList(), ::onRegionClick)
         binding.regionsRecycler.adapter = adapter
 
-        viewModel.getAreas()
+        viewModel.getAreas(args.countryId)
 
         binding.selectRegionToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-    }
-
-    private fun getFlatAreaList(areaList: List<Area>): List<Area> {
-        val flatAreaList = arrayListOf<Area>()
-
-        fun flatten(area: Area) {
-            flatAreaList.add(area)
-            area.areas?.let { area.areas.forEach { flatten(it) } }
-        }
-
-        areaList.forEach { flatten(it) }
-        val listWithoutCountry = flatAreaList.filter { it.countryId != null }
-        return listWithoutCountry.sortedBy { it.name }
     }
 
     private fun onRegionClick(region: Area) {
