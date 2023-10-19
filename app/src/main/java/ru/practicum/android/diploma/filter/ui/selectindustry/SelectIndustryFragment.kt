@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.filter.ui.selectindustry
 
 import android.content.Context
+import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,7 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.navigateUp
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
@@ -27,6 +29,7 @@ class SelectIndustryFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapter: IndustrySelectorAdapter
     private val viewModel by viewModel<SelectIndustryViewModel>()
+    private var myIndustry: Industry? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,11 +57,19 @@ class SelectIndustryFragment : Fragment() {
         adapter = IndustrySelectorAdapter(emptyList(), ::onIndustryClick, binding.searchIndustry)
         binding.industryRecycler.adapter = adapter
 
+
+
         viewModel.getIndustry()
 
         initInputIndustry()
 
         initToolbar()
+
+        binding.chooseButton.setOnClickListener {
+            viewModel.saveIndustry(myIndustry!!)
+            findNavController().navigateUp()
+        }
+
 
     }
 
@@ -113,8 +124,10 @@ class SelectIndustryFragment : Fragment() {
     }
 
     private fun onIndustryClick(industry: Industry) {
-        viewModel.saveIndustry(industry)
+        binding.chooseButton.isVisible = true
+        myIndustry = industry
     }
+
 
     private fun getSortedIndustryList(industryList: List<Industry>): List<Industry> {
         val industries: ArrayList<Industry> = arrayListOf()
