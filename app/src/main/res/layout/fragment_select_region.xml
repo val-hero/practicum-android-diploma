@@ -45,7 +45,6 @@
         android:layout_gravity="center"
         android:background="@drawable/shape_search"
         android:cursorVisible="false"
-        android:drawableEnd="@drawable/ic_search"
         android:drawablePadding="@dimen/padding_8"
         android:hint="@string/input_region"
         android:imeOptions="actionDone"
@@ -56,6 +55,20 @@
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
         app:layout_constraintStart_toEndOf="@id/leftBorder"
         app:layout_constraintTop_toBottomOf="@id/select_region_toolbar" />
+
+    <ImageView
+        android:id="@+id/edit_text_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginStart="@dimen/margin_16"
+        android:padding="@dimen/padding_18"
+        android:src="@drawable/ic_search"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@id/search_region"
+        app:layout_constraintEnd_toEndOf="@id/search_region"
+        app:layout_constraintTop_toTopOf="@id/search_region"
+        app:tint="@color/black" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/regions_recycler"

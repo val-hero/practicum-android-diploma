@@ -54,7 +54,7 @@ class SelectWorkplaceFragment : Fragment() {
     }
 
     private fun render(it: FilterParameters?) {
-        if(it?.country != null) {
+        if (it?.country != null) {
             binding.countryText.setText(it.country?.name)
             binding.country.setEndIconDrawable(R.drawable.ic_close)
             countryId = it.country?.id
@@ -70,7 +70,7 @@ class SelectWorkplaceFragment : Fragment() {
                 navigateToRegion(countryId)
             }
         }
-        if(it?.area != null) {
+        if (it?.area != null) {
             binding.regionText.setText(it.area?.name)
             binding.region.setEndIconDrawable(R.drawable.ic_close)
             binding.region.setEndIconOnClickListener {

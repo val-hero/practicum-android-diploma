@@ -10,6 +10,7 @@ import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.core.utils.debounce
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 import ru.practicum.android.diploma.filter.domain.usecase.GetFilterSettingsUseCase
+import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.domain.usecase.SearchUseCase
 import ru.practicum.android.diploma.search.domain.usecase.SearchWithFiltersUseCase
 import ru.practicum.android.diploma.search.ui.state.SearchScreenState
@@ -23,9 +24,14 @@ class SearchViewModel(
     val uiState = MutableLiveData<SearchScreenState>()
     var isClickable = true
     var cancelDebounce = false
-    val _filterSettingsState = MutableLiveData<Boolean>()
+    private val _filterSettingsState = MutableLiveData<Boolean>()
     val filterSettingsState: LiveData<Boolean> = _filterSettingsState
     private var filterSettings: FilterParameters? = null
+    private var currentPage = 0
+    private var maxPages = Int.MAX_VALUE
+    private var latestSearchQuery: String? = null
+
+    var vacanciesList: MutableList<Vacancy> = mutableListOf()
 
     private val vacanciesSearchDebounce =
         debounce<String>(Constants.SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { query ->
@@ -51,22 +57,44 @@ class SearchViewModel(
     fun search(query: String) {
         if (query.isNullOrBlank())
             return
+        if (currentPage >= maxPages)
+            return
 
         renderState(SearchScreenState.Loading)
 
+        latestSearchQuery = query
+
+        val titleQuery = "NAME:$query"
+
         if (filterSettings != null) {
-            searchWithFilter(getFilterSettingsAsMap(query))
+            searchWithFilter(getFilterSettingsAsMap(titleQuery))
         } else {
             viewModelScope.launch {
-                searchUseCase(query).collect {
+                searchUseCase(titleQuery, currentPage).collect {
                     when (it) {
-                        is Resource.Success -> renderState(SearchScreenState.Success(it.data))
+                        is Resource.Success -> {
+                            renderState(SearchScreenState.Success(it.data.vacancies, it.data.found))
+                            currentPage = it.data.page
+                            maxPages = it.data.pages
+                            vacanciesList.addAll(it.data.vacancies)
+                        }
+
                         is Resource.Error -> renderState(SearchScreenState.Error(it.errorType))
                     }
                 }
             }
         }
     }
+
+    fun loadNextPage() {
+        if (currentPage >= maxPages)
+            return
+
+        renderState(SearchScreenState.LoadNextPage)
+        searchDebounce(latestSearchQuery ?: "")
+        currentPage++
+    }
+
 
     fun updateFilterSettings() {
         viewModelScope.launch {
@@ -99,8 +127,14 @@ class SearchViewModel(
     fun searchWithFilter(filter: HashMap<String, String>) {
         viewModelScope.launch {
             searchWithFiltersUseCase(filter).collect {
-                when(it) {
-                    is Resource.Success -> renderState(SearchScreenState.Success(it.data))
+                when (it) {
+                    is Resource.Success -> renderState(
+                        SearchScreenState.Success(
+                            it.data,
+                            it.data.size
+                        )
+                    )
+
                     is Resource.Error -> renderState(SearchScreenState.Error(it.errorType))
                 }
             }

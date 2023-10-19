@@ -1,14 +1,19 @@
 package ru.practicum.android.diploma.filter.ui.selectregion
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.databinding.FragmentSelectRegionBinding
 import ru.practicum.android.diploma.filter.ui.selectregion.viewmodel.SelectRegionViewModel
@@ -46,13 +51,53 @@ class SelectRegionFragment : Fragment() {
         }
 
         binding.regionsRecycler.layoutManager = LinearLayoutManager(requireContext())
-        adapter= RegionSelectorAdapter(emptyList(), ::onRegionClick)
+        adapter = RegionSelectorAdapter(emptyList(), ::onRegionClick)
         binding.regionsRecycler.adapter = adapter
 
         viewModel.getAreas(args.countryId)
 
         binding.selectRegionToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
+        }
+
+        initInputRegion()
+
+    }
+
+    private fun initInputRegion() {
+        with(binding) {
+            searchRegion.setOnClickListener {
+                searchRegion.isCursorVisible = true
+            }
+            searchRegion.doOnTextChanged { s: CharSequence?, _, _, _ ->
+                if (s.isNullOrEmpty()) {
+                    editTextImage.setImageResource(R.drawable.ic_search)
+                } else {
+                    editTextImage.setImageResource(R.drawable.ic_close)
+                }
+            }
+
+            searchRegion.setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    //todo search
+                }
+                false
+            }
+            searchRegion.requestFocus()
+
+            editTextImage.setOnClickListener {
+                clearSearch()
+            }
+        }
+    }
+
+    private fun clearSearch() {
+        binding.searchRegion.setText("")
+        val view = requireActivity().currentFocus
+        if (view != null) {
+            val imm =
+                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
 
