@@ -82,7 +82,7 @@ class SearchViewModel(
                 result["industry"] = filterSettings?.industry?.id as String
             }
             filterSettings?.country?.id?.let {
-                result["country"] = filterSettings?.country?.id as String
+                result["area"] = filterSettings?.country?.id as String
             }
             filterSettings?.area?.id?.let {
                 result["area"] = filterSettings?.area?.id as String
