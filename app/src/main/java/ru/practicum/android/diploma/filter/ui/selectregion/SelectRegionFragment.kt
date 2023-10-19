@@ -63,7 +63,6 @@ class SelectRegionFragment : Fragment() {
         }
 
 
-
     }
 
     private fun initInputRegion() {
@@ -105,10 +104,11 @@ class SelectRegionFragment : Fragment() {
 
 
     private fun findArea(query: String) {
-        when(query) {
+        when (query) {
             "" -> adapter.updateRegion(regionList)
             else -> {
-                val newList = regionList.filter { it?.name!!.contains(query.trim(), ignoreCase = true) }
+                val newList =
+                    regionList.filter { it?.name!!.contains(query.trim(), ignoreCase = true) }
                 adapter.updateRegion(newList)
             }
         }
