@@ -15,6 +15,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilteringSettingsBinding
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
+import ru.practicum.android.diploma.filter.domain.models.fields.Country
 import ru.practicum.android.diploma.filter.domain.models.fields.Industry
 import ru.practicum.android.diploma.search.domain.models.fields.Area
 
@@ -99,7 +100,7 @@ class FilteringSettingsFragment : Fragment() {
             clearFields()
         } else {
             binding.btnGroup.visibility = View.VISIBLE
-            renderAreaField(filterParameters.area)
+            renderAreaField(filterParameters.country?.name, filterParameters.area?.name)
             renderIndustryField(filterParameters.industry)
             if (filterParameters.salary != null) binding.salary.setText(filterParameters.salary?.toString())
             binding.salaryFlagCheckbox.isChecked = filterParameters.onlyWithSalary == true
@@ -119,9 +120,14 @@ class FilteringSettingsFragment : Fragment() {
         }
     }
 
-    private fun renderAreaField(area: Area?) {
-        if (area != null) {
-            binding.workPlaceText.setText(area.name)
+    private fun renderAreaField(country: String?, area: String?) {
+        if (country != null || area != null) {
+            val displayText: String = when {
+                country != null && area != null -> "$country, $area"
+                country != null -> "$country"
+                else -> "$area"
+            }
+            binding.workPlaceText.setText(displayText)
             binding.workPlace.setEndIconDrawable(R.drawable.ic_close)
             binding.workPlace.setEndIconOnClickListener {
                 viewModel.clearAreaField()
