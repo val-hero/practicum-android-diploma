@@ -110,6 +110,7 @@ class FilteringSettingsFragment : Fragment() {
             binding.industry.setEndIconDrawable(R.drawable.ic_close)
             binding.industry.setEndIconOnClickListener {
                 viewModel.clearIndustryField()
+                viewModel.getFilterSettings()
                 clearIndustryField()
             }
         } else {
@@ -128,6 +129,7 @@ class FilteringSettingsFragment : Fragment() {
             binding.workPlace.setEndIconDrawable(R.drawable.ic_close)
             binding.workPlace.setEndIconOnClickListener {
                 viewModel.clearAreaField()
+                viewModel.getFilterSettings()
                 clearAreaField()
             }
         } else {
