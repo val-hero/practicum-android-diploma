@@ -102,7 +102,6 @@ class SelectRegionFragment : Fragment() {
         findNavController().popBackStack()
     }
 
-
     private fun findArea(query: String) {
         when (query) {
             "" -> adapter.updateRegion(regionList)
