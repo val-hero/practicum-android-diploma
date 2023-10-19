@@ -64,6 +64,9 @@ class SelectWorkplaceFragment : Fragment() {
         } else {
             binding.countryText.setText("")
             binding.country.setEndIconDrawable(R.drawable.arrow_forward)
+            binding.country.setEndIconOnClickListener {
+                findNavController().navigate(R.id.action_selectWorkplaceFragment_to_selectCountryFragment)
+            }
         }
         if(it?.area != null) {
             binding.regionText.setText(it.area?.name)
@@ -76,6 +79,10 @@ class SelectWorkplaceFragment : Fragment() {
         } else {
             binding.regionText.setText("")
             binding.region.setEndIconDrawable(R.drawable.arrow_forward)
+            binding.region.setEndIconOnClickListener {
+                findNavController().navigate(R.id.action_selectWorkplaceFragment_to_selectRegionFragment)
+            }
+
         }
     }
 
