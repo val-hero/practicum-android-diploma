@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -21,6 +22,7 @@ class SelectRegionFragment : Fragment() {
     private lateinit var adapter: RegionSelectorAdapter
     private val viewModel by viewModel<SelectRegionViewModel>()
     private val args: SelectRegionFragmentArgs by navArgs()
+    private lateinit var regionList: List<Area?>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +39,8 @@ class SelectRegionFragment : Fragment() {
             when (resource) {
                 is Resource.Success -> {
                     adapter.updateRegion(resource.data.map { it })
+                    regionList = resource.data.map { it }
+                    initInput()
                 }
 
                 is Resource.Error -> {
@@ -59,6 +63,28 @@ class SelectRegionFragment : Fragment() {
     private fun onRegionClick(region: Area) {
         viewModel.saveArea(region)
         findNavController().popBackStack()
+    }
+
+    private fun initInput() {
+        binding.searchRegion.setOnClickListener {
+            binding.searchRegion.isCursorVisible = true
+        }
+        binding.searchRegion.doOnTextChanged { s: CharSequence?, _, _, _ ->
+            findArea(binding.searchRegion.text.toString())
+        }
+
+        binding.searchRegion.requestFocus()
+
+    }
+
+    private fun findArea(query: String) {
+        when(query) {
+            "" -> adapter.updateRegion(regionList)
+            else -> {
+                val newList = regionList.filter { it?.name!!.contains(query.trim(), ignoreCase = true) }
+                adapter.updateRegion(newList)
+            }
+        }
     }
 
     override fun onDestroy() {
