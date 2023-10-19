@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -42,7 +43,7 @@ class SelectRegionFragment : Fragment() {
                 is Resource.Success -> {
                     adapter.updateRegion(resource.data.map { it })
                     regionList = resource.data.map { it }
-                    initInput()
+                    initInputRegion()
                 }
 
                 is Resource.Error -> {
@@ -61,7 +62,7 @@ class SelectRegionFragment : Fragment() {
             findNavController().navigateUp()
         }
 
-        initInputRegion()
+
 
     }
 
@@ -76,14 +77,9 @@ class SelectRegionFragment : Fragment() {
                 } else {
                     editTextImage.setImageResource(R.drawable.ic_close)
                 }
+                findArea(binding.searchRegion.text.toString())
             }
 
-            searchRegion.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    //todo search
-                }
-                false
-            }
             searchRegion.requestFocus()
 
             editTextImage.setOnClickListener {
@@ -107,17 +103,6 @@ class SelectRegionFragment : Fragment() {
         findNavController().popBackStack()
     }
 
-    private fun initInput() {
-        binding.searchRegion.setOnClickListener {
-            binding.searchRegion.isCursorVisible = true
-        }
-        binding.searchRegion.doOnTextChanged { s: CharSequence?, _, _, _ ->
-            findArea(binding.searchRegion.text.toString())
-        }
-
-        binding.searchRegion.requestFocus()
-
-    }
 
     private fun findArea(query: String) {
         when(query) {
