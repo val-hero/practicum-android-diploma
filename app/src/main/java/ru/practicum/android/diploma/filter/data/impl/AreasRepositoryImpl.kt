@@ -22,7 +22,8 @@ class AreasRepositoryImpl(private val api: HeadHunterApiService) : AreasReposito
     override suspend fun getAreasInCountry(countryId: String): Flow<Resource<List<Area>>> = flow {
         try {
             val areas = api.getAreasInCountry(countryId).areas!!.map { it.toDomain() }
-            emit(Resource.Success(areas))
+            val flatAreas = getFlatAreaList(areas)
+            emit(Resource.Success(flatAreas))
         } catch (e: Exception) {
 
         }
