@@ -50,8 +50,6 @@ class SelectRegionFragment : Fragment() {
                 }
 
                 is Resource.Error -> showError(resource.errorType)
-
-
             }
         }
 
@@ -64,8 +62,6 @@ class SelectRegionFragment : Fragment() {
         binding.selectRegionToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-
-
     }
 
     private fun initInputRegion() {
@@ -101,9 +97,9 @@ class SelectRegionFragment : Fragment() {
     private fun showError(type: ErrorType) {
         with(binding) {
             regionsRecycler.isVisible = false
-            when(type) {
-                ErrorType.NOT_FOUND -> placeholderNoList.isVisible = true
-                else -> placeholderError.isVisible = true
+            when (type) {
+                ErrorType.NOT_FOUND -> placeholderError.isVisible = true
+                else -> placeholderNoList.isVisible = true
             }
         }
     }
@@ -128,6 +124,7 @@ class SelectRegionFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
     private fun hideKeyboard() {
         val inputManager =
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

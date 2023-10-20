@@ -19,7 +19,7 @@ class AreasRepositoryImpl(private val api: HeadHunterApiService) : AreasReposito
             val errorType = ErrorType.NOT_FOUND
             emit(Resource.Error(errorType))
         } catch (e: Exception) {
-            val errorType = ErrorType.BAD_REQUEST
+            val errorType = ErrorType.NO_CONNECTION
             emit(Resource.Error(errorType))
         }
     }
