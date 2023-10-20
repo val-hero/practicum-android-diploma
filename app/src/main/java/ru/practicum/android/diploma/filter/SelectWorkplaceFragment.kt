@@ -63,9 +63,9 @@ class SelectWorkplaceFragment : Fragment() {
         }
     }
 
-    private fun render(it: FilterParameters?) {
-        if (it?.country != null) {
-            binding.countryText.setText(it.country?.name)
+    private fun render(filter: FilterParameters?) {
+        if (filter?.country != null) {
+            binding.countryText.setText(filter.country?.name)
             binding.country.setEndIconDrawable(R.drawable.ic_close)
             binding.country.setEndIconOnClickListener {
                 viewModel.clearCountryField()
@@ -76,8 +76,8 @@ class SelectWorkplaceFragment : Fragment() {
             binding.countryText.setText("")
             binding.country.setEndIconDrawable(R.drawable.arrow_forward)
         }
-        if (it?.area != null) {
-            binding.regionText.setText(it.area?.name)
+        if (filter?.area != null) {
+            binding.regionText.setText(filter.area?.name)
             binding.region.setEndIconDrawable(R.drawable.ic_close)
             binding.region.setEndIconOnClickListener {
                 viewModel.clearAreaField()
