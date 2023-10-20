@@ -9,7 +9,6 @@ import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.filter.domain.models.fields.Industry
 import ru.practicum.android.diploma.filter.domain.usecase.GetIndustriesUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.SaveIndustryUseCase
-import java.util.ArrayList
 
 class SelectIndustryViewModel(
     private val getIndustriesUseCase: GetIndustriesUseCase,

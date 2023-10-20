@@ -74,6 +74,7 @@ class IndustrySelectorAdapter(
                 selectedIndustry = filtredIndustries[position]
                 notifyItemChanged(previousSelectedPosition)
                 notifyItemChanged(position)
+
             }
         }
     }

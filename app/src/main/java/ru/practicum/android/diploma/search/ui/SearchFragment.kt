@@ -38,7 +38,7 @@ class SearchFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSearchBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -108,7 +108,7 @@ class SearchFragment : Fragment() {
                 binding.editTextImage.setImageResource(R.drawable.ic_close)
             }
 
-            if (binding.inputSearchForm.hasFocus() == true && s.toString().isNotEmpty()) {
+            if (binding.inputSearchForm.hasFocus() && s.toString().isNotEmpty()) {
                 showDefault()
             }
 

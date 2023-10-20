@@ -104,26 +104,24 @@ class SearchViewModel(
     }
 
     private fun getFilterSettingsAsMap(query: String): HashMap<String, String> {
-
-        val result = HashMap<String, String>()
-        result["text"] = query
-
-        filterSettings?.industry?.id?.let {
-            result["industry"] = filterSettings?.industry?.id as String
-        }
-        filterSettings?.country?.id?.let {
-            result["country"] = filterSettings?.country?.id as String
-        }
-        filterSettings?.area?.id?.let {
-            result["area"] = filterSettings?.area?.id as String
-        }
-        filterSettings?.salary?.let {
-            result["salary"] = filterSettings?.salary.toString()
-        }
-        filterSettings?.onlyWithSalary?.let {
-            result["only_with_salary"] = filterSettings?.onlyWithSalary.toString()
-        }
-        return result
+            val result = HashMap<String, String>()
+            result["text"] = query
+            filterSettings?.industry?.id?.let {
+                result["industry"] = filterSettings?.industry?.id as String
+            }
+            filterSettings?.country?.id?.let {
+                result["area"] = filterSettings?.country?.id as String
+            }
+            filterSettings?.area?.id?.let {
+                result["area"] = filterSettings?.area?.id as String
+            }
+            filterSettings?.salary?.let {
+                result["salary"] = filterSettings?.salary.toString()
+            }
+            filterSettings?.onlyWithSalary?.let {
+                result["only_with_salary"] = filterSettings?.onlyWithSalary.toString()
+            }
+            return result
     }
 
     fun searchWithFilter(filter: HashMap<String, String>) {

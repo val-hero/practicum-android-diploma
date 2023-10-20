@@ -1,7 +1,6 @@
 package ru.practicum.android.diploma.filter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,7 +15,6 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilteringSettingsBinding
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 import ru.practicum.android.diploma.filter.domain.models.fields.Industry
-import ru.practicum.android.diploma.search.domain.models.fields.Area
 
 
 class FilteringSettingsFragment : Fragment() {
@@ -99,7 +97,7 @@ class FilteringSettingsFragment : Fragment() {
             clearFields()
         } else {
             binding.btnGroup.visibility = View.VISIBLE
-            renderAreaField(filterParameters.area)
+            renderAreaField(filterParameters.country?.name, filterParameters.area?.name)
             renderIndustryField(filterParameters.industry)
             if (filterParameters.salary != null) binding.salary.setText(filterParameters.salary?.toString())
             binding.salaryFlagCheckbox.isChecked = filterParameters.onlyWithSalary == true
@@ -112,6 +110,7 @@ class FilteringSettingsFragment : Fragment() {
             binding.industry.setEndIconDrawable(R.drawable.ic_close)
             binding.industry.setEndIconOnClickListener {
                 viewModel.clearIndustryField()
+                viewModel.getFilterSettings()
                 clearIndustryField()
             }
         } else {
@@ -119,12 +118,18 @@ class FilteringSettingsFragment : Fragment() {
         }
     }
 
-    private fun renderAreaField(area: Area?) {
-        if (area != null) {
-            binding.workPlaceText.setText(area.name)
+    private fun renderAreaField(country: String?, area: String?) {
+        if (country != null || area != null) {
+            val displayText: String = when {
+                country != null && area != null -> "$country, $area"
+                country != null -> "$country"
+                else -> "$area"
+            }
+            binding.workPlaceText.setText(displayText)
             binding.workPlace.setEndIconDrawable(R.drawable.ic_close)
             binding.workPlace.setEndIconOnClickListener {
                 viewModel.clearAreaField()
+                viewModel.getFilterSettings()
                 clearAreaField()
             }
         } else {

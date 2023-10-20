@@ -1,9 +1,11 @@
 package ru.practicum.android.diploma.filter
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -21,6 +23,7 @@ class SelectWorkplaceFragment : Fragment() {
     private var _binding: FragmentWorkplaceBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<SelectWorkplaceViewModel>()
+    private var countryId: String? = null
 
 
     override fun onCreateView(
@@ -34,6 +37,7 @@ class SelectWorkplaceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        hideKeyboard()
         val onBackPressedDispatcher = requireActivity().onBackPressedDispatcher
 
         viewModel.updateFilterSettings().observe(viewLifecycleOwner) {
@@ -47,7 +51,7 @@ class SelectWorkplaceFragment : Fragment() {
         }
         binding.regionText.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
-                findNavController().navigate(R.id.action_selectWorkplaceFragment_to_selectRegionFragment)
+                navigateToRegion(countryId)
             }
         }
         val callback = object : OnBackPressedCallback(true) {
@@ -83,14 +87,17 @@ class SelectWorkplaceFragment : Fragment() {
         if (filter?.country != null) {
             binding.countryText.setText(filter.country?.name)
             binding.country.setEndIconDrawable(R.drawable.ic_close)
+            countryId = filter.country?.id
             binding.country.setEndIconOnClickListener {
                 viewModel.clearCountryField()
                 binding.countryText.setText("")
                 binding.country.setEndIconDrawable(R.drawable.arrow_forward)
+                initCountryButtonNavigationListener()
             }
         } else {
             binding.countryText.setText("")
             binding.country.setEndIconDrawable(R.drawable.arrow_forward)
+            initCountryButtonNavigationListener()
         }
         if (filter?.area != null) {
             binding.regionText.setText(filter.area?.name)
@@ -99,10 +106,13 @@ class SelectWorkplaceFragment : Fragment() {
                 viewModel.clearAreaField()
                 binding.regionText.setText("")
                 binding.region.setEndIconDrawable(R.drawable.arrow_forward)
+                initRegionButtonNavigationListener()
             }
         } else {
             binding.regionText.setText("")
             binding.region.setEndIconDrawable(R.drawable.arrow_forward)
+            initRegionButtonNavigationListener()
+
         }
     }
 
@@ -125,5 +135,32 @@ class SelectWorkplaceFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+
+    private fun navigateToRegion(countryId: String?) {
+        findNavController().navigate(SelectWorkplaceFragmentDirections.actionSelectWorkplaceFragmentToSelectRegionFragment(countryId))
+    }
+
+    private fun navigateToCountry() {
+        findNavController().navigate(SelectWorkplaceFragmentDirections.actionSelectWorkplaceFragmentToSelectCountryFragment())
+    }
+
+    private fun initCountryButtonNavigationListener() {
+        binding.country.setEndIconOnClickListener {
+            navigateToCountry()
+        }
+    }
+
+    private fun initRegionButtonNavigationListener() {
+        binding.region.setEndIconOnClickListener {
+            navigateToRegion(countryId)
+        }
+    }
+
+    private fun hideKeyboard() {
+        val inputManager =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 }
