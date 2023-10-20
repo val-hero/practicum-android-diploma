@@ -1,9 +1,11 @@
 package ru.practicum.android.diploma.filter
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -18,7 +20,6 @@ class SelectWorkplaceFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModel<SelectWorkplaceViewModel>()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,6 +31,7 @@ class SelectWorkplaceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        hideKeyboard()
 
         viewModel.updateFilterSettings().observe(viewLifecycleOwner) {
             render(it)
@@ -86,5 +88,11 @@ class SelectWorkplaceFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    private fun hideKeyboard() {
+        val inputManager =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 }
