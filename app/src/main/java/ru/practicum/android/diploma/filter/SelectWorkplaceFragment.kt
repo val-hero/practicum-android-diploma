@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -33,6 +34,7 @@ class SelectWorkplaceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val onBackPressedDispatcher = requireActivity().onBackPressedDispatcher
 
         viewModel.updateFilterSettings().observe(viewLifecycleOwner) {
             render(it)
@@ -48,8 +50,17 @@ class SelectWorkplaceFragment : Fragment() {
                 findNavController().navigate(R.id.action_selectWorkplaceFragment_to_selectRegionFragment)
             }
         }
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                clearInformationOnWorkPlace()
+                findNavController().navigateUp()
+            }
+        }
+
+        onBackPressedDispatcher.addCallback(callback)
 
         binding.workplaceToolbar.setNavigationOnClickListener {
+            clearInformationOnWorkPlace()
             findNavController().navigateUp()
         }
 
@@ -95,13 +106,16 @@ class SelectWorkplaceFragment : Fragment() {
         }
     }
 
-
     private fun checkInformationOnWorkPlace() {
         val countryText = binding.countryText.text.toString()
         val regionText = binding.regionText.text.toString()
         binding.chooseButton.isVisible = countryText.isNotEmpty() || regionText.isNotEmpty()
     }
 
+    private fun clearInformationOnWorkPlace() {
+        viewModel.clearAreaField()
+        viewModel.clearCountryField()
+    }
 
     override fun onResume() {
         super.onResume()
