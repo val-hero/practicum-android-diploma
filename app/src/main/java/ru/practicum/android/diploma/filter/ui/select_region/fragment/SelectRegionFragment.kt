@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.filter.ui.selectregion
+package ru.practicum.android.diploma.filter.ui.select_region.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -17,7 +17,8 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.utils.ErrorType
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.databinding.FragmentSelectRegionBinding
-import ru.practicum.android.diploma.filter.ui.selectregion.viewmodel.SelectRegionViewModel
+import ru.practicum.android.diploma.filter.ui.select_region.adapter.RegionSelectorAdapter
+import ru.practicum.android.diploma.filter.ui.select_region.viewmodel.SelectRegionViewModel
 import ru.practicum.android.diploma.search.domain.models.fields.Area
 
 class SelectRegionFragment : Fragment() {

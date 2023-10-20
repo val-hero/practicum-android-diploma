@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.filter
+package ru.practicum.android.diploma.filter.ui.select_workplace.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -11,12 +11,11 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.navigateUp
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentWorkplaceBinding
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
-import ru.practicum.android.diploma.filter.ui.SelectWorkplaceViewModel
+import ru.practicum.android.diploma.filter.ui.select_workplace.viewmodel.SelectWorkplaceViewModel
 
 class SelectWorkplaceFragment : Fragment() {
 
@@ -139,7 +138,11 @@ class SelectWorkplaceFragment : Fragment() {
 
 
     private fun navigateToRegion(countryId: String?) {
-        findNavController().navigate(SelectWorkplaceFragmentDirections.actionSelectWorkplaceFragmentToSelectRegionFragment(countryId))
+        findNavController().navigate(
+            SelectWorkplaceFragmentDirections.actionSelectWorkplaceFragmentToSelectRegionFragment(
+                countryId
+            )
+        )
     }
 
     private fun navigateToCountry() {

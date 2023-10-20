@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.filter
+package ru.practicum.android.diploma.filter.ui.filtration_settings.fragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,6 +15,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentFilteringSettingsBinding
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 import ru.practicum.android.diploma.filter.domain.models.fields.Industry
+import ru.practicum.android.diploma.filter.ui.filtration_settings.viewmodel.FilteringSettingsViewModel
 
 
 class FilteringSettingsFragment : Fragment() {

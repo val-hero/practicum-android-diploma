@@ -1,7 +1,6 @@
-package ru.practicum.android.diploma.filter.ui.selectindustry
+package ru.practicum.android.diploma.filter.ui.select_industry
 
 import android.content.Context
-import android.opengl.Visibility
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,14 +11,13 @@ import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.navigateUp
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.databinding.FragmentSelectIndustryBinding
 import ru.practicum.android.diploma.filter.domain.models.fields.Industry
-import ru.practicum.android.diploma.filter.ui.selectindustry.viewmodel.SelectIndustryViewModel
+import ru.practicum.android.diploma.filter.ui.select_industry.viewmodel.SelectIndustryViewModel
 
 
 class SelectIndustryFragment : Fragment() {

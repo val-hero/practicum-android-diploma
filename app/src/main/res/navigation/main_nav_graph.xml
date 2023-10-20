@@ -21,7 +21,7 @@
 
     <fragment
         android:id="@+id/filteringSettingsFragment"
-        android:name="ru.practicum.android.diploma.filter.FilteringSettingsFragment"
+        android:name="ru.practicum.android.diploma.filter.ui.filtration_settings.fragment.FilteringSettingsFragment"
         android:label="fragment_filtering_settings"
         tools:layout="@layout/fragment_filtering_settings">
         <action
@@ -42,7 +42,7 @@
 
     <fragment
         android:id="@+id/selectWorkplaceFragment"
-        android:name="ru.practicum.android.diploma.filter.SelectWorkplaceFragment"
+        android:name="ru.practicum.android.diploma.filter.ui.select_workplace.fragment.SelectWorkplaceFragment"
         android:label="fragment_workplace"
         tools:layout="@layout/fragment_workplace">
         <action
@@ -63,13 +63,13 @@
 
     <fragment
         android:id="@+id/selectCountryFragment"
-        android:name="ru.practicum.android.diploma.filter.ui.SelectCountry.SelectCountryFragment"
+        android:name="ru.practicum.android.diploma.filter.ui.select_country.fragment.SelectCountryFragment"
         android:label="fragment_select_country"
         tools:layout="@layout/fragment_select_country" />
 
     <fragment
         android:id="@+id/selectRegionFragment"
-        android:name="ru.practicum.android.diploma.filter.ui.selectregion.SelectRegionFragment"
+        android:name="ru.practicum.android.diploma.filter.ui.select_region.fragment.SelectRegionFragment"
         android:label="fragment_select_region"
         tools:layout="@layout/fragment_select_region">
         <argument
@@ -80,7 +80,7 @@
 
     <fragment
         android:id="@+id/selectIndustryFragment"
-        android:name="ru.practicum.android.diploma.filter.ui.selectindustry.SelectIndustryFragment"
+        android:name="ru.practicum.android.diploma.filter.ui.select_industry.SelectIndustryFragment"
         android:label="fragment_select_industry"
         tools:layout="@layout/fragment_select_industry" />
 

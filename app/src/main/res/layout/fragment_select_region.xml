@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".filter.ui.selectregion.SelectRegionFragment">
+    tools:context=".filter.ui.select_region.fragment.SelectRegionFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/rightBorder"

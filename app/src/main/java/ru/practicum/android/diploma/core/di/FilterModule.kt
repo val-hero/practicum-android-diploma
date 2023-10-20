@@ -9,7 +9,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 import ru.practicum.android.diploma.core.utils.Constants.FILTER_PARAMETERS
-import ru.practicum.android.diploma.filter.FilteringSettingsViewModel
+import ru.practicum.android.diploma.filter.ui.filtration_settings.viewmodel.FilteringSettingsViewModel
 import ru.practicum.android.diploma.filter.data.impl.AreasRepositoryImpl
 import ru.practicum.android.diploma.filter.data.impl.CountryRepositoryImpl
 import ru.practicum.android.diploma.filter.data.impl.IndustryRepositoryImpl
@@ -29,10 +29,10 @@ import ru.practicum.android.diploma.filter.domain.usecase.SaveCountryUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.SaveIndustryUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.SaveSalaryFlagUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.SaveSalaryUseCase
-import ru.practicum.android.diploma.filter.ui.SelectCountry.viewmodel.SelectCountryViewModel
-import ru.practicum.android.diploma.filter.ui.SelectWorkplaceViewModel
-import ru.practicum.android.diploma.filter.ui.selectindustry.viewmodel.SelectIndustryViewModel
-import ru.practicum.android.diploma.filter.ui.selectregion.viewmodel.SelectRegionViewModel
+import ru.practicum.android.diploma.filter.ui.select_country.viewmodel.SelectCountryViewModel
+import ru.practicum.android.diploma.filter.ui.select_workplace.viewmodel.SelectWorkplaceViewModel
+import ru.practicum.android.diploma.filter.ui.select_industry.viewmodel.SelectIndustryViewModel
+import ru.practicum.android.diploma.filter.ui.select_region.viewmodel.SelectRegionViewModel
 
 val filterModule = module {
 
