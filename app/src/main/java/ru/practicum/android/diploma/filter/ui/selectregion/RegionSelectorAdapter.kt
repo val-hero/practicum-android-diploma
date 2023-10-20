@@ -21,7 +21,7 @@ class RegionSelectorAdapter(
         viewType: Int
     ): RegionSelectorViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_regions_industries, parent, false)
+            .inflate(R.layout.item_country, parent, false)
         return RegionSelectorViewHolder(view, onClick)
     }
 

@@ -19,6 +19,8 @@ class SelectWorkplaceFragment : Fragment() {
     private var _binding: FragmentWorkplaceBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<SelectWorkplaceViewModel>()
+    private var countryId: String? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +46,7 @@ class SelectWorkplaceFragment : Fragment() {
         }
         binding.regionText.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
-                findNavController().navigate(R.id.action_selectWorkplaceFragment_to_selectRegionFragment)
+                navigateToRegion(countryId)
             }
         }
 
@@ -57,14 +59,17 @@ class SelectWorkplaceFragment : Fragment() {
         if (it?.country != null) {
             binding.countryText.setText(it.country?.name)
             binding.country.setEndIconDrawable(R.drawable.ic_close)
+            countryId = it.country?.id
             binding.country.setEndIconOnClickListener {
                 viewModel.clearCountryField()
                 binding.countryText.setText("")
                 binding.country.setEndIconDrawable(R.drawable.arrow_forward)
+                initCountryButtonNavigationListener()
             }
         } else {
             binding.countryText.setText("")
             binding.country.setEndIconDrawable(R.drawable.arrow_forward)
+            initCountryButtonNavigationListener()
         }
         if (it?.area != null) {
             binding.regionText.setText(it.area?.name)
@@ -73,10 +78,13 @@ class SelectWorkplaceFragment : Fragment() {
                 viewModel.clearAreaField()
                 binding.regionText.setText("")
                 binding.region.setEndIconDrawable(R.drawable.arrow_forward)
+                initRegionButtonNavigationListener()
             }
         } else {
             binding.regionText.setText("")
             binding.region.setEndIconDrawable(R.drawable.arrow_forward)
+            initRegionButtonNavigationListener()
+
         }
     }
 
@@ -89,6 +97,26 @@ class SelectWorkplaceFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
+
+    private fun navigateToRegion(countryId: String?) {
+        findNavController().navigate(SelectWorkplaceFragmentDirections.actionSelectWorkplaceFragmentToSelectRegionFragment(countryId))
+    }
+
+    private fun navigateToCountry() {
+        findNavController().navigate(SelectWorkplaceFragmentDirections.actionSelectWorkplaceFragmentToSelectCountryFragment())
+    }
+
+    private fun initCountryButtonNavigationListener() {
+        binding.country.setEndIconOnClickListener {
+            navigateToCountry()
+        }
+    }
+
+    private fun initRegionButtonNavigationListener() {
+        binding.region.setEndIconOnClickListener {
+            navigateToRegion(countryId)
+        }
 
     private fun hideKeyboard() {
         val inputManager =

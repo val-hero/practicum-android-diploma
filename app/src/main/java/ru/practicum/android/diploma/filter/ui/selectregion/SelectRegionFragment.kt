@@ -5,11 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
@@ -24,6 +24,8 @@ class SelectRegionFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapter: RegionSelectorAdapter
     private val viewModel by viewModel<SelectRegionViewModel>()
+    private val args: SelectRegionFragmentArgs by navArgs()
+    private lateinit var regionList: List<Area?>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,8 +42,9 @@ class SelectRegionFragment : Fragment() {
         viewModel.areas.observe(viewLifecycleOwner) { resource ->
             when (resource) {
                 is Resource.Success -> {
-
                     adapter.updateRegion(resource.data.map { it })
+                    regionList = resource.data.map { it }
+                    initInputRegion()
                 }
 
                 is Resource.Error -> {
@@ -54,13 +57,12 @@ class SelectRegionFragment : Fragment() {
         adapter = RegionSelectorAdapter(emptyList(), ::onRegionClick)
         binding.regionsRecycler.adapter = adapter
 
-        viewModel.getAreas()
+        viewModel.getAreas(args.countryId)
 
         binding.selectRegionToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
 
-        initInputRegion()
 
     }
 
@@ -75,14 +77,9 @@ class SelectRegionFragment : Fragment() {
                 } else {
                     editTextImage.setImageResource(R.drawable.ic_close)
                 }
+                findArea(binding.searchRegion.text.toString())
             }
 
-            searchRegion.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    //todo search
-                }
-                false
-            }
             searchRegion.requestFocus()
 
             editTextImage.setOnClickListener {
@@ -100,10 +97,19 @@ class SelectRegionFragment : Fragment() {
     }
 
     private fun onRegionClick(region: Area) {
-        if (!region.areas.isNullOrEmpty()) {
-            adapter.updateRegion(region.areas)
-        }
         viewModel.saveArea(region)
+        findNavController().popBackStack()
+    }
+
+    private fun findArea(query: String) {
+        when (query) {
+            "" -> adapter.updateRegion(regionList)
+            else -> {
+                val newList =
+                    regionList.filter { it?.name!!.contains(query.trim(), ignoreCase = true) }
+                adapter.updateRegion(newList)
+            }
+        }
     }
 
     override fun onDestroy() {
