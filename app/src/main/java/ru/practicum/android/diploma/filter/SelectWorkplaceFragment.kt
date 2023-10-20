@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -49,6 +51,16 @@ class SelectWorkplaceFragment : Fragment() {
         binding.workplaceToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
+
+        binding.countryText.doOnTextChanged { s: CharSequence?, _, _, _ ->
+            binding.chooseButton.isVisible = !s.isNullOrEmpty()
+            checkInformationOnWorkPlace()
+        }
+
+        binding.regionText.doOnTextChanged { s: CharSequence?, _, _, _ ->
+            binding.chooseButton.isVisible = !s.isNullOrEmpty()
+            checkInformationOnWorkPlace()
+        }
     }
 
     private fun render(it: FilterParameters?) {
@@ -77,6 +89,14 @@ class SelectWorkplaceFragment : Fragment() {
             binding.region.setEndIconDrawable(R.drawable.arrow_forward)
         }
     }
+
+
+    private fun checkInformationOnWorkPlace() {
+        val countryText = binding.countryText.text.toString()
+        val regionText = binding.regionText.text.toString()
+        binding.chooseButton.isVisible = countryText.isNotEmpty() || regionText.isNotEmpty()
+    }
+
 
     override fun onResume() {
         super.onResume()
