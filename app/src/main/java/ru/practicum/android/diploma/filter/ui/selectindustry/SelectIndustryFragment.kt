@@ -118,9 +118,7 @@ class SelectIndustryFragment : Fragment() {
         binding.searchIndustry.setText("")
         val view = requireActivity().currentFocus
         if (view != null) {
-            val imm =
-                requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.hideSoftInputFromWindow(view.windowToken, 0)
+            hideKeyboard()
         }
     }
 
