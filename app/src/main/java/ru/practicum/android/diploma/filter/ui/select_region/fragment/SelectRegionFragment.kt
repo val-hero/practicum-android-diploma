@@ -50,7 +50,7 @@ class SelectRegionFragment : Fragment() {
                     initInputRegion()
                 }
 
-                is Resource.Error -> showError(resource.errorType)
+                is Resource.Error -> showError()
             }
         }
 
@@ -89,19 +89,17 @@ class SelectRegionFragment : Fragment() {
 
     private fun clearSearch() {
         binding.searchRegion.setText("")
+        binding.placeholderError.isVisible = false
         val view = requireActivity().currentFocus
         if (view != null) {
             hideKeyboard()
         }
     }
 
-    private fun showError(type: ErrorType) {
+    private fun showError() {
         with(binding) {
             regionsRecycler.isVisible = false
-            when (type) {
-                ErrorType.NOT_FOUND -> placeholderError.isVisible = true
-                else -> placeholderNoList.isVisible = true
-            }
+            placeholderNoList.isVisible = true
         }
     }
 
@@ -117,6 +115,7 @@ class SelectRegionFragment : Fragment() {
                 val newList =
                     regionList.filter { it?.name!!.contains(query.trim(), ignoreCase = true) }
                 adapter.updateRegion(newList)
+                binding.placeholderError.isVisible = newList.isEmpty()
             }
         }
     }
