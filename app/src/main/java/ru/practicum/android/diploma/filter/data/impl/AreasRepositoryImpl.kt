@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.filter.data.impl
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import ru.practicum.android.diploma.core.utils.ErrorType
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.filter.domain.AreasRepository
 import ru.practicum.android.diploma.search.data.network.api.HeadHunterApiService
@@ -14,7 +15,11 @@ class AreasRepositoryImpl(private val api: HeadHunterApiService) : AreasReposito
             val areas = api.getAreas().map { it.toDomain() }
             emit(Resource.Success(areas))
         } catch (e: Exception) {
-
+            val errorType = ErrorType.NOT_FOUND
+            emit(Resource.Error(errorType))
+        } catch (e: Exception) {
+            val errorType = ErrorType.BAD_REQUEST
+            emit(Resource.Error(errorType))
         }
     }
 }
