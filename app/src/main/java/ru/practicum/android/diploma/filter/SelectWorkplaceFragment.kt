@@ -6,8 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.navigateUp
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.databinding.FragmentWorkplaceBinding
@@ -19,6 +23,8 @@ class SelectWorkplaceFragment : Fragment() {
     private var _binding: FragmentWorkplaceBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<SelectWorkplaceViewModel>()
+    private var countryId: String? = null
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +38,7 @@ class SelectWorkplaceFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         hideKeyboard()
+        val onBackPressedDispatcher = requireActivity().onBackPressedDispatcher
 
         viewModel.updateFilterSettings().observe(viewLifecycleOwner) {
             render(it)
@@ -44,40 +51,80 @@ class SelectWorkplaceFragment : Fragment() {
         }
         binding.regionText.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus) {
-                findNavController().navigate(R.id.action_selectWorkplaceFragment_to_selectRegionFragment)
+                navigateToRegion(countryId)
+            }
+        }
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                clearInformationOnWorkPlace()
+                findNavController().navigateUp()
             }
         }
 
+        onBackPressedDispatcher.addCallback(callback)
+
         binding.workplaceToolbar.setNavigationOnClickListener {
+            clearInformationOnWorkPlace()
+            findNavController().navigateUp()
+        }
+
+        binding.countryText.doOnTextChanged { s: CharSequence?, _, _, _ ->
+            binding.chooseButton.isVisible = !s.isNullOrEmpty()
+            checkInformationOnWorkPlace()
+        }
+
+        binding.regionText.doOnTextChanged { s: CharSequence?, _, _, _ ->
+            binding.chooseButton.isVisible = !s.isNullOrEmpty()
+            checkInformationOnWorkPlace()
+        }
+
+        binding.chooseButton.setOnClickListener {
             findNavController().navigateUp()
         }
     }
 
-    private fun render(it: FilterParameters?) {
-        if (it?.country != null) {
-            binding.countryText.setText(it.country?.name)
+    private fun render(filter: FilterParameters?) {
+        if (filter?.country != null) {
+            binding.countryText.setText(filter.country?.name)
             binding.country.setEndIconDrawable(R.drawable.ic_close)
+            countryId = filter.country?.id
             binding.country.setEndIconOnClickListener {
                 viewModel.clearCountryField()
                 binding.countryText.setText("")
                 binding.country.setEndIconDrawable(R.drawable.arrow_forward)
+                initCountryButtonNavigationListener()
             }
         } else {
             binding.countryText.setText("")
             binding.country.setEndIconDrawable(R.drawable.arrow_forward)
+            initCountryButtonNavigationListener()
         }
-        if (it?.area != null) {
-            binding.regionText.setText(it.area?.name)
+        if (filter?.area != null) {
+            binding.regionText.setText(filter.area?.name)
             binding.region.setEndIconDrawable(R.drawable.ic_close)
             binding.region.setEndIconOnClickListener {
                 viewModel.clearAreaField()
                 binding.regionText.setText("")
                 binding.region.setEndIconDrawable(R.drawable.arrow_forward)
+                initRegionButtonNavigationListener()
             }
         } else {
             binding.regionText.setText("")
             binding.region.setEndIconDrawable(R.drawable.arrow_forward)
+            initRegionButtonNavigationListener()
+
         }
+    }
+
+    private fun checkInformationOnWorkPlace() {
+        val countryText = binding.countryText.text.toString()
+        val regionText = binding.regionText.text.toString()
+        binding.chooseButton.isVisible = countryText.isNotEmpty() || regionText.isNotEmpty()
+    }
+
+    private fun clearInformationOnWorkPlace() {
+        viewModel.clearAreaField()
+        viewModel.clearCountryField()
     }
 
     override fun onResume() {
@@ -88,6 +135,27 @@ class SelectWorkplaceFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+
+    private fun navigateToRegion(countryId: String?) {
+        findNavController().navigate(SelectWorkplaceFragmentDirections.actionSelectWorkplaceFragmentToSelectRegionFragment(countryId))
+    }
+
+    private fun navigateToCountry() {
+        findNavController().navigate(SelectWorkplaceFragmentDirections.actionSelectWorkplaceFragmentToSelectCountryFragment())
+    }
+
+    private fun initCountryButtonNavigationListener() {
+        binding.country.setEndIconOnClickListener {
+            navigateToCountry()
+        }
+    }
+
+    private fun initRegionButtonNavigationListener() {
+        binding.region.setEndIconOnClickListener {
+            navigateToRegion(countryId)
+        }
     }
 
     private fun hideKeyboard() {

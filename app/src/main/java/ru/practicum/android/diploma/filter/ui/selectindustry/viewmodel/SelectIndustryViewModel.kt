@@ -9,13 +9,12 @@ import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.filter.domain.models.fields.Industry
 import ru.practicum.android.diploma.filter.domain.usecase.GetIndustriesUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.SaveIndustryUseCase
-import java.util.ArrayList
 
 class SelectIndustryViewModel(
     private val getIndustriesUseCase: GetIndustriesUseCase,
     private val saveIndustryUseCase: SaveIndustryUseCase
 ) : ViewModel() {
-    private val _industry = MutableLiveData<Resource<List<Industry>>>()
+    private var _industry = MutableLiveData<Resource<List<Industry>>>()
     val industry: LiveData<Resource<List<Industry>>> = _industry
 
     fun getIndustry() {
@@ -31,6 +30,4 @@ class SelectIndustryViewModel(
             saveIndustryUseCase(industry)
         }
     }
-
-
 }

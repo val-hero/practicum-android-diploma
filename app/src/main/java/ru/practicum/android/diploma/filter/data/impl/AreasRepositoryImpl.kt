@@ -13,7 +13,8 @@ class AreasRepositoryImpl(private val api: HeadHunterApiService) : AreasReposito
     override suspend fun getAreas(): Flow<Resource<List<Area>>> = flow {
         try {
             val areas = api.getAreas().map { it.toDomain() }
-            emit(Resource.Success(areas))
+            val flatAreas = getFlatAreaList(areas)
+            emit(Resource.Success(flatAreas))
         } catch (e: Exception) {
             val errorType = ErrorType.NOT_FOUND
             emit(Resource.Error(errorType))
@@ -21,5 +22,28 @@ class AreasRepositoryImpl(private val api: HeadHunterApiService) : AreasReposito
             val errorType = ErrorType.BAD_REQUEST
             emit(Resource.Error(errorType))
         }
+    }
+
+    override suspend fun getAreasInCountry(countryId: String): Flow<Resource<List<Area>>> = flow {
+        try {
+            val areas = api.getAreasInCountry(countryId).areas!!.map { it.toDomain() }
+            val flatAreas = getFlatAreaList(areas)
+            emit(Resource.Success(flatAreas))
+        } catch (e: Exception) {
+
+        }
+    }
+
+    private fun getFlatAreaList(areaList: List<Area>): List<Area> {
+        val flatAreaList = arrayListOf<Area>()
+
+        fun flatten(area: Area) {
+            flatAreaList.add(area)
+            area.areas?.let { area.areas.forEach { flatten(it) } }
+        }
+
+        areaList.forEach { flatten(it) }
+        val listWithoutCountry = flatAreaList.filter { it.countryId != null }
+        return listWithoutCountry.sortedBy { it.name }
     }
 }
