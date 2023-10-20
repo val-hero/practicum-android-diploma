@@ -16,7 +16,15 @@ class VacancyViewHolder(
 
     fun bind(model: Vacancy) {
         with(binding) {
-            title.text = "${model.name}, ${model.area?.name}"
+            if (model.area?.name?.isNotBlank() == true) {
+                val header = buildString {
+                    append(model.name)
+                    append(", ")
+                    append(model.area.name)
+                }
+                title.text = header
+            } else title.text = model.name
+
             company.text = model.employer?.name
             salary.text = getSalary(model, salary.context)
             root.setOnClickListener { onClick(model) }
@@ -25,8 +33,11 @@ class VacancyViewHolder(
                 true
             }
 
-            Glide.with(itemView).load(model.employer?.logoUrls?.smallLogo)
-                .placeholder(R.drawable.employer_logo_placeholder).centerCrop().transform(
+            Glide.with(itemView)
+                .load(model.employer?.logoUrls?.smallLogo)
+                .placeholder(R.drawable.employer_logo_placeholder)
+                .centerCrop()
+                .transform(
                     RoundedCorners(
                         itemView.resources.getDimensionPixelSize(
                             R.dimen.corner_radius_12

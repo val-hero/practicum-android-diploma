@@ -1,9 +1,11 @@
 package ru.practicum.android.diploma.filter
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -20,7 +22,6 @@ class SelectWorkplaceFragment : Fragment() {
     private var countryId: String? = null
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,6 +33,7 @@ class SelectWorkplaceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        hideKeyboard()
 
         viewModel.updateFilterSettings().observe(viewLifecycleOwner) {
             render(it)
@@ -96,6 +98,7 @@ class SelectWorkplaceFragment : Fragment() {
         _binding = null
     }
 
+
     private fun navigateToRegion(countryId: String?) {
         findNavController().navigate(SelectWorkplaceFragmentDirections.actionSelectWorkplaceFragmentToSelectRegionFragment(countryId))
     }
@@ -114,5 +117,10 @@ class SelectWorkplaceFragment : Fragment() {
         binding.region.setEndIconOnClickListener {
             navigateToRegion(countryId)
         }
+
+    private fun hideKeyboard() {
+        val inputManager =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 }
