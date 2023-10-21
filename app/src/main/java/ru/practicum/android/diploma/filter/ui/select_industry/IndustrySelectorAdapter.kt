@@ -18,6 +18,7 @@ class IndustrySelectorAdapter(
 
     private var filtredIndustries = industry
     private var selectedIndustry: Industry? = null
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
 
     init {
         editText.addTextChangedListener(object : TextWatcher {
@@ -61,6 +62,9 @@ class IndustrySelectorAdapter(
     override fun getItemCount(): Int {
         return filtredIndustries.size
     }
+    fun getSelectedPosition(): Int {
+        return selectedPosition
+    }
 
     override fun onBindViewHolder(
         holder: IndustrySelectorViewHolder,
@@ -68,14 +72,23 @@ class IndustrySelectorAdapter(
     ) {
         filtredIndustries[position]?.let { holder.bind(it) }
         holder.radioButton.isChecked = selectedIndustry == filtredIndustries[position]
+        holder.itemView.setOnClickListener {
+            if (selectedPosition != position) {
+                selectedPosition = position
+                notifyDataSetChanged()
+                onClick(filtredIndustries[position]!!)
+            }
+        }
         holder.radioButton.setOnClickListener {
             if (selectedIndustry != filtredIndustries[position]) {
                 val previousSelectedPosition = filtredIndustries.indexOf(selectedIndustry)
                 selectedIndustry = filtredIndustries[position]
                 notifyItemChanged(previousSelectedPosition)
                 notifyItemChanged(position)
+                selectedPosition = position
 
             }
         }
+        holder.radioButton.isChecked = selectedPosition == position
     }
 }
