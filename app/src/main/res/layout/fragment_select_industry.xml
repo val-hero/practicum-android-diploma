@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".filter.ui.selectindustry.SelectIndustryFragment">
+    tools:context=".filter.ui.select_industry.SelectIndustryFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/rightBorder"
@@ -75,6 +75,7 @@
         android:layout_width="@dimen/layout_width_0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_8"
+        android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
         app:layout_constraintStart_toEndOf="@id/leftBorder"
         app:layout_constraintTop_toBottomOf="@id/search_industry" />

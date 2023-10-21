@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.filter.ui.selectregion
+package ru.practicum.android.diploma.filter.ui.select_region.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -13,9 +14,11 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
+import ru.practicum.android.diploma.core.utils.ErrorType
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.databinding.FragmentSelectRegionBinding
-import ru.practicum.android.diploma.filter.ui.selectregion.viewmodel.SelectRegionViewModel
+import ru.practicum.android.diploma.filter.ui.select_region.adapter.RegionSelectorAdapter
+import ru.practicum.android.diploma.filter.ui.select_region.viewmodel.SelectRegionViewModel
 import ru.practicum.android.diploma.search.domain.models.fields.Area
 
 class SelectRegionFragment : Fragment() {
@@ -47,9 +50,7 @@ class SelectRegionFragment : Fragment() {
                     initInputRegion()
                 }
 
-                is Resource.Error -> {
-                    // Показать ошибку
-                }
+                is Resource.Error -> showError()
             }
         }
 
@@ -62,8 +63,6 @@ class SelectRegionFragment : Fragment() {
         binding.selectRegionToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
-
-
     }
 
     private fun initInputRegion() {
@@ -90,9 +89,17 @@ class SelectRegionFragment : Fragment() {
 
     private fun clearSearch() {
         binding.searchRegion.setText("")
+        binding.placeholderError.isVisible = false
         val view = requireActivity().currentFocus
         if (view != null) {
             hideKeyboard()
+        }
+    }
+
+    private fun showError() {
+        with(binding) {
+            regionsRecycler.isVisible = false
+            placeholderNoList.isVisible = true
         }
     }
 
@@ -108,6 +115,7 @@ class SelectRegionFragment : Fragment() {
                 val newList =
                     regionList.filter { it?.name!!.contains(query.trim(), ignoreCase = true) }
                 adapter.updateRegion(newList)
+                binding.placeholderError.isVisible = newList.isEmpty()
             }
         }
     }
@@ -116,6 +124,7 @@ class SelectRegionFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
     private fun hideKeyboard() {
         val inputManager =
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

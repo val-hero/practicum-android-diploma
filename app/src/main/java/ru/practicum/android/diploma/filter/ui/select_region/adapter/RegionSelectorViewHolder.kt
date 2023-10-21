@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.filter.ui.selectregion
+package ru.practicum.android.diploma.filter.ui.select_region.adapter
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView

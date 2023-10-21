@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.filter.ui.selectindustry
+package ru.practicum.android.diploma.filter.ui.select_industry
 
 import android.annotation.SuppressLint
 import android.text.Editable

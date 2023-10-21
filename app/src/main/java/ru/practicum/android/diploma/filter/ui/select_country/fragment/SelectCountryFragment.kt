@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.filter.ui.SelectCountry
+package ru.practicum.android.diploma.filter.ui.select_country.fragment
 
 import android.content.Context
 import android.os.Bundle
@@ -13,7 +13,8 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.databinding.FragmentSelectCountryBinding
 import ru.practicum.android.diploma.filter.domain.models.fields.Country
-import ru.practicum.android.diploma.filter.ui.SelectCountry.viewmodel.SelectCountryViewModel
+import ru.practicum.android.diploma.filter.ui.select_country.adapter.SelectCountryAdapter
+import ru.practicum.android.diploma.filter.ui.select_country.viewmodel.SelectCountryViewModel
 
 class SelectCountryFragment : Fragment() {
 

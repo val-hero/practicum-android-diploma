@@ -1,4 +1,4 @@
-package ru.practicum.android.diploma.filter.ui.selectregion.viewmodel
+package ru.practicum.android.diploma.filter.ui.select_region.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
