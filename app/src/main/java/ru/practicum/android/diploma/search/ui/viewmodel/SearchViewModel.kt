@@ -1,5 +1,6 @@
 package ru.practicum.android.diploma.search.ui.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -21,7 +22,8 @@ class SearchViewModel(
     private val filterSettingsUseCase: GetFilterSettingsUseCase,
 ) : ViewModel() {
 
-    val uiState = MutableLiveData<SearchScreenState>()
+    private val _uiState = MutableLiveData<SearchScreenState>()
+    val uiState: LiveData<SearchScreenState> = _uiState
     var isClickable = true
     var cancelDebounce = false
     private val _filterSettingsState = MutableLiveData<Boolean>()
@@ -57,10 +59,9 @@ class SearchViewModel(
     fun search(query: String) {
         if (query.isNullOrBlank())
             return
-        if (currentPage >= maxPages)
-            return
 
-        renderState(SearchScreenState.Loading)
+        if (_uiState.value !is SearchScreenState.LoadNextPage)
+            renderState(SearchScreenState.Loading)
 
         latestSearchQuery = query
 
@@ -76,6 +77,8 @@ class SearchViewModel(
                             renderState(SearchScreenState.Success(it.data.vacancies, it.data.found))
                             currentPage = it.data.page
                             maxPages = it.data.pages
+                            Log.e("page", currentPage.toString())
+                            Log.e("pages", maxPages.toString())
                             vacanciesList.addAll(it.data.vacancies)
                         }
 
@@ -87,12 +90,13 @@ class SearchViewModel(
     }
 
     fun loadNextPage() {
+        Log.e("current, max", "$currentPage / $maxPages")
         if (currentPage >= maxPages)
             return
 
         renderState(SearchScreenState.LoadNextPage)
         searchDebounce(latestSearchQuery ?: "")
-        currentPage++
+
     }
 
 
@@ -104,24 +108,24 @@ class SearchViewModel(
     }
 
     private fun getFilterSettingsAsMap(query: String): HashMap<String, String> {
-            val result = HashMap<String, String>()
-            result["text"] = query
-            filterSettings?.industry?.id?.let {
-                result["industry"] = filterSettings?.industry?.id as String
-            }
-            filterSettings?.country?.id?.let {
-                result["area"] = filterSettings?.country?.id as String
-            }
-            filterSettings?.area?.id?.let {
-                result["area"] = filterSettings?.area?.id as String
-            }
-            filterSettings?.salary?.let {
-                result["salary"] = filterSettings?.salary.toString()
-            }
-            filterSettings?.onlyWithSalary?.let {
-                result["only_with_salary"] = filterSettings?.onlyWithSalary.toString()
-            }
-            return result
+        val result = HashMap<String, String>()
+        result["text"] = query
+        filterSettings?.industry?.id?.let {
+            result["industry"] = filterSettings?.industry?.id as String
+        }
+        filterSettings?.country?.id?.let {
+            result["area"] = filterSettings?.country?.id as String
+        }
+        filterSettings?.area?.id?.let {
+            result["area"] = filterSettings?.area?.id as String
+        }
+        filterSettings?.salary?.let {
+            result["salary"] = filterSettings?.salary.toString()
+        }
+        filterSettings?.onlyWithSalary?.let {
+            result["only_with_salary"] = filterSettings?.onlyWithSalary.toString()
+        }
+        return result
     }
 
     fun searchWithFilter(filter: HashMap<String, String>) {
@@ -142,6 +146,6 @@ class SearchViewModel(
     }
 
     private fun renderState(state: SearchScreenState) {
-        uiState.postValue(state)
+        _uiState.postValue(state)
     }
 }

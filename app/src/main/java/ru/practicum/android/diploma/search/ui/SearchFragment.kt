@@ -71,8 +71,7 @@ class SearchFragment : Fragment() {
                 if (dy > 0) {
                     val pos =
                         (binding.searchRecycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                    val itemCount = adapter.itemCount
-                    if (pos >= itemCount - 1) {
+                    if (pos >= adapter.itemCount - 1) {
                         viewModel.loadNextPage()
 
                     }
