@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.search.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -76,8 +75,6 @@ class SearchViewModel(
                         renderState(SearchScreenState.Success(it.data.vacancies, it.data.found))
                         currentPage = it.data.page
                         maxPages = it.data.pages
-                        Log.e("page", currentPage.toString())
-                        Log.e("pages", maxPages.toString())
                         vacanciesList.addAll(it.data.vacancies)
                     }
 
