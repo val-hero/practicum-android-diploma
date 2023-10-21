@@ -13,30 +13,28 @@ import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 import ru.practicum.android.diploma.filter.domain.usecase.GetFilterSettingsUseCase
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.domain.usecase.SearchUseCase
-import ru.practicum.android.diploma.search.domain.usecase.SearchWithFiltersUseCase
 import ru.practicum.android.diploma.search.ui.state.SearchScreenState
 
 class SearchViewModel(
     private val searchUseCase: SearchUseCase,
-    private val searchWithFiltersUseCase: SearchWithFiltersUseCase,
     private val filterSettingsUseCase: GetFilterSettingsUseCase,
 ) : ViewModel() {
 
     private val _uiState = MutableLiveData<SearchScreenState>()
     val uiState: LiveData<SearchScreenState> = _uiState
     var isClickable = true
-    var cancelDebounce = false
     private val _filterSettingsState = MutableLiveData<Boolean>()
     val filterSettingsState: LiveData<Boolean> = _filterSettingsState
     private var filterSettings: FilterParameters? = null
     private var currentPage = 0
     private var maxPages = Int.MAX_VALUE
     private var latestSearchQuery: String? = null
+    var isScrollable = true
 
     var vacanciesList: MutableList<Vacancy> = mutableListOf()
 
     private val vacanciesSearchDebounce =
-        debounce<String>(Constants.SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { query ->
+        debounce<String?>(Constants.SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { query ->
             search(query)
         }
 
@@ -45,20 +43,24 @@ class SearchViewModel(
             isClickable = it
         }
 
-    fun searchDebounce(query: String) {
-        if (query.isNotEmpty() && !cancelDebounce) {
-            vacanciesSearchDebounce(query)
+    private val scrollDebounce =
+        debounce<Boolean>(Constants.SCROLL_DEBOUNCE_DELAY_MILLIS, viewModelScope, false) {
+            isScrollable = it
         }
-    }
 
     fun onVacancyClick() {
         isClickable = false
         vacancyClickDebounce(true)
     }
 
-    fun search(query: String) {
-        if (query.isNullOrBlank())
-            return
+    fun onLastVacancyScroll() {
+        isScrollable = false
+        scrollDebounce(true)
+        loadNextPage()
+    }
+
+    fun search(query: String?) {
+        if (isInvalidQuery(query)) return
 
         if (_uiState.value !is SearchScreenState.LoadNextPage)
             renderState(SearchScreenState.Loading)
@@ -67,38 +69,32 @@ class SearchViewModel(
 
         val titleQuery = "NAME:$query"
 
-        if (filterSettings != null) {
-            searchWithFilter(getFilterSettingsAsMap(titleQuery))
-        } else {
-            viewModelScope.launch {
-                searchUseCase(titleQuery, currentPage).collect {
-                    when (it) {
-                        is Resource.Success -> {
-                            renderState(SearchScreenState.Success(it.data.vacancies, it.data.found))
-                            currentPage = it.data.page
-                            maxPages = it.data.pages
-                            Log.e("page", currentPage.toString())
-                            Log.e("pages", maxPages.toString())
-                            vacanciesList.addAll(it.data.vacancies)
-                        }
-
-                        is Resource.Error -> renderState(SearchScreenState.Error(it.errorType))
+        viewModelScope.launch {
+            searchUseCase(titleQuery, currentPage, getFilterSettingsAsMap()).collect {
+                when (it) {
+                    is Resource.Success -> {
+                        renderState(SearchScreenState.Success(it.data.vacancies, it.data.found))
+                        currentPage = it.data.page
+                        maxPages = it.data.pages
+                        Log.e("page", currentPage.toString())
+                        Log.e("pages", maxPages.toString())
+                        vacanciesList.addAll(it.data.vacancies)
                     }
+
+                    is Resource.Error -> renderState(SearchScreenState.Error(it.errorType))
                 }
             }
         }
     }
 
-    fun loadNextPage() {
-        Log.e("current, max", "$currentPage / $maxPages")
-        if (currentPage >= maxPages)
+    private fun loadNextPage() {
+        if (currentPage >= maxPages || maxPages == 1)
             return
 
         renderState(SearchScreenState.LoadNextPage)
-        searchDebounce(latestSearchQuery ?: "")
-
+        vacanciesSearchDebounce(latestSearchQuery)
+        currentPage++
     }
-
 
     fun updateFilterSettings() {
         viewModelScope.launch {
@@ -107,9 +103,15 @@ class SearchViewModel(
         }
     }
 
-    private fun getFilterSettingsAsMap(query: String): HashMap<String, String> {
+    fun onSearchQueryChanged(query: String?) {
+        if (query.isNullOrBlank() || query != latestSearchQuery)
+            vacanciesList.clear()
+
+        vacanciesSearchDebounce(query)
+    }
+
+    private fun getFilterSettingsAsMap(): HashMap<String, String> {
         val result = HashMap<String, String>()
-        result["text"] = query
         filterSettings?.industry?.id?.let {
             result["industry"] = filterSettings?.industry?.id as String
         }
@@ -128,24 +130,11 @@ class SearchViewModel(
         return result
     }
 
-    fun searchWithFilter(filter: HashMap<String, String>) {
-        viewModelScope.launch {
-            searchWithFiltersUseCase(filter).collect {
-                when (it) {
-                    is Resource.Success -> renderState(
-                        SearchScreenState.Success(
-                            it.data,
-                            it.data.size
-                        )
-                    )
-
-                    is Resource.Error -> renderState(SearchScreenState.Error(it.errorType))
-                }
-            }
-        }
-    }
-
     private fun renderState(state: SearchScreenState) {
         _uiState.postValue(state)
+    }
+
+    private fun isInvalidQuery(query: String?): Boolean {
+        return (query.isNullOrBlank() || query == latestSearchQuery) && _uiState.value !is SearchScreenState.LoadNextPage
     }
 }

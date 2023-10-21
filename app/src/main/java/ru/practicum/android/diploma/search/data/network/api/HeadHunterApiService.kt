@@ -42,9 +42,11 @@ interface HeadHunterApiService {
     suspend fun getVacancies(
         @Query("text") query: String,
         @Query("page") page: Int,
-        @Query("per_page") perPage: Int = 20
+        @Query("per_page") perPage: Int = VACANCIES_PER_PAGE,
+        @QueryMap filters: HashMap<String, String>
     ): SearchResponseDto
 
-    @GET("/vacancies")
-    suspend fun getVacanciesWithFilters(@QueryMap filters: Map<String, String>): SearchResponseDto
+    companion object {
+        const val VACANCIES_PER_PAGE = 20
+    }
 }

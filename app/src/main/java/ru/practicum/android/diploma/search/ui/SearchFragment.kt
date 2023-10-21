@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -24,14 +23,13 @@ import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.ui.state.SearchScreenState
 import ru.practicum.android.diploma.search.ui.viewmodel.SearchViewModel
 
-
 class SearchFragment : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
     private val adapter = VacancyAdapter(
         onClick = { onVacancyClick(it.id) },
-        onLongClick = { true }
+        onLongClick = { }
     )
 
     override fun onCreateView(
@@ -68,12 +66,13 @@ class SearchFragment : Fragment() {
         binding.searchRecycler.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
+                if (!viewModel.isScrollable) return
+
                 if (dy > 0) {
                     val pos =
                         (binding.searchRecycler.layoutManager as LinearLayoutManager).findLastVisibleItemPosition()
-                    if (pos >= adapter.itemCount - 1) {
-                        viewModel.loadNextPage()
-
+                    if (pos >= adapter.itemCount - 1 && viewModel.isScrollable) {
+                        viewModel.onLastVacancyScroll()
                     }
                 }
             }
@@ -83,7 +82,6 @@ class SearchFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         viewModel.updateFilterSettings()
-        viewModel.cancelDebounce = false
     }
 
     override fun onDestroy() {
@@ -99,32 +97,24 @@ class SearchFragment : Fragment() {
         binding.inputSearchForm.setOnClickListener {
             binding.inputSearchForm.isCursorVisible = true
         }
-        binding.inputSearchForm.doOnTextChanged { s: CharSequence?, _, _, _ ->
-            if (s.isNullOrEmpty()) {
+        binding.inputSearchForm.doOnTextChanged { query: CharSequence?, _, _, _ ->
+            if (query.isNullOrEmpty()) {
                 binding.editTextImage.setImageResource(R.drawable.ic_search)
-                viewModel.vacanciesList = mutableListOf()
             } else {
                 binding.editTextImage.setImageResource(R.drawable.ic_close)
             }
 
-            if (binding.inputSearchForm.hasFocus() && s.toString().isNotEmpty()) {
+            if (binding.inputSearchForm.hasFocus() && query.toString().isNotEmpty()) {
                 showDefault()
             }
 
-            viewModel.searchDebounce(binding.inputSearchForm.text.toString())
-        }
-
-        binding.inputSearchForm.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                viewModel.search(binding.inputSearchForm.text.toString())
-            }
-            false
+            viewModel.onSearchQueryChanged(query.toString())
         }
 
         binding.inputSearchForm.requestFocus()
 
         binding.editTextImage.setOnClickListener {
-            viewModel.vacanciesList = mutableListOf()
+            viewModel.onSearchQueryChanged(null)
             clearSearch()
         }
     }
@@ -199,7 +189,7 @@ class SearchFragment : Fragment() {
         binding.placeholderServerError.isVisible = false
     }
 
-    private fun showNextPage(){
+    private fun showNextPage() {
         binding.placeholderImage.isVisible = false
         binding.placeholderError.isVisible = false
         binding.searchRecycler.isVisible = true
@@ -221,11 +211,6 @@ class SearchFragment : Fragment() {
 
     private fun navToFilter() {
         findNavController().navigate(R.id.action_searchFragment_to_filteringSettingsFragment)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        viewModel.cancelDebounce = true
     }
 
     private fun showEmptyFilterIcon() {
