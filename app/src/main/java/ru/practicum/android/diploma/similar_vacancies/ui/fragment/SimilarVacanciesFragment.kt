@@ -80,6 +80,7 @@ class SimilarVacanciesFragment : Fragment() {
         binding.similarVacanciesRecycler.isVisible = true
         binding.progressBarForLoad.isVisible = false
         hideErrors()
+        binding.placeholderNotFound.isVisible = vacancies.isEmpty()
     }
 
     private fun hideErrors() {
