@@ -44,7 +44,8 @@ class FilteringSettingsViewModel(
 
     fun saveSalary(salary: String?) {
         viewModelScope.launch {
-            saveSalaryUseCase(salary?.toInt())
+            if (!salary.isNullOrBlank())
+                saveSalaryUseCase(salary.toInt())
         }
     }
 
@@ -63,7 +64,7 @@ class FilteringSettingsViewModel(
     }
 
     fun clearIndustryField() {
-        viewModelScope.launch{
+        viewModelScope.launch {
             saveIndustryUseCase(null)
         }
     }

@@ -109,15 +109,15 @@ class SearchViewModel(
 
     private fun getFilterSettingsAsMap(): HashMap<String, String> {
         val result = HashMap<String, String>()
+
+        result["area"] =
+            if (filterSettings?.area?.id != null) filterSettings?.area?.id as String
+            else filterSettings?.country?.id as String
+
         filterSettings?.industry?.id?.let {
             result["industry"] = filterSettings?.industry?.id as String
         }
-        filterSettings?.country?.id?.let {
-            result["area"] = filterSettings?.country?.id as String
-        }
-        filterSettings?.area?.id?.let {
-            result["area"] = filterSettings?.area?.id as String
-        }
+
         filterSettings?.salary?.let {
             result["salary"] = filterSettings?.salary.toString()
         }

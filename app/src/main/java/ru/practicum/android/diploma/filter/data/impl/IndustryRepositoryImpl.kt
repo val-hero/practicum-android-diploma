@@ -15,8 +15,7 @@ class IndustryRepositoryImpl(private val api: HeadHunterApiService) : IndustryRe
             val industry = api.getIndustries().map { it.toDomain() }
             emit(Resource.Success(industry))
         } catch (e: Exception) {
-            val errorType = ErrorType.NO_CONNECTION
-            emit(Resource.Error(errorType))
+            emit(Resource.Error(ErrorType.NO_CONNECTION))
         }
     }
 }

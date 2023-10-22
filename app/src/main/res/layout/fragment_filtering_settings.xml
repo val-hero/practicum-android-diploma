@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorPrimary">
@@ -22,8 +21,8 @@
         style="@style/FilterStyle"
         android:layout_marginTop="@dimen/margin_16"
         android:hint="@string/work_place"
-        app:endIconMode="custom"
         app:endIconDrawable="@drawable/arrow_forward"
+        app:endIconMode="custom"
         app:endIconTint="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +33,8 @@
             style="@style/FilterEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="?attr/colorPrimary" />
+            android:backgroundTint="?attr/colorPrimary"
+            android:focusable="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -42,8 +42,8 @@
         style="@style/FilterStyle"
         android:hint="@string/industry"
         android:paddingStart="0dp"
-        app:endIconMode="custom"
         app:endIconDrawable="@drawable/arrow_forward"
+        app:endIconMode="custom"
         app:endIconTint="?attr/colorOnPrimary"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -54,7 +54,8 @@
             style="@style/FilterEditTextStyle"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:backgroundTint="?attr/colorPrimary" />
+            android:backgroundTint="?attr/colorPrimary"
+            android:focusable="false" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -65,8 +66,8 @@
         android:layout_marginTop="@dimen/margin_24"
         android:focusableInTouchMode="true"
         android:hint="@string/expected_salary"
-        app:endIconMode="none"
         app:endIconDrawable="@drawable/ic_close"
+        app:endIconMode="none"
         app:endIconTint="@color/black"
         app:hintTextColor="@color/hint_expected_salary_color"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,8 +81,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/shape_search"
-            android:textCursorDrawable="@drawable/cursor"
-            android:focusableInTouchMode="true" />
+            android:focusableInTouchMode="true"
+            android:textCursorDrawable="@drawable/cursor" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView

@@ -17,12 +17,3 @@ fun Country.toDto(): CountryDto {
         areas = this.areas?.map { it.toDto() }
     )
 }
-
-fun Country.toArea(): Area {
-    return Area(
-        id = this.id,
-        name = this.name,
-        countryId = null,
-        areas = this.areas
-    )
-}
