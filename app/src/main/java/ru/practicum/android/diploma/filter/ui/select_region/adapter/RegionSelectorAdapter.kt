@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.filter.ui.select_region.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.search.domain.models.fields.Area
@@ -12,8 +13,10 @@ class RegionSelectorAdapter(
 ) : RecyclerView.Adapter<RegionSelectorViewHolder>() {
 
     fun updateRegion(newRegion: List<Area?>) {
+        val diffCallback = RegionDiffCallback(region, newRegion)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         region = newRegion
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(
