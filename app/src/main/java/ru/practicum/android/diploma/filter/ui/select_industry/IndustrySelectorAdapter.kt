@@ -56,6 +56,17 @@ class IndustrySelectorAdapter(
         return selectedPosition
     }
 
+    private fun selectedIndustry(
+        holder: IndustrySelectorViewHolder,
+        position: Int
+    ) {
+        if (selectedPosition != position) {
+            selectedPosition = holder.adapterPosition
+            notifyDataSetChanged()
+            onClick(filtredIndustries[position]!!)
+        }
+    }
+
     override fun onBindViewHolder(
         holder: IndustrySelectorViewHolder,
         position: Int
@@ -63,21 +74,10 @@ class IndustrySelectorAdapter(
         filtredIndustries[position]?.let { holder.bind(it) }
         holder.radioButton.isChecked = selectedIndustry == filtredIndustries[position]
         holder.itemView.setOnClickListener {
-            if (selectedPosition != position) {
-                selectedPosition = holder.adapterPosition
-                notifyDataSetChanged()
-                onClick(filtredIndustries[position]!!)
-            }
+            selectedIndustry(holder,position)
         }
         holder.radioButton.setOnClickListener {
-            if (selectedIndustry != filtredIndustries[position]) {
-                val previousSelectedPosition = filtredIndustries.indexOf(selectedIndustry)
-                selectedIndustry = filtredIndustries[position]
-                notifyItemChanged(previousSelectedPosition)
-                notifyItemChanged(position)
-                selectedPosition = holder.adapterPosition
-
-            }
+            selectedIndustry(holder,position)
         }
         holder.radioButton.isChecked = selectedPosition == position
     }
