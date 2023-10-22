@@ -28,7 +28,7 @@ class SelectWorkplaceFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentWorkplaceBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -55,16 +55,14 @@ class SelectWorkplaceFragment : Fragment() {
         }
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                clearInformationOnWorkPlace()
-                findNavController().navigateUp()
+                restoreSettingsAndNavBack()
             }
         }
 
         onBackPressedDispatcher.addCallback(callback)
 
         binding.workplaceToolbar.setNavigationOnClickListener {
-            clearInformationOnWorkPlace()
-            findNavController().navigateUp()
+            restoreSettingsAndNavBack()
         }
 
         binding.countryText.doOnTextChanged { s: CharSequence?, _, _, _ ->
@@ -147,6 +145,11 @@ class SelectWorkplaceFragment : Fragment() {
 
     private fun navigateToCountry() {
         findNavController().navigate(SelectWorkplaceFragmentDirections.actionSelectWorkplaceFragmentToSelectCountryFragment())
+    }
+
+    private fun restoreSettingsAndNavBack() {
+        viewModel.restoreFilterSettings()
+        findNavController().popBackStack()
     }
 
     private fun initCountryButtonNavigationListener() {

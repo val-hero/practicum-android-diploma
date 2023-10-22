@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -41,6 +42,15 @@ class FilteringSettingsFragment : Fragment() {
             render(it)
         }
 
+        val onBackPressedDispatcher = requireActivity().onBackPressedDispatcher
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                restoreSettingsAndNavBack()
+            }
+        }
+        onBackPressedDispatcher.addCallback(callback)
+
+
 
 
         binding.workPlaceText.setOnFocusChangeListener { v, hasFocus ->
@@ -55,7 +65,7 @@ class FilteringSettingsFragment : Fragment() {
         }
 
         binding.settingsFiltrationToolbar.setNavigationOnClickListener {
-            findNavController().navigateUp()
+            restoreSettingsAndNavBack()
         }
 
         binding.applyButton.setOnClickListener {
@@ -151,6 +161,11 @@ class FilteringSettingsFragment : Fragment() {
     private fun clearFields() {
         clearIndustryField()
         clearAreaField()
+    }
+
+    private fun restoreSettingsAndNavBack() {
+        viewModel.restoreFilterSettings()
+        findNavController().popBackStack()
     }
 
     private fun initEditTextListener(filterParameters: FilterParameters?) {
