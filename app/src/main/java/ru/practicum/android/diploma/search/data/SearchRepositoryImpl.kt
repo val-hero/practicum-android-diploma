@@ -32,14 +32,16 @@ class SearchRepositoryImpl(
 
     override suspend fun getVacancies(
         query: String,
-        page: Int
+        page: Int,
+        filters: HashMap<String, String>
     ): Flow<Resource<SearchResponse>> = flow {
 
         val apiResponse =
             networkClient.doRequest(
                 ApiRequest.VacancySearchRequest(
                     query,
-                    page
+                    page,
+                    filters
                 )
             )
 
@@ -61,18 +63,6 @@ class SearchRepositoryImpl(
             emit(Resource.Error(getErrorType(apiResponse.resultCode)))
 
     }
-
-    override suspend fun getVacanciesWithFilter(filters: Map<String, String>): ResourcesFlow<Vacancy> =
-        flow {
-            val apiResponse =
-                networkClient.doRequest(ApiRequest.VacancySearchWithFiltersRequest(filters))
-
-            if (apiResponse is SearchResponseDto && apiResponse.resultCode == 200)
-                emit(Resource.Success(apiResponse.vacancies.map { it.toDomain() }))
-            else
-                emit(Resource.Error(getErrorType(apiResponse.resultCode)))
-        }
-
 
     private fun getErrorType(code: Int): ErrorType = when (code) {
         -1 -> ErrorType.NO_CONNECTION
