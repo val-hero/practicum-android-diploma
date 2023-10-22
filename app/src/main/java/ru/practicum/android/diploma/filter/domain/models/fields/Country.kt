@@ -7,13 +7,14 @@ import ru.practicum.android.diploma.search.domain.models.fields.toDto
 data class Country(
     val id: String?,
     val name: String?,
-    val areas: List<Area>?
+    val areas: List<Area>?,
 )
 
 fun Country.toDto(): CountryDto {
     return CountryDto(
         id = this.id,
         name = this.name,
-        areas = this.areas?.map { it.toDto() }
+        areas = this.areas?.map { it.toDto() },
+        parentId = null
     )
 }

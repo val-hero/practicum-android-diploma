@@ -98,7 +98,6 @@ class SelectWorkplaceFragment : Fragment() {
             binding.regionText.setText("")
             binding.region.setEndIconDrawable(R.drawable.arrow_forward)
             initRegionButtonNavigationListener()
-
         }
     }
 

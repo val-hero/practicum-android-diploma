@@ -22,6 +22,7 @@ import ru.practicum.android.diploma.filter.domain.usecase.ClearFilterSettingsUse
 import ru.practicum.android.diploma.filter.domain.usecase.GetAreasInCountryUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetAreasUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetCountriesUseCase
+import ru.practicum.android.diploma.filter.domain.usecase.GetCountryByIdUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetFilterSettingsUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetIndustriesUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.RestoreFilterSettingsUseCase
@@ -75,6 +76,8 @@ val filterModule = module {
     factoryOf(::GetAreasUseCase).bind<GetAreasUseCase>()
 
     factoryOf(::GetAreasInCountryUseCase).bind<GetAreasInCountryUseCase>()
+
+    factoryOf(::GetCountryByIdUseCase).bind<GetCountryByIdUseCase>()
 
     factoryOf(::RestoreFilterSettingsUseCase).bind<RestoreFilterSettingsUseCase>()
 

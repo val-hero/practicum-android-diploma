@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 import ru.practicum.android.diploma.filter.domain.usecase.ClearFilterSettingsUseCase
+import ru.practicum.android.diploma.filter.domain.usecase.GetCountryByIdUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetFilterSettingsUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.RestoreFilterSettingsUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.SaveAreaUseCase
@@ -23,7 +24,8 @@ class FilteringSettingsViewModel(
     private val saveAreaUseCase: SaveAreaUseCase,
     private val saveCountryUseCase: SaveCountryUseCase,
     private val saveIndustryUseCase: SaveIndustryUseCase,
-    private val restoreFilterSettingsUseCase: RestoreFilterSettingsUseCase
+    private val restoreFilterSettingsUseCase: RestoreFilterSettingsUseCase,
+    private val getCountryByIdUseCase: GetCountryByIdUseCase
 ) : ViewModel() {
 
     private val _filterSettings = MutableLiveData<FilterParameters?>()
@@ -78,6 +80,13 @@ class FilteringSettingsViewModel(
     fun restoreFilterSettings() {
         viewModelScope.launch {
             restoreFilterSettingsUseCase(previousFilterParameters)
+        }
+    }
+
+    fun setCountryById(countryId: String) {
+        viewModelScope.launch {
+            val currentCountry = getCountryByIdUseCase(countryId)
+            saveCountryUseCase(currentCountry)
         }
     }
 

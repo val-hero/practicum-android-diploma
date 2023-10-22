@@ -40,6 +40,7 @@ class FilteringSettingsFragment : Fragment() {
         viewModel.filterSettings.observe(viewLifecycleOwner) {
             initEditTextListener(it)
             render(it)
+
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
@@ -95,6 +96,12 @@ class FilteringSettingsFragment : Fragment() {
             clearFields()
         } else {
             binding.btnGroup.visibility = View.VISIBLE
+            if(filterParameters.country == null) {
+                filterParameters.area?.countryId?.let {
+                    viewModel.setCountryById(it)
+                    viewModel.getFilterSettings()
+                }
+            }
             renderAreaField(filterParameters.country?.name, filterParameters.area?.name)
             renderIndustryField(filterParameters.industry)
             if (filterParameters.salary != null) binding.salary.setText(filterParameters.salary?.toString())
