@@ -49,6 +49,13 @@ class FilterStorageImpl(private val sharedPref: SharedPreferences, private val g
         sharedPref.edit().remove(FILTER_PARAMETERS).apply()
     }
 
+    override suspend fun restoreFilterSettings(filterParameters: FilterParameters?) {
+        val json = if(filterParameters != null ) gson.toJson(filterParameters.toDto()) else null
+        sharedPref.edit()
+            .putString(FILTER_PARAMETERS, json)
+            .apply()
+    }
+
     override suspend fun getParams(): FilterParameters? {
         val json = sharedPref.getString(FILTER_PARAMETERS, null) ?: return null
         val filterParametersDto =
