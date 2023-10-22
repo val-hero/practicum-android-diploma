@@ -21,7 +21,8 @@ class SelectWorkplaceViewModel(
     private val _filterSettings = MutableLiveData<FilterParameters?>()
     private var previousFilterParameters: FilterParameters? = null
     private var isPreviosParametersSaved = false
-    fun updateFilterSettings(): LiveData<FilterParameters?> = _filterSettings
+    val filterSettings: LiveData<FilterParameters?> = _filterSettings
+
     fun getFilterSettings() {
         viewModelScope.launch {
             val currentParameters = getFilterSettingsUseCase()

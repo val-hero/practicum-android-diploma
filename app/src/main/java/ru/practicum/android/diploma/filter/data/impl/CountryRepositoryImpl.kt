@@ -16,8 +16,7 @@ class CountryRepositoryImpl(private val api: HeadHunterApiService) : CountryRepo
             val countries = api.getCountries().map { it.toDomain() }
             emit(Resource.Success(countries))
         } catch (e: Exception) {
-            val errorType = ErrorType.NO_CONNECTION
-            emit(Resource.Error(errorType))
+            emit(Resource.Error(ErrorType.NO_CONNECTION))
         }
     }
 }

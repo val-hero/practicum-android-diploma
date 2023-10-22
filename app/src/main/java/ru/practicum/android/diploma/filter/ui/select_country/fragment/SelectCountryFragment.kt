@@ -43,7 +43,6 @@ class SelectCountryFragment : Fragment() {
                 }
 
                 is Resource.Error -> showError()
-
             }
         }
 
@@ -72,6 +71,7 @@ class SelectCountryFragment : Fragment() {
         binding.countryRecycler.visibility = View.GONE
         binding.placeholderNoListCountry.visibility = View.VISIBLE
     }
+
     private fun hideKeyboard() {
         val inputManager =
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
