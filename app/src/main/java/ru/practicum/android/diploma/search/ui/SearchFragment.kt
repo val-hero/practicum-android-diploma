@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.utils.ErrorType
 import ru.practicum.android.diploma.core.utils.adapter.VacancyAdapter
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
+import ru.practicum.android.diploma.filter.ui.filtration_settings.fragment.FilteringSettingsFragment
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.ui.state.SearchScreenState
 import ru.practicum.android.diploma.search.ui.viewmodel.SearchViewModel
@@ -61,6 +63,10 @@ class SearchFragment : Fragment() {
 
         binding.filterIcon.setOnClickListener {
             navToFilter()
+        }
+
+        setFragmentResultListener(FilteringSettingsFragment.RESULT_KEY) { _, _ ->
+            viewModel.onFiltersChanged()
         }
 
         binding.searchRecycler.addOnScrollListener(object : OnScrollListener() {
@@ -182,7 +188,7 @@ class SearchFragment : Fragment() {
     private fun showLoading() {
         binding.placeholderImage.isVisible = false
         binding.placeholderError.isVisible = false
-        binding.searchRecycler.isVisible = true
+        binding.searchRecycler.isVisible = false
         binding.progressBarForLoad.isVisible = true
         binding.textFabSearch.isVisible = false
         binding.placeholderNoInternet.isVisible = false

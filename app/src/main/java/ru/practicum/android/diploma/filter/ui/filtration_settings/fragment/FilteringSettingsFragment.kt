@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResult
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.textfield.TextInputLayout.END_ICON_CUSTOM
 import com.google.android.material.textfield.TextInputLayout.END_ICON_NONE
@@ -60,6 +62,7 @@ class FilteringSettingsFragment : Fragment() {
         binding.applyButton.setOnClickListener {
             viewModel.saveSalary(binding.salary.text.toString())
             findNavController().navigateUp()
+            setFragmentResult(RESULT_KEY, bundleOf())
         }
 
         binding.clearButton.setOnClickListener {
@@ -175,6 +178,10 @@ class FilteringSettingsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    companion object {
+        const val RESULT_KEY = "result_key"
     }
 
 }

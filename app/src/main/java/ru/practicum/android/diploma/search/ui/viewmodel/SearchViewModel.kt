@@ -100,10 +100,17 @@ class SearchViewModel(
         }
     }
 
+    fun onFiltersChanged() {
+        if (!latestSearchQuery.isNullOrBlank()) {
+            _uiState.value = SearchScreenState.Loading
+            vacanciesList.clear()
+            vacanciesSearchDebounce(latestSearchQuery)
+        }
+    }
+
     fun onSearchQueryChanged(query: String?) {
         if (query.isNullOrBlank() || query != latestSearchQuery)
             vacanciesList.clear()
-
         vacanciesSearchDebounce(query)
     }
 
@@ -136,6 +143,8 @@ class SearchViewModel(
     }
 
     private fun isInvalidQuery(query: String?): Boolean {
-        return (query.isNullOrBlank() || query == latestSearchQuery) && _uiState.value !is SearchScreenState.LoadNextPage
+        return (query.isNullOrBlank() || query == latestSearchQuery)
+                && _uiState.value !is SearchScreenState.LoadNextPage
+                && _uiState.value !is SearchScreenState.Loading
     }
 }
