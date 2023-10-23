@@ -1,10 +1,10 @@
-package ru.practicum.android.diploma.filter.ui.select_industry
+package ru.practicum.android.diploma.filter.ui.select_industry.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
-import androidx.recyclerview.widget.DiffUtil
 import androidx.core.widget.doOnTextChanged
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.filter.domain.models.fields.Industry
@@ -15,7 +15,7 @@ class IndustrySelectorAdapter(
     private val editText: EditText
 ) : RecyclerView.Adapter<IndustrySelectorViewHolder>() {
 
-    private var filtredIndustries = industry
+    private var filteredIndustries = industry
     private var selectedIndustry: Industry? = null
     private var selectedPosition: Int = RecyclerView.NO_POSITION
     private var isFilteringInProgress = false
@@ -29,15 +29,15 @@ class IndustrySelectorAdapter(
     private fun filter(query: String) {
         isFilteringInProgress = true
 
-        val oldFilteredIndustries = filtredIndustries
+        val oldFilteredIndustries = filteredIndustries
 
-        filtredIndustries = if (query.isEmpty()) {
+        filteredIndustries = if (query.isEmpty()) {
             industry
         } else {
             industry.filter { it?.name!!.contains(query, ignoreCase = true) }
         }
 
-        val diffCallback = IndustryDiffCallback(oldFilteredIndustries, filtredIndustries)
+        val diffCallback = IndustryDiffCallback(oldFilteredIndustries, filteredIndustries)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         diffResult.dispatchUpdatesTo(this)
 
@@ -62,7 +62,7 @@ class IndustrySelectorAdapter(
     }
 
     override fun getItemCount(): Int {
-        return filtredIndustries.size
+        return filteredIndustries.size
     }
 
     fun getSelectedPosition(): Int {
@@ -76,7 +76,7 @@ class IndustrySelectorAdapter(
         if (selectedPosition != position) {
             selectedPosition = holder.adapterPosition
             notifyDataSetChanged()
-            onClick(filtredIndustries[position]!!)
+            onClick(filteredIndustries[position]!!)
         }
     }
 
@@ -84,13 +84,13 @@ class IndustrySelectorAdapter(
         holder: IndustrySelectorViewHolder,
         position: Int
     ) {
-        filtredIndustries[position]?.let { holder.bind(it) }
-        holder.radioButton.isChecked = selectedIndustry == filtredIndustries[position]
+        filteredIndustries[position]?.let { holder.bind(it) }
+        holder.radioButton.isChecked = selectedIndustry == filteredIndustries[position]
         holder.itemView.setOnClickListener {
-            selectedIndustry(holder,position)
+            selectedIndustry(holder, position)
         }
         holder.radioButton.setOnClickListener {
-            selectedIndustry(holder,position)
+            selectedIndustry(holder, position)
         }
         holder.radioButton.isChecked = selectedPosition == position
     }
