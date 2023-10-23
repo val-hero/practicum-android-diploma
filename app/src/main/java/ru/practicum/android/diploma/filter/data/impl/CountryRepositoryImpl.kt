@@ -19,6 +19,14 @@ class CountryRepositoryImpl(private val api: HeadHunterApiService) : CountryRepo
             emit(Resource.Error(ErrorType.NO_CONNECTION))
         }
     }
+
+    override suspend fun getCountryById(countryId: String): Country {
+        var country = api.getAreasInCountry(countryId)
+        while (country.parentId != null) {
+            country = api.getAreasInCountry(country.parentId as String)
+        }
+        return country.toDomain()
+    }
 }
 
 

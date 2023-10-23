@@ -29,7 +29,7 @@ class FilteringSettingsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFilteringSettingsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -95,6 +95,12 @@ class FilteringSettingsFragment : Fragment() {
             clearFields()
         } else {
             binding.btnGroup.visibility = View.VISIBLE
+            if(filterParameters.country == null) {
+                filterParameters.area?.countryId?.let {
+                    viewModel.setCountryById(it)
+                    viewModel.getFilterSettings()
+                }
+            }
             renderAreaField(filterParameters.country?.name, filterParameters.area?.name)
             renderIndustryField(filterParameters.industry)
             if (filterParameters.salary != null) binding.salary.setText(filterParameters.salary?.toString())

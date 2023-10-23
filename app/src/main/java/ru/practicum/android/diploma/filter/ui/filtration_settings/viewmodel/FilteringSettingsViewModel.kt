@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
+import ru.practicum.android.diploma.filter.domain.models.fields.Country
 import ru.practicum.android.diploma.filter.domain.usecase.ClearFilterSettingsUseCase
+import ru.practicum.android.diploma.filter.domain.usecase.GetCountryByIdUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetFilterSettingsUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.RestoreFilterSettingsUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.SaveAreaUseCase
@@ -23,17 +25,24 @@ class FilteringSettingsViewModel(
     private val saveAreaUseCase: SaveAreaUseCase,
     private val saveCountryUseCase: SaveCountryUseCase,
     private val saveIndustryUseCase: SaveIndustryUseCase,
-    private val restoreFilterSettingsUseCase: RestoreFilterSettingsUseCase
+    private val restoreFilterSettingsUseCase: RestoreFilterSettingsUseCase,
+    private val getCountryByIdUseCase: GetCountryByIdUseCase
 ) : ViewModel() {
 
     private val _filterSettings = MutableLiveData<FilterParameters?>()
     val filterSettings: LiveData<FilterParameters?> = _filterSettings
     private var previousFilterParameters: FilterParameters? = null
     private var isPreviousSettingsSaved = false
+    private var savedCountry: Country? = null
+    private var countrySetFlag = false
 
     fun getFilterSettings() {
         viewModelScope.launch {
             val currentSettings = getFilterSettingsUseCase()
+            savedCountry = currentSettings?.country
+            if (savedCountry != null) {
+                countrySetFlag = false
+            }
             _filterSettings.postValue(currentSettings)
             if(!isPreviousSettingsSaved) {
                 previousFilterParameters = currentSettings
@@ -78,6 +87,16 @@ class FilteringSettingsViewModel(
     fun restoreFilterSettings() {
         viewModelScope.launch {
             restoreFilterSettingsUseCase(previousFilterParameters)
+        }
+    }
+
+    fun setCountryById(countryId: String) {
+        if(!countrySetFlag) {
+            countrySetFlag = true
+            viewModelScope.launch {
+                val currentCountry = getCountryByIdUseCase(countryId)
+                saveCountryUseCase(currentCountry)
+            }
         }
     }
 

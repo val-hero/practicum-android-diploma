@@ -22,11 +22,10 @@ class SelectWorkplaceFragment : Fragment() {
     private val viewModel by viewModel<SelectWorkplaceViewModel>()
     private var countryId: String? = null
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentWorkplaceBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -98,7 +97,6 @@ class SelectWorkplaceFragment : Fragment() {
             binding.regionText.setText("")
             binding.region.setEndIconDrawable(R.drawable.arrow_forward)
             initRegionButtonNavigationListener()
-
         }
     }
 
