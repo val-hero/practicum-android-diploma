@@ -8,6 +8,7 @@ import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 import ru.practicum.android.diploma.filter.domain.usecase.ClearFilterSettingsUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetFilterSettingsUseCase
+import ru.practicum.android.diploma.filter.domain.usecase.RestoreFilterSettingsUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.SaveAreaUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.SaveCountryUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.SaveIndustryUseCase
@@ -21,21 +22,30 @@ class FilteringSettingsViewModel(
     private val saveSalaryUseCase: SaveSalaryUseCase,
     private val saveAreaUseCase: SaveAreaUseCase,
     private val saveCountryUseCase: SaveCountryUseCase,
-    private val saveIndustryUseCase: SaveIndustryUseCase
+    private val saveIndustryUseCase: SaveIndustryUseCase,
+    private val restoreFilterSettingsUseCase: RestoreFilterSettingsUseCase
 ) : ViewModel() {
 
     private val _filterSettings = MutableLiveData<FilterParameters?>()
     val filterSettings: LiveData<FilterParameters?> = _filterSettings
+    private var previousFilterParameters: FilterParameters? = null
+    private var isPreviousSettingsSaved = false
 
     fun getFilterSettings() {
         viewModelScope.launch {
-            _filterSettings.postValue(getFilterSettingsUseCase())
+            val currentSettings = getFilterSettingsUseCase()
+            _filterSettings.postValue(currentSettings)
+            if(!isPreviousSettingsSaved) {
+                previousFilterParameters = currentSettings
+                isPreviousSettingsSaved = true
+            }
         }
     }
 
     fun saveSalary(salary: String?) {
         viewModelScope.launch {
-            saveSalaryUseCase(salary?.toInt())
+            if (!salary.isNullOrBlank())
+                saveSalaryUseCase(salary.toInt())
         }
     }
 
@@ -54,7 +64,7 @@ class FilteringSettingsViewModel(
     }
 
     fun clearIndustryField() {
-        viewModelScope.launch{
+        viewModelScope.launch {
             saveIndustryUseCase(null)
         }
     }
@@ -62,6 +72,12 @@ class FilteringSettingsViewModel(
     fun saveSalaryFlag(isChecked: Boolean?) {
         viewModelScope.launch {
             saveSalaryFlagUseCase(isChecked)
+        }
+    }
+
+    fun restoreFilterSettings() {
+        viewModelScope.launch {
+            restoreFilterSettingsUseCase(previousFilterParameters)
         }
     }
 

@@ -1,12 +1,10 @@
 package ru.practicum.android.diploma.filter.ui.select_workplace.fragment
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -36,35 +34,24 @@ class SelectWorkplaceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        hideKeyboard()
-        val onBackPressedDispatcher = requireActivity().onBackPressedDispatcher
-
-        viewModel.updateFilterSettings().observe(viewLifecycleOwner) {
+        viewModel.filterSettings.observe(viewLifecycleOwner) {
             render(it)
         }
 
-        binding.countryText.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                findNavController().navigate(R.id.action_selectWorkplaceFragment_to_selectCountryFragment)
-            }
+        binding.countryText.setOnClickListener {
+            findNavController().navigate(R.id.action_selectWorkplaceFragment_to_selectCountryFragment)
         }
-        binding.regionText.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                navigateToRegion(countryId)
-            }
-        }
-        val callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                clearInformationOnWorkPlace()
-                findNavController().navigateUp()
-            }
+        binding.regionText.setOnClickListener {
+            navigateToRegion(countryId)
         }
 
-        onBackPressedDispatcher.addCallback(callback)
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            clearInformationOnWorkPlace()
+            restoreSettingsAndNavBack()
+        }
 
         binding.workplaceToolbar.setNavigationOnClickListener {
-            clearInformationOnWorkPlace()
-            findNavController().navigateUp()
+            restoreSettingsAndNavBack()
         }
 
         binding.countryText.doOnTextChanged { s: CharSequence?, _, _, _ ->
@@ -149,6 +136,12 @@ class SelectWorkplaceFragment : Fragment() {
         findNavController().navigate(SelectWorkplaceFragmentDirections.actionSelectWorkplaceFragmentToSelectCountryFragment())
     }
 
+    private fun restoreSettingsAndNavBack() {
+        viewModel.restoreFilterSettings()
+        clearInformationOnWorkPlace()
+        findNavController().popBackStack()
+    }
+
     private fun initCountryButtonNavigationListener() {
         binding.country.setEndIconOnClickListener {
             navigateToCountry()
@@ -159,11 +152,5 @@ class SelectWorkplaceFragment : Fragment() {
         binding.region.setEndIconOnClickListener {
             navigateToRegion(countryId)
         }
-    }
-
-    private fun hideKeyboard() {
-        val inputManager =
-            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputManager.hideSoftInputFromWindow(requireView().windowToken, 0)
     }
 }

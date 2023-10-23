@@ -14,7 +14,6 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
-import ru.practicum.android.diploma.core.utils.ErrorType
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.databinding.FragmentSelectRegionBinding
 import ru.practicum.android.diploma.filter.ui.select_region.adapter.RegionSelectorAdapter
@@ -40,7 +39,6 @@ class SelectRegionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        hideKeyboard()
 
         viewModel.areas.observe(viewLifecycleOwner) { resource ->
             when (resource) {
@@ -105,7 +103,7 @@ class SelectRegionFragment : Fragment() {
 
     private fun onRegionClick(region: Area) {
         viewModel.saveArea(region)
-        findNavController().popBackStack()
+        findNavController().navigateUp()
     }
 
     private fun findArea(query: String) {

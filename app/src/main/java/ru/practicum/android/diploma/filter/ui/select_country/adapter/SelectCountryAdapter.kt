@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.filter.ui.select_country.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.filter.domain.models.fields.Country
@@ -12,8 +13,10 @@ class SelectCountryAdapter(
 ) : RecyclerView.Adapter<SelectCountryViewHolder>() {
 
     fun updateCountries(newCountries: List<Country?>) {
+        val diffCallback = CountryDiffCallback(countries,newCountries)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         countries = newCountries
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SelectCountryViewHolder {

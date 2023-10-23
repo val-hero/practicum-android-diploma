@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
@@ -41,33 +42,29 @@ class FilteringSettingsFragment : Fragment() {
             render(it)
         }
 
-
-
-        binding.workPlaceText.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                findNavController().navigate(R.id.action_filteringSettingsFragment_to_selectWorkplaceFragment)
-            }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            restoreSettingsAndNavBack()
         }
-        binding.industryText.setOnFocusChangeListener { v, hasFocus ->
-            if (hasFocus) {
-                findNavController().navigate(R.id.action_filteringSettingsFragment_to_selectIndustryFragment)
-            }
+
+        binding.workPlaceText.setOnClickListener {
+            findNavController().navigate(R.id.action_filteringSettingsFragment_to_selectWorkplaceFragment)
+        }
+        binding.industryText.setOnClickListener {
+            findNavController().navigate(R.id.action_filteringSettingsFragment_to_selectIndustryFragment)
         }
 
         binding.settingsFiltrationToolbar.setNavigationOnClickListener {
-            findNavController().navigateUp()
+            restoreSettingsAndNavBack()
         }
 
         binding.applyButton.setOnClickListener {
-            val salary =
-                if (binding.salary.text.isNullOrBlank()) null else binding.salary.text.toString()
-            viewModel.saveSalary(salary)
-            findNavController().popBackStack()
+            viewModel.saveSalary(binding.salary.text.toString())
+            findNavController().navigateUp()
         }
 
         binding.clearButton.setOnClickListener {
             viewModel.clearFilterSettings()
-            findNavController().popBackStack()
+            findNavController().navigateUp()
         }
 
         binding.salaryFlagCheckbox.setOnClickListener {
@@ -78,7 +75,6 @@ class FilteringSettingsFragment : Fragment() {
             }
             viewModel.getFilterSettings()
         }
-
     }
 
     override fun onResume() {
@@ -89,6 +85,7 @@ class FilteringSettingsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+
     }
 
     private fun render(filterParameters: FilterParameters?) {
@@ -151,6 +148,11 @@ class FilteringSettingsFragment : Fragment() {
     private fun clearFields() {
         clearIndustryField()
         clearAreaField()
+    }
+
+    private fun restoreSettingsAndNavBack() {
+        viewModel.restoreFilterSettings()
+        findNavController().navigateUp()
     }
 
     private fun initEditTextListener(filterParameters: FilterParameters?) {

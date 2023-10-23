@@ -3,6 +3,7 @@ package ru.practicum.android.diploma.filter.ui.select_industry
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.recyclerview.widget.DiffUtil
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
@@ -17,6 +18,7 @@ class IndustrySelectorAdapter(
     private var filtredIndustries = industry
     private var selectedIndustry: Industry? = null
     private var selectedPosition: Int = RecyclerView.NO_POSITION
+    private var isFilteringInProgress = false
 
     init {
         editText.doOnTextChanged { text, _, _, _ ->
@@ -25,18 +27,29 @@ class IndustrySelectorAdapter(
     }
 
     private fun filter(query: String) {
+        isFilteringInProgress = true
+
+        val oldFilteredIndustries = filtredIndustries
+
         filtredIndustries = if (query.isEmpty()) {
             industry
         } else {
             industry.filter { it?.name!!.contains(query, ignoreCase = true) }
         }
-        notifyDataSetChanged()
+
+        val diffCallback = IndustryDiffCallback(oldFilteredIndustries, filtredIndustries)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        diffResult.dispatchUpdatesTo(this)
+
+        isFilteringInProgress = false
     }
 
     fun updateIndustry(newIndustry: List<Industry?>) {
+        val diffCallback = IndustryDiffCallback(industry, newIndustry)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
         industry = newIndustry
         filter(editText.text.toString())
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
     }
 
     override fun onCreateViewHolder(
