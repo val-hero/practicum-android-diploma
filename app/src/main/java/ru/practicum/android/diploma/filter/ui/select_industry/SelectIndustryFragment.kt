@@ -12,6 +12,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.utils.Resource
@@ -54,6 +55,15 @@ class SelectIndustryFragment : Fragment() {
 
         binding.industryRecycler.layoutManager = LinearLayoutManager(requireContext())
         adapter = IndustrySelectorAdapter(emptyList(), ::onIndustryClick, binding.searchIndustry)
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onChanged() {
+                super.onChanged()
+                val selectedIndustryPosition = adapter.getSelectedPosition()
+                if (selectedIndustryPosition != RecyclerView.NO_POSITION) {
+                    binding.industryRecycler.scrollToPosition(selectedIndustryPosition)
+                }
+            }
+        })
         binding.industryRecycler.adapter = adapter
 
 

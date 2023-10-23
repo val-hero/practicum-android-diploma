@@ -1,11 +1,9 @@
 package ru.practicum.android.diploma.filter.ui.select_industry.adapter
 
-import android.annotation.SuppressLint
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import ru.practicum.android.diploma.R
@@ -17,37 +15,29 @@ class IndustrySelectorAdapter(
     private val editText: EditText
 ) : RecyclerView.Adapter<IndustrySelectorViewHolder>() {
 
-    private var filtredIndustries = industry
+    private var filteredIndustries = industry
     private var selectedIndustry: Industry? = null
+    private var selectedPosition: Int = RecyclerView.NO_POSITION
     private var isFilteringInProgress = false
 
     init {
-        editText.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                filter(p0.toString())
-            }
-
-            override fun afterTextChanged(p0: Editable?) {
-            }
-
-        })
+        editText.doOnTextChanged { text, _, _, _ ->
+            filter(text.toString())
+        }
     }
 
     private fun filter(query: String) {
         isFilteringInProgress = true
 
-        val oldFilteredIndustries = filtredIndustries
+        val oldFilteredIndustries = filteredIndustries
 
-        filtredIndustries = if (query.isEmpty()) {
+        filteredIndustries = if (query.isEmpty()) {
             industry
         } else {
             industry.filter { it?.name!!.contains(query, ignoreCase = true) }
         }
 
-        val diffCallback = IndustryDiffCallback(oldFilteredIndustries, filtredIndustries)
+        val diffCallback = IndustryDiffCallback(oldFilteredIndustries, filteredIndustries)
         val diffResult = DiffUtil.calculateDiff(diffCallback)
         diffResult.dispatchUpdatesTo(this)
 
@@ -72,23 +62,36 @@ class IndustrySelectorAdapter(
     }
 
     override fun getItemCount(): Int {
-        return filtredIndustries.size
+        return filteredIndustries.size
+    }
+
+    fun getSelectedPosition(): Int {
+        return selectedPosition
+    }
+
+    private fun selectedIndustry(
+        holder: IndustrySelectorViewHolder,
+        position: Int
+    ) {
+        if (selectedPosition != position) {
+            selectedPosition = holder.adapterPosition
+            notifyDataSetChanged()
+            onClick(filteredIndustries[position]!!)
+        }
     }
 
     override fun onBindViewHolder(
         holder: IndustrySelectorViewHolder,
-        @SuppressLint("RecyclerView") position: Int
+        position: Int
     ) {
-        filtredIndustries[position]?.let { holder.bind(it) }
-        holder.radioButton.isChecked = selectedIndustry == filtredIndustries[position]
-        holder.radioButton.setOnClickListener {
-            if (selectedIndustry != filtredIndustries[position]) {
-                val previousSelectedPosition = filtredIndustries.indexOf(selectedIndustry)
-                selectedIndustry = filtredIndustries[position]
-                notifyItemChanged(previousSelectedPosition)
-                notifyItemChanged(position)
-
-            }
+        filteredIndustries[position]?.let { holder.bind(it) }
+        holder.radioButton.isChecked = selectedIndustry == filteredIndustries[position]
+        holder.itemView.setOnClickListener {
+            selectedIndustry(holder, position)
         }
+        holder.radioButton.setOnClickListener {
+            selectedIndustry(holder, position)
+        }
+        holder.radioButton.isChecked = selectedPosition == position
     }
 }

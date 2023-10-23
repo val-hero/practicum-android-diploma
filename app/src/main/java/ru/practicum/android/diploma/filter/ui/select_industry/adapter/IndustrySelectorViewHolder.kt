@@ -15,7 +15,7 @@ class IndustrySelectorViewHolder(itemView: View, val onClick: (Industry) -> Unit
     fun bind(industry: Industry) {
         regionAndIndustryName.text = industry.name
 
-        radioButton.setOnCheckedChangeListener { compoundButton, isChecked ->
+        radioButton.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked)
                 onClick(industry)
         }
