@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import ru.practicum.android.diploma.filter.domain.models.FilterParameters
+import ru.practicum.android.diploma.filter.domain.models.fields.Country
 import ru.practicum.android.diploma.filter.domain.usecase.ClearFilterSettingsUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetCountryByIdUseCase
 import ru.practicum.android.diploma.filter.domain.usecase.GetFilterSettingsUseCase
@@ -32,10 +33,16 @@ class FilteringSettingsViewModel(
     val filterSettings: LiveData<FilterParameters?> = _filterSettings
     private var previousFilterParameters: FilterParameters? = null
     private var isPreviousSettingsSaved = false
+    private var savedCountry: Country? = null
+    private var countrySetFlag = false
 
     fun getFilterSettings() {
         viewModelScope.launch {
             val currentSettings = getFilterSettingsUseCase()
+            savedCountry = currentSettings?.country
+            if (savedCountry != null) {
+                countrySetFlag = false
+            }
             _filterSettings.postValue(currentSettings)
             if(!isPreviousSettingsSaved) {
                 previousFilterParameters = currentSettings
@@ -84,9 +91,12 @@ class FilteringSettingsViewModel(
     }
 
     fun setCountryById(countryId: String) {
-        viewModelScope.launch {
-            val currentCountry = getCountryByIdUseCase(countryId)
-            saveCountryUseCase(currentCountry)
+        if(!countrySetFlag) {
+            countrySetFlag = true
+            viewModelScope.launch {
+                val currentCountry = getCountryByIdUseCase(countryId)
+                saveCountryUseCase(currentCountry)
+            }
         }
     }
 

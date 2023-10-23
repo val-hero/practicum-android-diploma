@@ -1,6 +1,5 @@
 package ru.practicum.android.diploma.filter.data.impl
 
-import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import ru.practicum.android.diploma.core.utils.ErrorType
@@ -23,10 +22,8 @@ class CountryRepositoryImpl(private val api: HeadHunterApiService) : CountryRepo
 
     override suspend fun getCountryById(countryId: String): Country {
         var country = api.getAreasInCountry(countryId)
-        Log.i("GETCOUNTRY", "country = $country, parentId = ${country?.parentId}")
         while (country.parentId != null) {
             country = api.getAreasInCountry(country.parentId as String)
-            Log.i("GETCOUNTRY", "country = $country, parentId = ${country?.parentId}")
         }
         return country.toDomain()
     }

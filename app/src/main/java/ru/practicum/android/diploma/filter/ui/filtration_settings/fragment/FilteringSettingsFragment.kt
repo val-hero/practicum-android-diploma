@@ -29,7 +29,7 @@ class FilteringSettingsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentFilteringSettingsBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -40,7 +40,6 @@ class FilteringSettingsFragment : Fragment() {
         viewModel.filterSettings.observe(viewLifecycleOwner) {
             initEditTextListener(it)
             render(it)
-
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
