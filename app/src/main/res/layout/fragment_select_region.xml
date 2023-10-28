@@ -8,7 +8,7 @@
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/rightBorder"
-        android:layout_width="@dimen/layout_width_0dp"
+        android:layout_width="@dimen/width_0"
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -18,7 +18,7 @@
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/leftBorder"
-        android:layout_width="@dimen/layout_width_0dp"
+        android:layout_width="@dimen/width_0"
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -40,7 +40,7 @@
     <EditText
         android:id="@+id/search_region"
         style="@style/SearchEditText"
-        android:layout_width="@dimen/layout_width_0dp"
+        android:layout_width="@dimen/width_0"
         android:layout_height="@dimen/size_56"
         android:layout_gravity="center"
         android:background="@drawable/shape_search"
@@ -72,7 +72,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/regions_recycler"
-        android:layout_width="@dimen/layout_width_0dp"
+        android:layout_width="@dimen/width_0"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_8"
         android:visibility="visible"
