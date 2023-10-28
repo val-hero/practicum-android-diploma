@@ -7,6 +7,3 @@ data class SearchResponse(
     val pages: Int,
     val perPage: Int,
 )
-
-
-
