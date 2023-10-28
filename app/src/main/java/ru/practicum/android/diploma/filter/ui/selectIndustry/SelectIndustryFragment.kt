@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.core.view.isVisible
 import androidx.core.widget.doOnTextChanged
@@ -66,8 +65,6 @@ class SelectIndustryFragment : Fragment() {
         })
         binding.industryRecycler.adapter = adapter
 
-
-
         viewModel.getIndustry()
 
         initInputIndustry()
@@ -78,7 +75,6 @@ class SelectIndustryFragment : Fragment() {
             viewModel.saveIndustry(myIndustry!!)
             findNavController().navigateUp()
         }
-
 
     }
 
@@ -128,7 +124,6 @@ class SelectIndustryFragment : Fragment() {
         binding.chooseButton.isVisible = true
         myIndustry = industry
     }
-
 
     private fun getSortedIndustryList(industryList: List<Industry>): List<Industry> {
         val industries: ArrayList<Industry> = arrayListOf()
