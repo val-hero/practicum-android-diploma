@@ -32,6 +32,7 @@ import ru.practicum.android.diploma.vacancyDetails.ui.state.VacancyDetailsScreen
 import ru.practicum.android.diploma.vacancyDetails.ui.viewmodel.VacancyDetailsViewModel
 
 class VacancyDetailsFragment : Fragment() {
+
     private var _binding: FragmentVacancyDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<VacancyDetailsViewModel>()
@@ -116,6 +117,7 @@ class VacancyDetailsFragment : Fragment() {
             is VacancyDetailsScreenState.Content -> {
                 binding.progressBarForLoad.isVisible = false
                 binding.placeholderServerError.isVisible = false
+                binding.detailsData.isVisible = true
                 fillViews(screenState.vacancyDetails)
             }
 
@@ -138,7 +140,8 @@ class VacancyDetailsFragment : Fragment() {
             Glide.with(this@VacancyDetailsFragment)
                 .load(vacancy.employer?.logoUrls?.smallLogo)
                 .placeholder(R.drawable.employer_logo_placeholder)
-                .centerCrop().transform(
+                .centerCrop()
+                .transform(
                     RoundedCorners(
                         this@VacancyDetailsFragment.resources.getDimensionPixelSize(
                             R.dimen.corner_radius_12
@@ -184,24 +187,13 @@ class VacancyDetailsFragment : Fragment() {
         binding.progressBarForLoad.isVisible = true
         binding.buttonSimilarVacancy.isVisible = false
         binding.placeholderServerError.isVisible = false
-        hideFields()
-        hideEmptyViews(null)
+        binding.detailsData.isVisible = false
     }
 
     private fun showError() {
         binding.placeholderServerError.isVisible = true
         binding.progressBarForLoad.isVisible = false
-        hideFields()
-        hideEmptyViews(null)
-    }
-
-    private fun hideFields() {
-        binding.buttonSimilarVacancy.isVisible = false
-        binding.cardView.isVisible = false
-        binding.experienceTitle.isVisible = false
-        binding.scheduleEmployment.isVisible = false
-        binding.descriptionTitle.isVisible = false
-        binding.description.isVisible = false
+        binding.detailsData.isVisible = false
     }
 
     private fun showFields() {
