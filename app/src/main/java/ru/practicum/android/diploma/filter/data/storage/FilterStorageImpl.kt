@@ -18,19 +18,19 @@ class FilterStorageImpl(private val sharedPref: SharedPreferences, private val g
 
     override suspend fun saveCountry(country: Country?) {
         val params = getParamsOrCreateFilter()
-        if(country == null) params.country = null else params.country = country.toDto()
+        if (country == null) params.country = null else params.country = country.toDto()
         updateField(params)
     }
 
     override suspend fun saveArea(area: Area?) {
         val params = getParamsOrCreateFilter()
-        if(area == null) params.area = null else params.area = area.toDto()
+        if (area == null) params.area = null else params.area = area.toDto()
         updateField(params)
     }
 
     override suspend fun saveIndustry(industry: Industry?) {
         val params = getParamsOrCreateFilter()
-        if(industry == null) params.industry = null else params.industry = industry.toDto()
+        if (industry == null) params.industry = null else params.industry = industry.toDto()
         updateField(params)
     }
 
@@ -49,7 +49,7 @@ class FilterStorageImpl(private val sharedPref: SharedPreferences, private val g
     }
 
     override suspend fun restoreFilterSettings(filterParameters: FilterParameters?) {
-        val json = if(filterParameters != null ) gson.toJson(filterParameters.toDto()) else null
+        val json = if (filterParameters != null) gson.toJson(filterParameters.toDto()) else null
         sharedPref.edit()
             .putString(FILTER_PARAMETERS, json)
             .apply()
@@ -59,7 +59,12 @@ class FilterStorageImpl(private val sharedPref: SharedPreferences, private val g
         val json = sharedPref.getString(FILTER_PARAMETERS, null) ?: return null
         val filterParametersDto =
             gson.fromJson(json, FilterParametersDto::class.java)
-        return if (filterParametersDto.country == null && filterParametersDto.area == null && filterParametersDto.industry == null && filterParametersDto.salary == null && filterParametersDto.onlyWithSalary == null) {
+        return if (filterParametersDto.country == null &&
+            filterParametersDto.area == null &&
+            filterParametersDto.industry == null &&
+            filterParametersDto.salary == null &&
+            filterParametersDto.onlyWithSalary == null
+        ) {
             null
         } else {
             filterParametersDto.toDomain()
