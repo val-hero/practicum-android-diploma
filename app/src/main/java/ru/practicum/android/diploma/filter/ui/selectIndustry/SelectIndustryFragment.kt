@@ -27,7 +27,6 @@ class SelectIndustryFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var adapter: IndustrySelectorAdapter
     private val viewModel by viewModel<SelectIndustryViewModel>()
-    private var myIndustry: Industry? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +71,7 @@ class SelectIndustryFragment : Fragment() {
         initToolbar()
 
         binding.chooseButton.setOnClickListener {
-            viewModel.saveIndustry(myIndustry!!)
+            viewModel.saveIndustry()
             findNavController().navigateUp()
         }
     }
@@ -121,7 +120,7 @@ class SelectIndustryFragment : Fragment() {
 
     private fun onIndustryClick(industry: Industry) {
         binding.chooseButton.isVisible = true
-        myIndustry = industry
+        viewModel.setSelectedIndustry(industry)
     }
 
     private fun getSortedIndustryList(industryList: List<Industry>): List<Industry> {

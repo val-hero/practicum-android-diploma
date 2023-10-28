@@ -92,7 +92,7 @@ class VacancyDetailsFragment : Fragment() {
 
     private fun initToolbar() {
         binding.vacancyToolbar.setNavigationOnClickListener {
-            findNavController().navigateUp()
+            findNavController().popBackStack()
         }
     }
 

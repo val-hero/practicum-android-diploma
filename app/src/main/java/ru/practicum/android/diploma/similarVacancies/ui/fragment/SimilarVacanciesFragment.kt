@@ -55,7 +55,7 @@ class SimilarVacanciesFragment : Fragment() {
 
     private fun initToolbar() {
         binding.similarVacancyToolbar.setNavigationOnClickListener {
-            findNavController().navigateUp()
+            findNavController().popBackStack()
         }
     }
 
