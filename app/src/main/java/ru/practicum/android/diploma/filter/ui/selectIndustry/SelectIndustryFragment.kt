@@ -108,12 +108,6 @@ class SelectIndustryFragment : Fragment() {
                 }
             }
 
-            searchIndustry.setOnEditorActionListener { _, actionId, _ ->
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    //todo search
-                }
-                false
-            }
             searchIndustry.requestFocus()
 
             editTextImage.setOnClickListener {
