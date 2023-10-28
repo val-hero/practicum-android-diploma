@@ -190,6 +190,7 @@ class VacancyDetailsFragment : Fragment() {
 
     private fun showError() {
         binding.placeholderServerError.isVisible = true
+        binding.progressBarForLoad.isVisible = false
         hideFields()
         hideEmptyViews(null)
     }
