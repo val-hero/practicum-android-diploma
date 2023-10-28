@@ -15,7 +15,7 @@ class AreasRepositoryImpl(private val api: HeadHunterApiService) : AreasReposito
             val flatAreas = getFlatAreaList(areas)
             emit(Resource.Success(flatAreas))
         } catch (e: Exception) {
-            
+
         }
     }
 
@@ -31,14 +31,22 @@ class AreasRepositoryImpl(private val api: HeadHunterApiService) : AreasReposito
 
     private fun getFlatAreaList(areaList: List<Area>): List<Area> {
         val flatAreaList = arrayListOf<Area>()
-
-        fun flatten(area: Area) {
-            flatAreaList.add(area)
-            area.areas?.let { area.areas.forEach { flatten(it) } }
+        areaList.forEach {
+            flatAreaList.add(it)
+            flatAreaList.addAll(flatArea(it))
         }
-
-        areaList.forEach { flatten(it) }
         val listWithoutCountry = flatAreaList.filter { it.countryId != null }
         return listWithoutCountry.sortedBy { it.name }
+    }
+
+    private fun flatArea(area: Area): List<Area> {
+        val areaList = arrayListOf<Area>()
+        area.areas?.let {
+            area.areas.forEach {
+                areaList.add(it)
+                areaList.addAll(flatArea(it))
+            }
+        }
+        return areaList
     }
 }
