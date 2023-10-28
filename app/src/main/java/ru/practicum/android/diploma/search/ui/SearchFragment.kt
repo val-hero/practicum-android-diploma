@@ -30,8 +30,7 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
     private val adapter = VacancyAdapter(
-        onClick = { onVacancyClick(it.id) },
-        onLongClick = { }
+        onClick = { onVacancyClick(it.id) }
     )
 
     override fun onCreateView(
