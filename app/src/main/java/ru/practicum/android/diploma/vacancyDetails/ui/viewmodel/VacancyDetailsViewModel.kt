@@ -88,7 +88,6 @@ class VacancyDetailsViewModel(
     }
 
     private fun getVacancyFromDb(id: String) {
-
         viewModelScope.launch {
             getFromFavoriteUseCase(id).collect { vacancyFromDb ->
                 renderStateVacancyInfoDb(vacancyFromDb)
