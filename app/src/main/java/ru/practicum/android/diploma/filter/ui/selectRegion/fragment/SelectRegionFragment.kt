@@ -27,7 +27,7 @@ class SelectRegionFragment : Fragment() {
     private lateinit var adapter: RegionSelectorAdapter
     private val viewModel by viewModel<SelectRegionViewModel>()
     private val args: SelectRegionFragmentArgs by navArgs()
-    private lateinit var regionList: List<Area?>
+   // private lateinit var regionList: List<Area?>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,8 +44,7 @@ class SelectRegionFragment : Fragment() {
             when (resource) {
                 is Resource.Success -> {
                     adapter.updateRegion(resource.data.map { it })
-                    regionList = resource.data.map { it }
-                    initInputRegion()
+                    initInputRegion(resource.data.map { it })
                 }
 
                 is Resource.Error -> showError()
@@ -63,7 +62,7 @@ class SelectRegionFragment : Fragment() {
         }
     }
 
-    private fun initInputRegion() {
+    private fun initInputRegion(areaList: List<Area>) {
         with(binding) {
             searchRegion.setOnClickListener {
                 searchRegion.isCursorVisible = true
@@ -74,7 +73,7 @@ class SelectRegionFragment : Fragment() {
                 } else {
                     editTextImage.setImageResource(R.drawable.ic_close)
                 }
-                findArea(binding.searchRegion.text.toString())
+                findArea(binding.searchRegion.text.toString(), areaList)
             }
 
             searchRegion.requestFocus()
@@ -106,12 +105,12 @@ class SelectRegionFragment : Fragment() {
         findNavController().navigateUp()
     }
 
-    private fun findArea(query: String) {
+    private fun findArea(query: String, areaList: List<Area>) {
         when (query) {
-            query.isEmpty().toString() -> adapter.updateRegion(regionList)
+            query.isEmpty().toString() -> adapter.updateRegion(areaList)
             else -> {
                 val newList =
-                    regionList.filter { it?.name!!.contains(query.trim(), ignoreCase = true) }
+                    areaList.filter { it.name!!.contains(query.trim(), ignoreCase = true) }
                 adapter.updateRegion(newList)
                 binding.placeholderError.isVisible = newList.isEmpty()
             }
