@@ -10,8 +10,7 @@ import ru.practicum.android.diploma.search.domain.models.Vacancy
 
 class VacancyViewHolder(
     private val binding: ItemSearchBinding,
-    private val onClick: (Vacancy) -> Unit,
-    private val onLongClick: (Vacancy) -> Unit
+    private val onClick: (Vacancy) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(model: Vacancy) {
@@ -28,10 +27,6 @@ class VacancyViewHolder(
             company.text = model.employer?.name
             salary.text = getSalary(model, salary.context)
             root.setOnClickListener { onClick(model) }
-            root.setOnLongClickListener {
-                onLongClick.invoke(model)
-                true
-            }
 
             Glide.with(itemView)
                 .load(model.employer?.logoUrls?.smallLogo)

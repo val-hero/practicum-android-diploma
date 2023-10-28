@@ -9,8 +9,7 @@ import ru.practicum.android.diploma.search.domain.models.Vacancy
 
 
 class VacancyAdapter(
-    private val onClick: (Vacancy) -> Unit,
-    private val onLongClick: (Vacancy) -> Unit
+    private val onClick: (Vacancy) -> Unit
 ) :
     RecyclerView.Adapter<VacancyViewHolder>() {
 
@@ -27,7 +26,6 @@ class VacancyAdapter(
                 parent, false
             ),
             onClick,
-            onLongClick
         )
     }
 
