@@ -48,7 +48,6 @@ class SelectIndustryFragment : Fragment() {
                 }
 
                 is Resource.Error -> showError()
-
             }
         }
 
@@ -63,6 +62,7 @@ class SelectIndustryFragment : Fragment() {
                 }
             }
         })
+
         binding.industryRecycler.adapter = adapter
 
         viewModel.getIndustry()
@@ -75,7 +75,6 @@ class SelectIndustryFragment : Fragment() {
             viewModel.saveIndustry(myIndustry!!)
             findNavController().navigateUp()
         }
-
     }
 
     private fun initToolbar() {
@@ -132,7 +131,6 @@ class SelectIndustryFragment : Fragment() {
             industries.add(industry)
             industry.industries?.forEach { flatten(it) }
         }
-
         industryList.forEach {
             flatten(it)
         }
