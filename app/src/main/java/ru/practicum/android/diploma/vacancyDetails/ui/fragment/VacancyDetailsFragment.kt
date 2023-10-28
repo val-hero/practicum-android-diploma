@@ -114,9 +114,9 @@ class VacancyDetailsFragment : Fragment() {
     private fun render(screenState: VacancyDetailsScreenState) {
         when (screenState) {
             is VacancyDetailsScreenState.Content -> {
-                fillViews(screenState.vacancyDetails)
                 binding.progressBarForLoad.isVisible = false
                 binding.placeholderServerError.isVisible = false
+                fillViews(screenState.vacancyDetails)
             }
 
             is VacancyDetailsScreenState.Error -> {
@@ -167,6 +167,7 @@ class VacancyDetailsFragment : Fragment() {
             contactsPhone.text = getPhonesText(vacancy.contacts?.phones)
             contactsComment.text = getPhonesCommentsText(vacancy.contacts?.phones)
 
+            showFields()
             hideEmptyViews(vacancy)
 
             binding.shareButton.setOnClickListener {
@@ -183,18 +184,32 @@ class VacancyDetailsFragment : Fragment() {
         binding.progressBarForLoad.isVisible = true
         binding.buttonSimilarVacancy.isVisible = false
         binding.placeholderServerError.isVisible = false
+        hideFields()
+        hideEmptyViews(null)
     }
 
     private fun showError() {
-        binding.progressBarForLoad.isVisible = false
-        binding.buttonSimilarVacancy.isVisible = false
         binding.placeholderServerError.isVisible = true
+        hideFields()
+        hideEmptyViews(null)
+    }
+
+    private fun hideFields() {
+        binding.buttonSimilarVacancy.isVisible = false
         binding.cardView.isVisible = false
         binding.experienceTitle.isVisible = false
         binding.scheduleEmployment.isVisible = false
         binding.descriptionTitle.isVisible = false
         binding.description.isVisible = false
-        hideEmptyViews(null)
+    }
+
+    private fun showFields() {
+        binding.buttonSimilarVacancy.isVisible = true
+        binding.cardView.isVisible = true
+        binding.experienceTitle.isVisible = true
+        binding.scheduleEmployment.isVisible = true
+        binding.descriptionTitle.isVisible = true
+        binding.description.isVisible = true
     }
 
     private fun String.addSpacesAfterLiTags(): String {
