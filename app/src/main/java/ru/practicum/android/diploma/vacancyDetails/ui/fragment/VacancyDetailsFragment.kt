@@ -83,7 +83,6 @@ class VacancyDetailsFragment : Fragment() {
         }
 
         initToolbar()
-
     }
 
     override fun onDestroy() {
