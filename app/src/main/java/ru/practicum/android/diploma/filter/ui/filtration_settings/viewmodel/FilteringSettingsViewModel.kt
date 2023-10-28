@@ -55,6 +55,8 @@ class FilteringSettingsViewModel(
         viewModelScope.launch {
             if (!salary.isNullOrBlank())
                 saveSalaryUseCase(salary.toInt())
+            else
+                saveSalaryUseCase(null)
         }
     }
 

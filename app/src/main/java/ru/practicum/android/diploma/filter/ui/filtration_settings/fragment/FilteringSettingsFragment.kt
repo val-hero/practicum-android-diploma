@@ -60,7 +60,8 @@ class FilteringSettingsFragment : Fragment() {
         }
 
         binding.applyButton.setOnClickListener {
-            viewModel.saveSalary(binding.salary.text.toString())
+            val salary = if(binding.salary.text.isNullOrEmpty()) null else (binding.salary.text.toString())
+            viewModel.saveSalary(salary)
             findNavController().navigateUp()
             setFragmentResult(RESULT_KEY, bundleOf())
         }
