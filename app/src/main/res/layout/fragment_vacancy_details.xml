@@ -81,7 +81,7 @@
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/right_border"
-                android:layout_width="@dimen/layout_width_0dp"
+                android:layout_width="@dimen/width_0"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -91,7 +91,7 @@
 
             <androidx.constraintlayout.widget.Guideline
                 android:id="@+id/left_border"
-                android:layout_width="@dimen/layout_width_0dp"
+                android:layout_width="@dimen/width_0"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"

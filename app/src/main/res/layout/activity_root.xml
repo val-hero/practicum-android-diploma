@@ -9,8 +9,8 @@
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container_view"
         android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="@dimen/width_0"
+        android:layout_height="@dimen/height_0"
         app:defaultNavHost="true"
         app:layout_constraintBottom_toBottomOf="parent"
 
@@ -20,7 +20,7 @@
         app:navGraph="@navigation/main_nav_graph" />
 
     <View
-        android:layout_width="@dimen/layout_width_0dp"
+        android:layout_width="@dimen/width_0"
         android:layout_height="1dp"
         android:background="@color/light_gray"
         app:layout_constraintBottom_toTopOf="@id/bottom_nav_bar"
