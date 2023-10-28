@@ -17,8 +17,8 @@ class SelectIndustryViewModel(
     private var _industry = MutableLiveData<Resource<List<Industry>>>()
     val industry: LiveData<Resource<List<Industry>>> = _industry
 
-    private val _selectedIndustry = MutableLiveData<Industry>()
-    val selectedIndustry: LiveData<Industry> = _selectedIndustry
+    private var myIndustry: Industry? = null
+
 
     fun getIndustry() {
         viewModelScope.launch {
@@ -30,11 +30,11 @@ class SelectIndustryViewModel(
 
     fun saveIndustry() {
         viewModelScope.launch {
-            saveIndustryUseCase(_selectedIndustry.value)
+            saveIndustryUseCase(myIndustry)
         }
     }
 
     fun setSelectedIndustry(industry: Industry){
-        _selectedIndustry.value = industry
+        myIndustry = industry
     }
 }
