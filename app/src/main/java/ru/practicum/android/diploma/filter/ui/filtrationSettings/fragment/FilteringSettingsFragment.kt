@@ -20,7 +20,6 @@ import ru.practicum.android.diploma.filter.domain.models.FilterParameters
 import ru.practicum.android.diploma.filter.domain.models.fields.Industry
 import ru.practicum.android.diploma.filter.ui.filtrationSettings.viewmodel.FilteringSettingsViewModel
 
-
 class FilteringSettingsFragment : Fragment() {
 
     private var _binding: FragmentFilteringSettingsBinding? = null
