@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.filter.data.impl
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import ru.practicum.android.diploma.core.utils.ErrorType
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.filter.domain.AreasRepository
 import ru.practicum.android.diploma.search.data.network.api.HeadHunterApiService
@@ -15,17 +16,17 @@ class AreasRepositoryImpl(private val api: HeadHunterApiService) : AreasReposito
             val flatAreas = getFlatAreaList(areas)
             emit(Resource.Success(flatAreas))
         } catch (e: Exception) {
-
+            emit(Resource.Error(ErrorType.NOT_FOUND))
         }
     }
 
     override suspend fun getAreasInCountry(countryId: String): Flow<Resource<List<Area>>> = flow {
         try {
-            val areas = api.getAreasInCountry(countryId).areas!!.map { it.toDomain() }
-            val flatAreas = getFlatAreaList(areas)
-            emit(Resource.Success(flatAreas))
+            val areas = api.getAreasInCountry(countryId).areas?.map { it.toDomain() }
+            val flatAreas = areas?.let { getFlatAreaList(it) }
+            emit(Resource.Success(flatAreas as List<Area>))
         } catch (e: Exception) {
-
+            emit(Resource.Error(ErrorType.NOT_FOUND))
         }
     }
 
