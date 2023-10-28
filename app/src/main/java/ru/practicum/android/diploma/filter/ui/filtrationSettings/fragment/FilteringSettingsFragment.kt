@@ -27,7 +27,6 @@ class FilteringSettingsFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModel<FilteringSettingsViewModel>()
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -60,7 +59,8 @@ class FilteringSettingsFragment : Fragment() {
         }
 
         binding.applyButton.setOnClickListener {
-            val salary = if(binding.salary.text.isNullOrEmpty()) null else (binding.salary.text.toString())
+            val salary =
+                if (binding.salary.text.isNullOrEmpty()) null else (binding.salary.text.toString())
             viewModel.saveSalary(salary)
             findNavController().navigateUp()
             setFragmentResult(RESULT_KEY, bundleOf())
@@ -89,7 +89,6 @@ class FilteringSettingsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
-
     }
 
     private fun render(filterParameters: FilterParameters?) {
@@ -99,7 +98,7 @@ class FilteringSettingsFragment : Fragment() {
             clearFields()
         } else {
             binding.btnGroup.visibility = View.VISIBLE
-            if(filterParameters.country == null) {
+            if (filterParameters.country == null) {
                 filterParameters.area?.countryId?.let {
                     viewModel.setCountryById(it)
                     viewModel.getFilterSettings()
