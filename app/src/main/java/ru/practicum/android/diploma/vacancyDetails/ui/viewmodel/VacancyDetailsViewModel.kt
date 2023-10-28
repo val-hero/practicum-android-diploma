@@ -40,7 +40,7 @@ class VacancyDetailsViewModel(
         viewModelScope.launch(Dispatchers.IO) {
             isInFavoritesCheckUseCase(id)
                 .collect {
-                    val isFavorite = it
+                    isFavorite = it
                     isFavoriteLiveData.postValue(isFavorite)
                     continuation.resume(isFavorite)
                 }
@@ -50,7 +50,6 @@ class VacancyDetailsViewModel(
     fun onFavoriteButtonClick() {
         isFavorite = !isFavorite
         isFavoriteLiveData.value = isFavorite
-
         viewModelScope.launch(Dispatchers.IO) {
             if (isFavorite) {
                 addToFavoritesUseCase(vacancy)
