@@ -108,5 +108,4 @@ class FavoritesFragment : Fragment() {
             .setPositiveButton(resources.getString(R.string.yes)) { _, _ -> viewModel.deleteVacancy() }
             .show()
     }
-
 }

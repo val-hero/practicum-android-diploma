@@ -225,5 +225,4 @@ class SearchFragment : Fragment() {
     private fun showNoEmptyFilterIcon() {
         binding.filterIcon.setImageResource(R.drawable.filter_on)
     }
-
 }

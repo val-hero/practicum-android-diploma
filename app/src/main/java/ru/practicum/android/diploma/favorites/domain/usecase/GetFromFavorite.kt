@@ -9,5 +9,4 @@ class GetFromFavorite (private val repo: FavoritesRepository) {
     suspend operator fun invoke(id: String) : Flow<VacancyDetails> {
         return repo.getVacancyFromDb(id)
     }
-
 }

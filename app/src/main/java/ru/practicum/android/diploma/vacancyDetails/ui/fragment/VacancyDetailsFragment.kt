@@ -32,7 +32,6 @@ import ru.practicum.android.diploma.vacancyDetails.ui.state.VacancyDetailsScreen
 import ru.practicum.android.diploma.vacancyDetails.ui.viewmodel.VacancyDetailsViewModel
 
 class VacancyDetailsFragment : Fragment() {
-
     private var _binding: FragmentVacancyDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<VacancyDetailsViewModel>()

@@ -52,7 +52,6 @@ fun VacancyDetails.toVacancy() : Vacancy {
         name = this.name,
         salary = this.salary
     )
-
 }
 
 

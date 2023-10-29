@@ -121,7 +121,6 @@ class SelectWorkplaceFragment : Fragment() {
         _binding = null
     }
 
-
     private fun navigateToRegion(countryId: String?) {
         findNavController().navigate(
             SelectWorkplaceFragmentDirections.actionSelectWorkplaceFragmentToSelectRegionFragment(

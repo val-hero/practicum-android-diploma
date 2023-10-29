@@ -30,7 +30,7 @@ class SearchViewModel(
     private var latestSearchQuery: String? = null
     var isScrollable = true
 
-    var vacanciesList: MutableList<Vacancy> = mutableListOf()
+    val vacanciesList: MutableList<Vacancy> = mutableListOf()
     private var found: Int = 0
 
     private val vacanciesSearchDebounce =

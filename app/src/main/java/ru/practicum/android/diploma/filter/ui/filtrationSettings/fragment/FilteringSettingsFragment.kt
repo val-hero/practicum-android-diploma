@@ -182,5 +182,4 @@ class FilteringSettingsFragment : Fragment() {
     companion object {
         const val RESULT_KEY = "result_key"
     }
-
 }

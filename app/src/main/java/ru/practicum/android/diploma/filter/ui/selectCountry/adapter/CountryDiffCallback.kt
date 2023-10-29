@@ -9,7 +9,6 @@ class CountryDiffCallback(
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 
-
     override fun getNewListSize(): Int = newList.size
 
     override fun areItemsTheSame(
@@ -29,5 +28,4 @@ class CountryDiffCallback(
         val newCountry = newList[newItemPosition]
         return oldCountry == newCountry
     }
-
 }

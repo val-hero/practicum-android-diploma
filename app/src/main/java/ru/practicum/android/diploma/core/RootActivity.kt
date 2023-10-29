@@ -38,5 +38,4 @@ class RootActivity : AppCompatActivity() {
             else -> false
         }
     }
-
 }

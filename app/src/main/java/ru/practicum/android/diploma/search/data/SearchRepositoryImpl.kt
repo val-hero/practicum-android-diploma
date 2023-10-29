@@ -51,7 +51,6 @@ class SearchRepositoryImpl(
             emit(Resource.Error(getErrorType(apiResponse.resultCode)))
     }
 
-
     override suspend fun getSimilarVacancies(id: String): ResourcesFlow<Vacancy> = flow {
 
         val apiResponse =

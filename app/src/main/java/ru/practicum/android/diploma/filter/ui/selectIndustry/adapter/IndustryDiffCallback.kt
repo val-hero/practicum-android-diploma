@@ -9,7 +9,6 @@ class IndustryDiffCallback(
 ) : DiffUtil.Callback() {
     override fun getOldListSize(): Int = oldList.size
 
-
     override fun getNewListSize(): Int = newList.size
 
     override fun areItemsTheSame(
@@ -29,5 +28,4 @@ class IndustryDiffCallback(
         val newIndustry = newList[newItemPosition]
         return oldIndustry == newIndustry
     }
-
 }
