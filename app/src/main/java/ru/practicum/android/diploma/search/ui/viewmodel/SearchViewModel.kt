@@ -31,6 +31,7 @@ class SearchViewModel(
     var isScrollable = true
 
     var vacanciesList: MutableList<Vacancy> = mutableListOf()
+    private var found: Int = 0
 
     private val vacanciesSearchDebounce =
         debounce<String?>(Constants.SEARCH_DEBOUNCE_DELAY_MILLIS, viewModelScope, true) { query ->
@@ -59,12 +60,15 @@ class SearchViewModel(
     }
 
     fun search(query: String?) {
-        if (isInvalidQuery(query)) return
+        if (query.isNullOrBlank()) return
 
         if (_uiState.value !is SearchScreenState.LoadNextPage)
             renderState(SearchScreenState.Loading)
 
-        latestSearchQuery = query
+        if (vacanciesList.isNotEmpty() && _uiState.value !is SearchScreenState.LoadNextPage) {
+            renderState(SearchScreenState.Success(vacanciesList, found))
+            return
+        }
 
         val titleQuery = "NAME:$query"
 
@@ -76,6 +80,7 @@ class SearchViewModel(
                         currentPage = it.data.page
                         maxPages = it.data.pages
                         vacanciesList.addAll(it.data.vacancies)
+                        found = it.data.found
                     }
 
                     is Resource.Error -> renderState(SearchScreenState.Error(it.errorType))
@@ -101,9 +106,10 @@ class SearchViewModel(
     }
 
     fun onFiltersChanged() {
+        vacanciesList.clear()
+        _uiState.value = SearchScreenState.Default
         if (!latestSearchQuery.isNullOrBlank()) {
             _uiState.value = SearchScreenState.Loading
-            vacanciesList.clear()
             vacanciesSearchDebounce(latestSearchQuery)
         }
     }
@@ -111,6 +117,8 @@ class SearchViewModel(
     fun onSearchQueryChanged(query: String?) {
         if (query.isNullOrBlank() || query != latestSearchQuery)
             vacanciesList.clear()
+
+        latestSearchQuery = query
         vacanciesSearchDebounce(query)
     }
 
@@ -140,11 +148,5 @@ class SearchViewModel(
 
     private fun renderState(state: SearchScreenState) {
         _uiState.postValue(state)
-    }
-
-    private fun isInvalidQuery(query: String?): Boolean {
-        return (query.isNullOrBlank() || query == latestSearchQuery)
-                && _uiState.value !is SearchScreenState.LoadNextPage
-                && _uiState.value !is SearchScreenState.Loading
     }
 }

@@ -24,5 +24,4 @@ sealed interface SearchScreenState {
     data class Error(
         val type: ErrorType
     ) : SearchScreenState
-
 }
