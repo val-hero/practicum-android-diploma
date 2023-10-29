@@ -20,7 +20,6 @@ import ru.practicum.android.diploma.filter.domain.models.fields.Industry
 import ru.practicum.android.diploma.filter.ui.selectIndustry.adapter.IndustrySelectorAdapter
 import ru.practicum.android.diploma.filter.ui.selectIndustry.viewmodel.SelectIndustryViewModel
 
-
 class SelectIndustryFragment : Fragment() {
 
     private var _binding: FragmentSelectIndustryBinding? = null

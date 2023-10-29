@@ -32,6 +32,7 @@ import ru.practicum.android.diploma.vacancyDetails.ui.state.VacancyDetailsScreen
 import ru.practicum.android.diploma.vacancyDetails.ui.viewmodel.VacancyDetailsViewModel
 
 class VacancyDetailsFragment : Fragment() {
+
     private var _binding: FragmentVacancyDetailsBinding? = null
     private val binding get() = _binding!!
     private val viewModel by viewModel<VacancyDetailsViewModel>()
@@ -82,7 +83,6 @@ class VacancyDetailsFragment : Fragment() {
         }
 
         initToolbar()
-
     }
 
     override fun onDestroy() {
@@ -114,9 +114,10 @@ class VacancyDetailsFragment : Fragment() {
     private fun render(screenState: VacancyDetailsScreenState) {
         when (screenState) {
             is VacancyDetailsScreenState.Content -> {
-                fillViews(screenState.vacancyDetails)
                 binding.progressBarForLoad.isVisible = false
                 binding.placeholderServerError.isVisible = false
+                binding.detailsData.isVisible = true
+                fillViews(screenState.vacancyDetails)
             }
 
             is VacancyDetailsScreenState.Error -> {
@@ -138,7 +139,8 @@ class VacancyDetailsFragment : Fragment() {
             Glide.with(this@VacancyDetailsFragment)
                 .load(vacancy.employer?.logoUrls?.smallLogo)
                 .placeholder(R.drawable.employer_logo_placeholder)
-                .centerCrop().transform(
+                .centerCrop()
+                .transform(
                     RoundedCorners(
                         this@VacancyDetailsFragment.resources.getDimensionPixelSize(
                             R.dimen.corner_radius_12
@@ -167,6 +169,7 @@ class VacancyDetailsFragment : Fragment() {
             contactsPhone.text = getPhonesText(vacancy.contacts?.phones)
             contactsComment.text = getPhonesCommentsText(vacancy.contacts?.phones)
 
+            showFields()
             hideEmptyViews(vacancy)
 
             binding.shareButton.setOnClickListener {
@@ -183,18 +186,22 @@ class VacancyDetailsFragment : Fragment() {
         binding.progressBarForLoad.isVisible = true
         binding.buttonSimilarVacancy.isVisible = false
         binding.placeholderServerError.isVisible = false
+        binding.detailsData.isVisible = false
     }
 
     private fun showError() {
-        binding.progressBarForLoad.isVisible = false
-        binding.buttonSimilarVacancy.isVisible = false
         binding.placeholderServerError.isVisible = true
-        binding.cardView.isVisible = false
-        binding.experienceTitle.isVisible = false
-        binding.scheduleEmployment.isVisible = false
-        binding.descriptionTitle.isVisible = false
-        binding.description.isVisible = false
-        hideEmptyViews(null)
+        binding.progressBarForLoad.isVisible = false
+        binding.detailsData.isVisible = false
+    }
+
+    private fun showFields() {
+        binding.buttonSimilarVacancy.isVisible = true
+        binding.cardView.isVisible = true
+        binding.experienceTitle.isVisible = true
+        binding.scheduleEmployment.isVisible = true
+        binding.descriptionTitle.isVisible = true
+        binding.description.isVisible = true
     }
 
     private fun String.addSpacesAfterLiTags(): String {

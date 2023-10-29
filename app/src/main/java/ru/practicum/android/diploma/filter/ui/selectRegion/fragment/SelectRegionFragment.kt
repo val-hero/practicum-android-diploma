@@ -27,7 +27,6 @@ class SelectRegionFragment : Fragment() {
     private lateinit var adapter: RegionSelectorAdapter
     private val viewModel by viewModel<SelectRegionViewModel>()
     private val args: SelectRegionFragmentArgs by navArgs()
-   // private lateinit var regionList: List<Area?>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

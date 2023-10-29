@@ -29,7 +29,7 @@ class VacancyDetailsViewModel(
     val uiState: LiveData<VacancyDetailsScreenState> = _uiState
     private val isFavoriteLiveData = MutableLiveData<Boolean>()
     private var isFavorite: Boolean = false
-    private lateinit var vacancy: VacancyDetails
+    private var vacancy: VacancyDetails? = null
     private val stateVacancyInfoDb = MutableLiveData<VacancyDetails?>()
     private val _isActiveButtonSameVacancies = MutableLiveData<Boolean>()
     var isActiveButtonSameVacancies: LiveData<Boolean> = _isActiveButtonSameVacancies
@@ -52,32 +52,35 @@ class VacancyDetailsViewModel(
         isFavoriteLiveData.value = isFavorite
         viewModelScope.launch(Dispatchers.IO) {
             if (isFavorite) {
-                addToFavoritesUseCase(vacancy)
+                addToFavoritesUseCase(vacancy as VacancyDetails)
             } else {
-                deleteFromFavoritesUseCase(vacancy.id)
+                deleteFromFavoritesUseCase(vacancy?.id as String)
             }
         }
     }
 
     fun fetchDetails(id: String) {
-        _uiState.value = VacancyDetailsScreenState.Loading
+        if(vacancy != null) {
+            _uiState.postValue(VacancyDetailsScreenState.Content(vacancy as VacancyDetails))
+        } else {
+            _uiState.value = VacancyDetailsScreenState.Loading
+            viewModelScope.launch(Dispatchers.IO) {
+                getVacancyDetailsUseCase(id).collect { response ->
+                    when (response) {
+                        is Resource.Success -> {
+                            isFavorite(id)
+                            _isActiveButtonSameVacancies.postValue(true)
+                            _uiState.postValue(VacancyDetailsScreenState.Content(response.data))
+                            vacancy = response.data
+                        }
 
-        viewModelScope.launch(Dispatchers.IO) {
-            getVacancyDetailsUseCase(id).collect { response ->
-                when (response) {
-                    is Resource.Success -> {
-                        isFavorite(id)
-                        _isActiveButtonSameVacancies.postValue(true)
-                        _uiState.postValue(VacancyDetailsScreenState.Content(response.data))
-                        vacancy = response.data
-                    }
-
-                    is Resource.Error -> {
-                        if (isFavorite(id)) {
-                            getVacancyFromDb(id)
-                            _isActiveButtonSameVacancies.postValue(false)
-                        } else
-                            _uiState.postValue(VacancyDetailsScreenState.Error(response.errorType))
+                        is Resource.Error -> {
+                            if (isFavorite(id)) {
+                                getVacancyFromDb(id)
+                                _isActiveButtonSameVacancies.postValue(false)
+                            } else
+                                _uiState.postValue(VacancyDetailsScreenState.Error(response.errorType))
+                        }
                     }
                 }
             }
@@ -85,7 +88,6 @@ class VacancyDetailsViewModel(
     }
 
     private fun getVacancyFromDb(id: String) {
-
         viewModelScope.launch {
             getFromFavoriteUseCase(id).collect { vacancyFromDb ->
                 renderStateVacancyInfoDb(vacancyFromDb)
@@ -96,7 +98,7 @@ class VacancyDetailsViewModel(
     private fun renderStateVacancyInfoDb(vacancyFromDb: VacancyDetails) {
         vacancy = vacancyFromDb
         stateVacancyInfoDb.postValue(vacancyFromDb)
-        _uiState.postValue(VacancyDetailsScreenState.Content(vacancy))
+        _uiState.postValue(VacancyDetailsScreenState.Content(vacancy as VacancyDetails))
     }
 
 }
