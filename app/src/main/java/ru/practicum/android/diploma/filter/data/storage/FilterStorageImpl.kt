@@ -1,6 +1,7 @@
 package ru.practicum.android.diploma.filter.data.storage
 
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.google.gson.Gson
 import ru.practicum.android.diploma.core.utils.Constants.FILTER_PARAMETERS
 import ru.practicum.android.diploma.filter.data.models.FilterParametersDto
@@ -34,14 +35,12 @@ class FilterStorageImpl(private val sharedPref: SharedPreferences, private val g
     }
 
     override suspend fun saveSalary(salary: Int?) {
-        val params = getParamsOrCreateFilter()
-        params.salary = salary
+        val params = getParamsOrCreateFilter().apply { this.salary = salary }
         updateField(params)
     }
 
     override suspend fun saveSalaryFlag(onlyWithSalary: Boolean?) {
-        val params = getParamsOrCreateFilter()
-        params.onlyWithSalary = onlyWithSalary
+        val params = getParamsOrCreateFilter().apply { this.onlyWithSalary = onlyWithSalary }
         updateField(params)
     }
 
@@ -49,11 +48,22 @@ class FilterStorageImpl(private val sharedPref: SharedPreferences, private val g
         sharedPref.edit().remove(FILTER_PARAMETERS).apply()
     }
 
+    override suspend fun restoreFilterSettings(filterParameters: FilterParameters?) {
+        val json = if(filterParameters != null ) gson.toJson(filterParameters.toDto()) else null
+        sharedPref.edit()
+            .putString(FILTER_PARAMETERS, json)
+            .apply()
+    }
+
     override suspend fun getParams(): FilterParameters? {
         val json = sharedPref.getString(FILTER_PARAMETERS, null) ?: return null
         val filterParametersDto =
             gson.fromJson(json, FilterParametersDto::class.java)
-        return filterParametersDto.toDomain()
+        return if (filterParametersDto.country == null && filterParametersDto.area == null && filterParametersDto.industry == null && filterParametersDto.salary == null && filterParametersDto.onlyWithSalary == null) {
+            null
+        } else {
+            filterParametersDto.toDomain()
+        }
     }
 
     private suspend fun getParamsOrCreateFilter(): FilterParametersDto {
@@ -64,10 +74,9 @@ class FilterStorageImpl(private val sharedPref: SharedPreferences, private val g
         }
         return params
     }
+
     private suspend fun updateField(params: FilterParametersDto?) {
         val json = gson.toJson(params)
-        sharedPref.edit()
-            .putString(FILTER_PARAMETERS, json)
-            .apply()
+        sharedPref.edit { putString(FILTER_PARAMETERS, json) }
     }
 }

@@ -3,7 +3,6 @@ package ru.practicum.android.diploma.vacancy_details.ui.fragment
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +11,6 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.text.HtmlCompat
 import androidx.core.text.HtmlCompat.FROM_HTML_MODE_COMPACT
@@ -34,15 +32,16 @@ import ru.practicum.android.diploma.vacancy_details.ui.state.VacancyDetailsScree
 import ru.practicum.android.diploma.vacancy_details.ui.viewmodel.VacancyDetailsViewModel
 
 class VacancyDetailsFragment : Fragment() {
-    private var binding: FragmentVacancyDetailsBinding? = null
+    private var _binding: FragmentVacancyDetailsBinding? = null
+    private val binding get() = _binding!!
     private val viewModel by viewModel<VacancyDetailsViewModel>()
     private val args: VacancyDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentVacancyDetailsBinding.inflate(inflater, container, false)
-        return binding?.root
+        _binding = FragmentVacancyDetailsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,12 +53,12 @@ class VacancyDetailsFragment : Fragment() {
             render(state)
         }
 
-        binding?.addToFavoriteButton?.setOnClickListener { button ->
+        binding.addToFavoriteButton.setOnClickListener { button ->
             (button as? ImageView)?.let { startAnimation(it) }
             viewModel.onFavoriteButtonClick()
         }
 
-        binding?.buttonSimilarVacancy?.setOnClickListener {
+        binding.buttonSimilarVacancy.setOnClickListener {
             findNavController().navigate(
                 VacancyDetailsFragmentDirections.actionVacancyFragmentToSimilarVacanciesFragment(
                     args.vacancyId
@@ -67,7 +66,7 @@ class VacancyDetailsFragment : Fragment() {
             )
         }
 
-        binding?.contactsPhone?.setOnClickListener {
+        binding.contactsPhone.setOnClickListener {
             onPhoneClicked()
         }
 
@@ -75,17 +74,24 @@ class VacancyDetailsFragment : Fragment() {
             renderLikeButton(it)
         }
 
-        binding?.email?.setOnClickListener {
-
+        viewModel.isActiveButtonSameVacancies.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> binding.buttonSimilarVacancy.isVisible = true
+                else -> binding.buttonSimilarVacancy.isVisible = false
+            }
         }
 
         initToolbar()
 
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
     }
 
     private fun initToolbar() {
-        binding?.vacancyToolbar?.setNavigationOnClickListener {
+        binding.vacancyToolbar.setNavigationOnClickListener {
             findNavController().navigateUp()
         }
     }
@@ -93,7 +99,7 @@ class VacancyDetailsFragment : Fragment() {
     private fun renderLikeButton(isFavorite: Boolean) {
         val imageResource = if (isFavorite) R.drawable.favorites_on
         else R.drawable.favorites_off
-        binding?.addToFavoriteButton?.setImageResource(imageResource)
+        binding.addToFavoriteButton.setImageResource(imageResource)
     }
 
     private fun startAnimation(button: ImageView) {
@@ -109,9 +115,8 @@ class VacancyDetailsFragment : Fragment() {
         when (screenState) {
             is VacancyDetailsScreenState.Content -> {
                 fillViews(screenState.vacancyDetails)
-                viewModel.isFavorite()
-                binding?.progressBarForLoad?.isVisible = false
-                binding?.placeholderServerError?.isVisible = false
+                binding.progressBarForLoad.isVisible = false
+                binding.placeholderServerError.isVisible = false
             }
 
             is VacancyDetailsScreenState.Error -> {
@@ -125,7 +130,7 @@ class VacancyDetailsFragment : Fragment() {
     }
 
     private fun fillViews(vacancy: VacancyDetails) {
-        with(binding!!) {
+        with(binding) {
             vacancyName.text = vacancy.name
             area.text = vacancy.area?.name
             salary.text = getSalaryText(vacancy.salary, requireContext())
@@ -164,24 +169,32 @@ class VacancyDetailsFragment : Fragment() {
 
             hideEmptyViews(vacancy)
 
-            binding?.shareButton?.setOnClickListener {
+            binding.shareButton.setOnClickListener {
                 if (vacancy.alternateUrl != null) shareVacancy(vacancy.alternateUrl)
             }
 
-            binding?.contactsEmail?.setOnClickListener {
+            binding.contactsEmail.setOnClickListener {
                 openPostClient(vacancy.contacts?.email)
             }
         }
     }
 
     private fun showLoading() {
-        binding?.progressBarForLoad?.isVisible = true
-        binding?.placeholderServerError?.isVisible = false
+        binding.progressBarForLoad.isVisible = true
+        binding.buttonSimilarVacancy.isVisible = false
+        binding.placeholderServerError.isVisible = false
     }
 
     private fun showError() {
-        binding?.progressBarForLoad?.isVisible = false
-        binding?.placeholderServerError?.isVisible = true
+        binding.progressBarForLoad.isVisible = false
+        binding.buttonSimilarVacancy.isVisible = false
+        binding.placeholderServerError.isVisible = true
+        binding.cardView.isVisible = false
+        binding.experienceTitle.isVisible = false
+        binding.scheduleEmployment.isVisible = false
+        binding.descriptionTitle.isVisible = false
+        binding.description.isVisible = false
+        hideEmptyViews(null)
     }
 
     private fun String.addSpacesAfterLiTags(): String {
@@ -192,7 +205,7 @@ class VacancyDetailsFragment : Fragment() {
         return when {
             (salary?.currency == null) -> context.getString(R.string.no_salary)
 
-            (((salary.to == null) && (salary.from == null))) -> context.getString(R.string.no_salary)
+            ((salary.to == null) && (salary.from == null)) -> context.getString(R.string.no_salary)
 
             (salary.to == null) -> "${context.getString(R.string.from)} ${salary.from} ${salary.currency}"
 
@@ -222,7 +235,7 @@ class VacancyDetailsFragment : Fragment() {
     }
 
     private fun hideEmptyViews(vacancy: VacancyDetails?) {
-        with(binding!!) {
+        with(binding) {
             contactsGroup.isVisible = vacancy?.contacts != null
             contactsEmailGroup.isVisible = !vacancy?.contacts?.email.isNullOrBlank()
             contactsPhoneGroup.isVisible = vacancy?.contacts?.phones?.isNotEmpty() ?: false
@@ -234,7 +247,7 @@ class VacancyDetailsFragment : Fragment() {
     }
 
     private fun onPhoneClicked() {
-        val phoneNumber = binding?.contactsPhone?.text.toString().trim()
+        val phoneNumber = binding.contactsPhone.text.toString().trim()
         val intent = Intent(Intent.ACTION_DIAL)
         intent.data = Uri.parse("tel:$phoneNumber")
         val chooser = Intent.createChooser(intent, "Выберите приложение для звонка")

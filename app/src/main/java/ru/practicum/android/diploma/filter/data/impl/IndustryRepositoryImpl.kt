@@ -2,6 +2,7 @@ package ru.practicum.android.diploma.filter.data.impl
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import ru.practicum.android.diploma.core.utils.ErrorType
 import ru.practicum.android.diploma.core.utils.Resource
 import ru.practicum.android.diploma.filter.data.network.dto.fields.toDomain
 import ru.practicum.android.diploma.filter.domain.IndustryRepository
@@ -14,7 +15,7 @@ class IndustryRepositoryImpl(private val api: HeadHunterApiService) : IndustryRe
             val industry = api.getIndustries().map { it.toDomain() }
             emit(Resource.Success(industry))
         } catch (e: Exception) {
-
+            emit(Resource.Error(ErrorType.NO_CONNECTION))
         }
     }
 }

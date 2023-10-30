@@ -39,4 +39,11 @@ class FavoritesRepositoryImpl(
             .isFavorite(id)
         emit(isInFavorite)
     }
+
+    override suspend fun getVacancyFromDb(id: String): Flow<VacancyDetails> = flow {
+        val vacancyDetails = database
+            .favoritesVacanciesDao()
+            .getFavoriteVacancyById(id)
+        emit(vacancyDetails.toDomain())
+    }
 }

@@ -8,7 +8,6 @@ import ru.practicum.android.diploma.search.data.network.api.ApiRequest
 import ru.practicum.android.diploma.search.data.network.api.ApiRequest.SimilarVacancySearchRequest
 import ru.practicum.android.diploma.search.data.network.api.ApiRequest.VacancyDetailsRequest
 import ru.practicum.android.diploma.search.data.network.api.ApiRequest.VacancySearchRequest
-import ru.practicum.android.diploma.search.data.network.api.ApiRequest.VacancySearchWithFiltersRequest
 import ru.practicum.android.diploma.search.data.network.api.ApiResponse
 import ru.practicum.android.diploma.search.data.network.api.HeadHunterApiService
 
@@ -27,7 +26,11 @@ class NetworkClientImpl(
         return try {
             when (request) {
                 is VacancySearchRequest -> {
-                    response = api.getVacancies(request.query, request.page, request.perPage)
+                    response = api.getVacancies(
+                        query = request.query,
+                        page = request.page,
+                        filters = request.filters
+                    )
                 }
 
                 is SimilarVacancySearchRequest -> {
@@ -36,10 +39,6 @@ class NetworkClientImpl(
 
                 is VacancyDetailsRequest -> {
                     response = api.getVacancy(request.id)
-                }
-
-                is VacancySearchWithFiltersRequest -> {
-                    response = api.getVacanciesWithFilters(request.filters)
                 }
             }
             response.apply { resultCode = SUCCESS_CODE }

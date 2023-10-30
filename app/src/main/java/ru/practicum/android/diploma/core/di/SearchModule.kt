@@ -16,7 +16,6 @@ import ru.practicum.android.diploma.search.domain.api.SearchRepository
 import ru.practicum.android.diploma.search.domain.usecase.GetSimilarVacanciesUseCase
 import ru.practicum.android.diploma.search.domain.usecase.GetVacancyDetailsUseCase
 import ru.practicum.android.diploma.search.domain.usecase.SearchUseCase
-import ru.practicum.android.diploma.search.domain.usecase.SearchWithFiltersUseCase
 import ru.practicum.android.diploma.search.ui.viewmodel.SearchViewModel
 
 const val BASE_URL = "https://api.hh.ru/"
@@ -40,8 +39,6 @@ val searchModule = module {
     singleOf(::SearchRepositoryImpl).bind<SearchRepository>()
 
     factoryOf(::SearchUseCase).bind<SearchUseCase>()
-
-    factoryOf(::SearchWithFiltersUseCase).bind<SearchWithFiltersUseCase>()
 
     factoryOf(::GetVacancyDetailsUseCase).bind<GetVacancyDetailsUseCase>()
 

@@ -20,4 +20,6 @@ interface FilterStorage {
 
     suspend fun clearFilterSettings()
 
+    suspend fun restoreFilterSettings(filterParameters: FilterParameters?)
+
 }

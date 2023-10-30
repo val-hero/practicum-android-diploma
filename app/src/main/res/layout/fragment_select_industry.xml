@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".filter.ui.selectindustry.SelectIndustryFragment">
+    tools:context=".filter.ui.select_industry.SelectIndustryFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/rightBorder"
@@ -21,9 +21,9 @@
         android:layout_width="@dimen/layout_width_0dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintGuide_begin="@dimen/guide_begin_16"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.Toolbar
@@ -45,7 +45,6 @@
         android:layout_gravity="center"
         android:background="@drawable/shape_search"
         android:cursorVisible="false"
-        android:drawableEnd="@drawable/ic_search"
         android:drawablePadding="@dimen/padding_8"
         android:hint="@string/input_industry"
         android:imeOptions="actionDone"
@@ -53,19 +52,50 @@
         android:paddingStart="@dimen/padding_10"
         android:paddingEnd="@dimen/padding_32"
         android:textCursorDrawable="@drawable/cursor"
-        app:layout_constraintStart_toEndOf="@id/leftBorder"
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
-        app:layout_constraintTop_toBottomOf="@id/select_industry_toolbar"
-        />
+        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        app:layout_constraintTop_toBottomOf="@id/select_industry_toolbar" />
+
+    <ImageView
+        android:id="@+id/edit_text_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_marginStart="@dimen/margin_16"
+        android:padding="@dimen/padding_18"
+        android:src="@drawable/ic_search"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@id/search_industry"
+        app:layout_constraintBottom_toBottomOf="@id/search_industry"
+        app:layout_constraintTop_toTopOf="@id/search_industry"
+        app:tint="@color/black" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/industry_recycler"
         android:layout_width="@dimen/layout_width_0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_8"
-        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        android:visibility="visible"
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintStart_toEndOf="@id/leftBorder"
         app:layout_constraintTop_toBottomOf="@id/search_industry" />
+
+    <TextView
+        android:id="@+id/placeholder_error"
+        style="@style/TextMedium_22_500"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/padding_18"
+        android:text="@string/no_list"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/placeholder_list_error"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        app:layout_constraintTop_toBottomOf="@id/search_industry"
+        app:layout_constraintVertical_bias="0.3" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/choose_button"
@@ -76,8 +106,8 @@
         android:background="@drawable/shape_button"
         android:text="@string/choose"
         android:textColor="?attr/colorOnSurface"
-        app:cornerRadius="@dimen/corner_radius_12"
         android:visibility="gone"
+        app:cornerRadius="@dimen/corner_radius_12"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

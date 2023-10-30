@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".filter.ui.SelectCountry.SelectCountryFragment">
+    tools:context=".filter.ui.select_country.fragment.SelectCountryFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/rightBorder"
@@ -28,7 +28,7 @@
 
     <com.google.android.material.appbar.MaterialToolbar
         style="@style/tool_bar"
-        android:id="@+id/search_toolbar"
+        android:id="@+id/country_toolbar"
         app:navigationIcon="@drawable/baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,10 +39,25 @@
         android:layout_width="@dimen/layout_width_0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_16"
+        android:visibility="visible"
         app:layout_constraintStart_toEndOf="@id/leftBorder"
         app:layout_constraintEnd_toStartOf="@id/rightBorder"
-        app:layout_constraintTop_toBottomOf="@id/search_toolbar" />
+        app:layout_constraintTop_toBottomOf="@id/country_toolbar" />
 
-
+    <TextView
+        android:id="@+id/placeholder_no_list_country"
+        style="@style/TextMedium_22_500"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawablePadding="@dimen/padding_18"
+        android:text="@string/no_list"
+        android:textAlignment="center"
+        android:textColor="?attr/colorOnPrimary"
+        android:visibility="gone"
+        app:drawableTopCompat="@drawable/placeholder_no_list"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/rightBorder"
+        app:layout_constraintStart_toEndOf="@id/leftBorder"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
