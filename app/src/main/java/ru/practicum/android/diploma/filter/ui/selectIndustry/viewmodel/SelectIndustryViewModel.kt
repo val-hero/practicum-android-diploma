@@ -19,7 +19,6 @@ class SelectIndustryViewModel(
 
     private var myIndustry: Industry? = null
 
-
     fun getIndustry() {
         viewModelScope.launch {
             getIndustriesUseCase().collect() {

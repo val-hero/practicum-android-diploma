@@ -21,7 +21,6 @@ import ru.practicum.android.diploma.filter.ui.selectIndustry.adapter.IndustrySel
 import ru.practicum.android.diploma.filter.ui.selectIndustry.viewmodel.SelectIndustryViewModel
 
 class SelectIndustryFragment : Fragment() {
-
     private var _binding: FragmentSelectIndustryBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: IndustrySelectorAdapter
@@ -60,13 +59,9 @@ class SelectIndustryFragment : Fragment() {
                 }
             }
         })
-
         binding.industryRecycler.adapter = adapter
-
         viewModel.getIndustry()
-
         initInputIndustry()
-
         initToolbar()
 
         binding.chooseButton.setOnClickListener {
@@ -102,7 +97,6 @@ class SelectIndustryFragment : Fragment() {
             }
 
             searchIndustry.requestFocus()
-
             editTextImage.setOnClickListener {
                 clearSearch()
             }

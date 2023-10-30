@@ -25,5 +25,4 @@ class TeamFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
-
 }

@@ -100,5 +100,4 @@ class VacancyDetailsViewModel(
         stateVacancyInfoDb.postValue(vacancyFromDb)
         _uiState.postValue(VacancyDetailsScreenState.Content(vacancy as VacancyDetails))
     }
-
 }

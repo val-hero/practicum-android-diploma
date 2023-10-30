@@ -14,5 +14,4 @@ interface FavoritesRepository {
     fun isFavorite(id: String): Flow<Boolean>
 
     suspend fun getVacancyFromDb(id: String) : Flow<VacancyDetails>
-
 }
