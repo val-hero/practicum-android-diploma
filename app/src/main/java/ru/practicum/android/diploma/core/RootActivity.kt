@@ -34,13 +34,8 @@ class RootActivity : AppCompatActivity() {
 
     private fun toggleBottomNavBarVisibility(destinationId: Int) {
         binding?.bottomNavBar?.isVisible = when (destinationId) {
-            R.id.favoritesFragment,
-            R.id.searchFragment,
-            R.id.teamFragment -> {
-                true
-            }
+            R.id.favoritesFragment, R.id.searchFragment, R.id.teamFragment -> true
             else -> false
         }
     }
-
 }

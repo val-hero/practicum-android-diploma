@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/regionsAndIndustry"
         style="@style/CountryText"
-        android:paddingVertical="@dimen/padding_14.5"
+        android:paddingBottom="@dimen/padding_14.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0"

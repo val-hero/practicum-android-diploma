@@ -11,7 +11,6 @@ import ru.practicum.android.diploma.core.utils.debounce
 import ru.practicum.android.diploma.favorites.domain.usecase.DeleteFromFavorites
 import ru.practicum.android.diploma.favorites.domain.usecase.GetFavorites
 import ru.practicum.android.diploma.favorites.ui.state.FavoritesScreenState
-import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.domain.models.VacancyDetails
 
 class FavoritesFragmentViewModel(
@@ -20,8 +19,6 @@ class FavoritesFragmentViewModel(
 ) : ViewModel() {
 
     private val contentStateLiveData = MutableLiveData<FavoritesScreenState>()
-    lateinit var vacanciesList: MutableList<Vacancy>
-
 
     fun observeContentState(): LiveData<FavoritesScreenState> = contentStateLiveData
 

@@ -14,6 +14,8 @@ class VacancyAdapter(
 ) :
     RecyclerView.Adapter<VacancyViewHolder>() {
 
+    constructor(onClick: (Vacancy) -> Unit) : this(onClick, {})
+
     val vacancies = ArrayList<Vacancy>()
 
     override fun onCreateViewHolder(

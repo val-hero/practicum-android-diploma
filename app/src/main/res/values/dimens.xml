@@ -6,7 +6,6 @@
     <dimen name="text_size_12">12sp</dimen>
     <dimen name="margin_24">24dp</dimen>
     <dimen name="guide_begin_16">16dp</dimen>
-    <dimen name="layout_width_0dp">0dp</dimen>
     <dimen name="height_0">0dp</dimen>
     <dimen name="width_0">0dp</dimen>
 

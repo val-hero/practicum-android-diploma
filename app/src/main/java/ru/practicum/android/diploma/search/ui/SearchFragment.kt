@@ -20,7 +20,7 @@ import ru.practicum.android.diploma.R
 import ru.practicum.android.diploma.core.utils.ErrorType
 import ru.practicum.android.diploma.core.utils.adapter.VacancyAdapter
 import ru.practicum.android.diploma.databinding.FragmentSearchBinding
-import ru.practicum.android.diploma.filter.ui.filtration_settings.fragment.FilteringSettingsFragment
+import ru.practicum.android.diploma.filter.ui.filtrationSettings.fragment.FilteringSettingsFragment
 import ru.practicum.android.diploma.search.domain.models.Vacancy
 import ru.practicum.android.diploma.search.ui.state.SearchScreenState
 import ru.practicum.android.diploma.search.ui.viewmodel.SearchViewModel
@@ -30,8 +30,7 @@ class SearchFragment : Fragment() {
     private val binding get() = _binding!!
     private val viewModel by viewModel<SearchViewModel>()
     private val adapter = VacancyAdapter(
-        onClick = { onVacancyClick(it.id) },
-        onLongClick = { }
+        onClick = { onVacancyClick(it.id) }
     )
 
     override fun onCreateView(
@@ -226,5 +225,4 @@ class SearchFragment : Fragment() {
     private fun showNoEmptyFilterIcon() {
         binding.filterIcon.setImageResource(R.drawable.filter_on)
     }
-
 }

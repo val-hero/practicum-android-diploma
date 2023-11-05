@@ -69,5 +69,4 @@ class NetworkClientImpl(
         private const val NO_INTERNET_CONNECTION_CODE = -1
         private const val SUCCESS_CODE = 200
     }
-
 }
